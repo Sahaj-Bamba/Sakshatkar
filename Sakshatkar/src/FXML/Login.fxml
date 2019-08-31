@@ -24,9 +24,9 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="244.0" layoutY="105.0" prefHeight="45.0" prefWidth="252.0" promptText="username" />
-      <PasswordField layoutX="244.0" layoutY="210.0" prefHeight="45.0" prefWidth="252.0" promptText="Password" />
-      <Button id="registerButton" layoutX="111.0" layoutY="436.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="176.0" text="Login">
+      <TextField fx:id="userName" layoutX="244.0" layoutY="105.0" prefHeight="45.0" prefWidth="252.0" promptText="username" />
+      <PasswordField fx:id="password" layoutX="244.0" layoutY="210.0" prefHeight="45.0" prefWidth="252.0" promptText="Password" />
+      <Button id="registerButton" layoutX="111.0" layoutY="436.0" mnemonicParsing="false" onAction="#Login" prefHeight="65.0" prefWidth="176.0" text="Login">
          <font>
             <Font size="21.0" />
          </font>
@@ -36,8 +36,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="244.0" layoutY="305.0" prefHeight="45.0" prefWidth="252.0" promptText="email" />
-      <Button layoutX="323.0" layoutY="435.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="211.0" text="SignUP">
+      <TextField fx:id="eMail" layoutX="244.0" layoutY="305.0" prefHeight="45.0" prefWidth="252.0" promptText="email" />
+      <Button layoutX="323.0" layoutY="435.0" mnemonicParsing="false" onAction="#SignUp" prefHeight="65.0" prefWidth="211.0" text="SignUP">
          <font>
             <Font size="24.0" />
          </font>

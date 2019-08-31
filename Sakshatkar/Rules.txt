@@ -1,0 +1,13 @@
+
+
+	Classes Name initial Caps CamelCase
+
+	Objects Name initial small camelCase
+
+	Functions Name small snake case
+
+	Enums All caps
+
+	Public Static members ALLCAPS
+	
+	From now on, all public static members will follow lower Camel Case convention

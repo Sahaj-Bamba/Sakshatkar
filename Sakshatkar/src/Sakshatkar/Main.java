@@ -10,8 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        SQLQueryExecuter = new SqlQueryExecuter("root","MySql","jdbc:mysql://localhost/sakshatkar");
-
+        SQLQueryExecuter = new SqlQueryExecuter("root","root","jdbc:mysql://localhost/sakshatkar?useSSL=false");
 
 
 
