@@ -14,6 +14,13 @@ public class Response implements Serializable {
 		this.errorMessage = errorMessage;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
 
 	public String toString(){
 		return String.valueOf(Request.RESPONSE);

@@ -63,7 +63,8 @@ public class HandleClient implements Runnable{
 				System.out.println("Response sent");
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Client Disconnected");
+				break;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -87,10 +88,8 @@ public class HandleClient implements Runnable{
 			try{
 
 				flag = false;
-				while(res.next()){
-					if (res.getString("name").equals(login.getPass())){
-						flag = true;
-					}
+				if(res.next()){
+					flag = true;
 				}
 
 			}catch (SQLException e) {

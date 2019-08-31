@@ -1,6 +1,4 @@
-package sample;
-
-import Request.ClientToken;
+package Main;
 
 import java.io.*;
 import java.net.Socket;
@@ -12,12 +10,10 @@ public class Client {
 	private ObjectInputStream objectInputStream;
 	private String name;
 	private String group;
-	private ClientToken clientToken;
 
 	public Client(String ip, int port, String name) {
 		try {
 			this.name = name;
-			this.clientToken = new ClientToken(name);
 			this.socket = new Socket(ip, port);
 			System.out.println(name);
 			this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -49,12 +45,5 @@ public class Client {
 		return group;
 	}
 
-	public void set_group(String group) {
-		this.group = group;
-		this.clientToken.setGroupName(group);
-	}
 
-	public ClientToken getClientToken() {
-		return clientToken;
-	}
 }

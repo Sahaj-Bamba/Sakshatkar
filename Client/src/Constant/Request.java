@@ -2,10 +2,18 @@ package Constant;
 
 public enum Request {
 
-	WHOIAM("0"),
-	GROUPPASS("1"),
-	RESPONSE("2"),
-	GROUPLIST("3");
+	LOGIN("0"),
+	RESPONSE("1");
+
+
+
+
+
+
+
+
+
+
 
 
 	Request(String s){
