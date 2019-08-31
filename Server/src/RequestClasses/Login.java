@@ -1,4 +1,4 @@
-package Request;
+package RequestClasses;
 
 import Constant.Request;
 
@@ -29,4 +29,4 @@ public class Login implements Serializable{
 
 	}
 
-}
+

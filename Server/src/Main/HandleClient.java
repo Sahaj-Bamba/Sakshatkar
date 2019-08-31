@@ -1,17 +1,14 @@
 package Main;
 
 import Constant.Request;
-import Request.GroupPass;
-import Request.Response;
-import Request.WhoIAm;
-import Request.GroupList;
+import RequestClasses.Login;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.ResultSet;
 
-import static Main.Main.GAMER;
 
 public class HandleClient implements Runnable{
 
@@ -152,6 +149,11 @@ public class HandleClient implements Runnable{
 		String req = message.toString();
 
 		if (req.equals(String.valueOf(Request.LOGIN))){
+
+			Login login = (Login)message;
+
+			ResultSet res = Main.SQLQueryExecuter.select("select name,password from user where name = '"+login.getName()+"' and password = '"+login.getPass()+"'");
+
 
 
 		}

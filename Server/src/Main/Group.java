@@ -1,6 +1,6 @@
 package Main;
 
-import Request.ClientToken;
+import RequestClasses.ClientToken;
 
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
