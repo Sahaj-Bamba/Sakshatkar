@@ -1,6 +1,8 @@
 package src.Sakshatkar;
 
-import Utilities.SqlQueryExecuter;
+//import Utilities.SqlQueryExecuter;
+
+import src.Utilities.SqlQueryExecuter;
 
 public class Main {
 

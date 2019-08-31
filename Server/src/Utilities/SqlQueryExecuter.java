@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package src.Utilities;
+package Utilities;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
