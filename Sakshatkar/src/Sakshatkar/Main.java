@@ -24,31 +24,11 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
 //        sqlQueryExecuter = new SqlQueryExecuter("root","","jdbc:mysql://localhost/sakshatkar");
 //        System.out.println("HEllo");
         launch(args);
-||||||| merged common ancestors
 
 
-        SQLQueryExecuter = new SqlQueryExecuter("root","MySql","jdbc:mysql://localhost/sakshatkar");
-
-
-
-
-
-
-
-=======
-
-
-        SQLQueryExecuter = new SqlQueryExecuter("root","root","jdbc:mysql://localhost/sakshatkar");
-
-
-
-
-
->>>>>>> f21cd9d063496ee4c52a967427c6f201ff5ab1f3
     }
 
 }
