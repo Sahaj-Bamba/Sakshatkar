@@ -32,6 +32,7 @@ public class SqlQueryExecuter {
         this.pass = pass;
         this.url = url;
         try {
+//            con = DriverManager.getConnection("jdbc:mysql://localhost/test", user, pass);
             this.conn = java.sql.DriverManager.getConnection(this.url , this.user , this.pass );
             this.stm = conn.createStatement();
         } catch (SQLException ex) {
