@@ -1,8 +1,22 @@
 package Sakshatkar;
 
+import Utilities.SqlQueryExecuter;
+
 public class Main {
 
+    public static SqlQueryExecuter SQLQueryExecuter;
+
+
     public static void main(String[] args) {
-	// write your code here
+
+
+        SQLQueryExecuter = new SqlQueryExecuter("root","MySql","localhost");
+
+
+
+
+
+
+
     }
 }
