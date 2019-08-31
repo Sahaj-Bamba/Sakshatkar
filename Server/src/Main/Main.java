@@ -10,7 +10,6 @@ public class Main {
 
 		SQLQueryExecuter = new SqlQueryExecuter("root","root","jdbc:mysql://localhost/sakshatkar");
 
-
 		new Server().start();
 
 	}
