@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="abc" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Controller1">
+   <children>
+      <Label layoutX="398.0" layoutY="54.0" prefHeight="100.0" prefWidth="184.0" text="Connecting To the Server" />
+      <Label layoutX="131.0" layoutY="187.0" prefHeight="85.0" prefWidth="112.0" text="IP" />
+      <Label layoutX="131.0" layoutY="318.0" prefHeight="40.0" prefWidth="66.0" text="Port" />
+      <Label layoutX="131.0" layoutY="431.0" prefHeight="32.0" prefWidth="48.0" text="Name" />
+      <TextField fx:id="ip" layoutX="490.0" layoutY="217.0" />
+      <TextField fx:id="port" layoutX="490.0" layoutY="326.0" />
+      <TextField fx:id="name" layoutX="490.0" layoutY="438.0" />
+      <Button layoutX="438.0" layoutY="594.0" mnemonicParsing="false" onAction="#submit" prefHeight="62.0" prefWidth="106.0" text="Button" />
+      <AnchorPane fx:id="al" layoutX="643.0" layoutY="141.0" prefHeight="448.0" prefWidth="317.0" />
+   </children>
+</AnchorPane>

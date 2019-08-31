@@ -1,0 +1,53 @@
+
+
+				Server
+
+
+		Destructors in removal functions.
+
+		Token encryption security db etc.
+
+
+			
+				Client		
+
+
+		Token encryption security db etc.
+
+		Front end ui designing.
+				
+
+				Windows
+
+		Basic message OK window		window +scene
+	
+		Menu Choice integer Window	Scene + window
+
+		String Input Window	:-
+			1) Like there will be a message and we need to get input and return.
+			2) Like there will be 2 inputs 
+			3) 3 inputs 
+			4) n inputs
+
+		
+
+
+				Audio
+
+		Utility to run songs etc.
+
+			will be given a relative path and need to play it in a separate thread
+
+				Database
+
+		Select
+		Add
+		Delete
+		Update
+		Drop table
+		Truncate table
+		Create Table		
+
+				Video Playing
+
+				

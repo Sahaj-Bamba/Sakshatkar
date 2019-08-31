@@ -123,7 +123,7 @@ public class RegistrationForm {
 
         error.setText("");
         RegisterData registerData = new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText);
-        
+
     }
 
     public void loadImage(ActionEvent event) {
