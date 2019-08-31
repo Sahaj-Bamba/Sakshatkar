@@ -13,7 +13,7 @@ public class Server {
 	public void start(){
 
 		boolean flag;
-		int port = 5555;
+		int port = 5558;
 		do {
 			try {
 				serverSocket = new ServerSocket(port);
@@ -34,6 +34,7 @@ public class Server {
 
 		while (true) {
 			try {
+				System.out.println("Accepting sockets");
 				socket = serverSocket.accept();
 				System.out.println("Client socket accepted");
 				Thread t = new Thread(new HandleClient(socket));

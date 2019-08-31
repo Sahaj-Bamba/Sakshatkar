@@ -27,8 +27,8 @@ public class Main extends Application {
 //        sqlQueryExecuter = new SqlQueryExecuter("root","","jdbc:mysql://localhost/sakshatkar");
 //        System.out.println("HEllo");
         launch(args);
-
-
+        SQLQueryExecuter = new SqlQueryExecuter("root","MySql","jdbc:mysql://localhost/sakshatkar");
+        sqlQueryExecuter = new SqlQueryExecuter("root","root","jdbc:mysql://localhost/sakshatkar");
     }
 
 }
