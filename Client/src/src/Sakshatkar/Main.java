@@ -1,4 +1,4 @@
-package Sakshatkar;
+package src.Sakshatkar;
 
 import Utilities.SqlQueryExecuter;
 
