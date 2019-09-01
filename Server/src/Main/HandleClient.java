@@ -2,9 +2,8 @@ package Main;
 
 import Constant.Request;
 import DataClasses.Client;
-import RequestClasses.GetConnectionChat;
-import RequestClasses.Login;
-import RequestClasses.Response;
+import RequestClasses.*;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import javafx.scene.image.Image;
 
 import java.io.File;
@@ -90,20 +89,20 @@ public class HandleClient implements Runnable{
 		}else if (req.equals(String.valueOf(Request.GETCONNECTIONSCHAT))){
 			return _getConnectionChat((GetConnectionChat) message);
 		}else if (req.equals(String.valueOf(Request.FRIENDSONLINE))){
-			return _friendsOnline((GetConnectionChat) message);
+			return _friendsOnline((FriendsOnline) message);
 		}else if (req.equals(String.valueOf(Request.PROFILE))){
-			return _profile((GetConnectionChat) message);
+			return _profile((Profile) message);
 		}
 
-		return new Response("404","Invalid Request");
-
+		return new Response(404,"Invalid Request");
 
 	}
 
-	private Object _profile(GetConnectionChat message) {
+	private Object _friendsOnline(FriendsOnline message) {
+
 		ArrayList<Client> clients = null;
 		boolean flag;
-		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid1 = '"+message.getName()+"' ) ; ");
+		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
 				File file = new File(res.getString("pic"));
@@ -116,27 +115,35 @@ public class HandleClient implements Runnable{
 			e.printStackTrace();
 		}
 		return new Object();
-	}
-		boolean flag;
-		ResultSet res = Main.SQLQueryExecuter.select("select \n" +
-				"\n" +
-				"\tprivate Object _friendsOnline(GetConnectionChat message) {\n" +
-				"\t\tArrayList<Client> clients = null;* from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid1 = '"+message.getName()+"' ) ; ");
-		try{
-			while (res.next()){
-				File file = new File(res.getString("pic"));
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
-			}
-			return new GetConnectionChat("",clients);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		return new Object();
+
 	}
 
+
+	private Object _profile(Profile message) {
+
+		Client clients = null;
+		boolean flag;
+		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID = '"+message.getName()+"'; ");
+		try{
+			if (res.next()){
+				File file = new File(res.getString("pic"));
+				clients = (new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				return new Profile("",clients);
+			}else {
+				return new Response(404,"User not found");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return new Object();
+
+	}
+
+
 	private Object _getConnectionChat(GetConnectionChat message) {
+
 		ArrayList<Client> clients = null;
 		boolean flag;
 		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
@@ -152,6 +159,7 @@ public class HandleClient implements Runnable{
 			e.printStackTrace();
 		}
 		return new Object();
+
 	}
 
 

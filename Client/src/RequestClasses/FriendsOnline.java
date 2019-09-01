@@ -2,18 +2,16 @@ package RequestClasses;
 
 import Constant.Request;
 import DataClasses.Client;
-import javafx.scene.image.Image;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Profile implements Serializable {
-
+public class FriendsOnline implements Serializable {
 
 	String name;
-	Client clients;
+	ArrayList<Client> clients;
 
-	public Profile(String name, Client clients) {
+	public FriendsOnline(String name, ArrayList<Client> clients) {
 		this.name = name;
 		this.clients = clients;
 	}
@@ -24,7 +22,7 @@ public class Profile implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.valueOf(Request.PROFILE);
+		return String.valueOf(Request.FRIENDSONLINE);
 	}
 
 }
