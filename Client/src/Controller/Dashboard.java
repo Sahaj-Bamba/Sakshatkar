@@ -28,7 +28,7 @@ public class Dashboard {
 //                root2 = FXMLLoader.load(getClass().getResource());
 //                root3 = FXMLLoader.load(getClass().getResource());
             topAnchorPane = FXMLLoader.load(getClass().getResource("../FXML/HeaderMain.fxml"));
-            leftAnchorPane = FXMLLoader.load(getClass().getResource("../FXML/ListView.fxml"));
+            leftAnchorPane = FXMLLoader.load(getClass().getResource("../FXML/LeftView.fxml"));
             rightAnchorPane = FXMLLoader.load(getClass().getResource("../FXML/RightView.fxml"));
 
         }

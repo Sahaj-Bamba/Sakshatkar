@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 public class Profile implements Serializable {
 
-
 	String name;
 	Client clients;
 
@@ -18,6 +17,11 @@ public class Profile implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public Profile(String name) {
+		this.name = name;
+		this.clients = null;
 	}
 
 	@Override

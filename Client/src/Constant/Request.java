@@ -14,7 +14,7 @@ public enum Request {
 	FRIENDS("9"),
 	FILE("10"),
 	POLLCREATE("11"),
-	NOTIFICATION("2");
+	NOTIFICATION("12");
 
 
 

@@ -38,7 +38,7 @@ public class DashboardMainScreen {
         try {
             topAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/HeaderMain.fxml")));
             System.out.println("Hi");
-            leftAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/ListView.fxml")));
+            leftAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/LeftView.fxml")));
             rightAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/RightView.fxml")));
 
         } catch (IOException e) {
