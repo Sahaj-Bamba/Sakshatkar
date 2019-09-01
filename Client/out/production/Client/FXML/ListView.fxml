@@ -5,14 +5,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane id="leftSidePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField alignment="CENTER" layoutY="1.0" prefHeight="40.0" prefWidth="400.0" promptText="Search Friend" style="-fx-background-color: #C0F5F9;" />
-      <Button id="chatButton" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="Chats" />
-      <Button id="callButton" layoutX="100.0" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="CaLL" />
-      <Button id="friendsButton" layoutX="200.0" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="Friends" />
-      <Button id="notificationButton" layoutX="300.0" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="Notification" />
+      <TextField id="searchid" fx:id="searchid" alignment="CENTER" layoutY="1.0" prefHeight="40.0" prefWidth="400.0" promptText="Search Friend" style="-fx-background-color: #C0F5F9;" />
+      <Button id="chatButton" fx:id="chatButton" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="Chats" />
+      <Button id="callButton" fx:id="callButton" layoutX="100.0" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="CaLL" />
+      <Button id="friendsButton" fx:id="friendsButton" layoutX="200.0" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="Friends" />
+      <Button id="notificationButton" fx:id="notificationButton" layoutX="300.0" layoutY="41.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" style="-fx-background-color: #2E58F9;" text="Notification" />
       <ListView id="listView" layoutY="88.0" prefHeight="662.0" prefWidth="400.0" />
    </children>
 </AnchorPane>
