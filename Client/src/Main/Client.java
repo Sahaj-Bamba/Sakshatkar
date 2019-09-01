@@ -9,7 +9,6 @@ public class Client {
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
 	private String name;
-	private String group;
 
 	public Client(String ip, int port, String name) {
 		try {
@@ -40,10 +39,5 @@ public class Client {
 	public String get_name() {
 		return name;
 	}
-
-	public String get_group() {
-		return group;
-	}
-
 
 }
