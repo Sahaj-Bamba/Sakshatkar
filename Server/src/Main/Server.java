@@ -38,7 +38,7 @@ public class Server {
 				socket = serverSocket.accept();
 				System.out.println("Client socket accepted");
 				Thread t = new Thread(new HandleClient(socket));
-				System.out.println("Handle client created");
+				System.out.println("Handle Client created");
 				t.start();
 				System.out.println("Thread Started");
 			} catch (IOException e) {
