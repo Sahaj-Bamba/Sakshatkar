@@ -7,15 +7,45 @@ import java.sql.Timestamp;
 public class Client {
 
 	String name;
-	boolean status;
+	int isOnline;
 	Image pic;
-	Timestamp timestamp;
+	Timestamp lastOnline;
+	String id;
+	int status;
 
-	public Client(String name, boolean status, Image pic, Timestamp timestamp) {
-		this.name = name;
-		this.status = status;
-		this.pic = pic;
-		this.timestamp = timestamp;
+	public String getName() {
+		return name;
 	}
+
+	public int isOnline() {
+		return isOnline;
+	}
+
+	public Image getPic() {
+		return pic;
+	}
+
+	public Timestamp getLastOnline() {
+		return lastOnline;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public Client(String name, int isOnline, Image pic, Timestamp lastOnline, String id, int status) {
+		this.name = name;
+		this.isOnline = isOnline;
+		this.pic = pic;
+		this.lastOnline = lastOnline;
+		this.id = id;
+		this.status = status;
+	}
+
+
 
 }

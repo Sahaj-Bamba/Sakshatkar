@@ -89,11 +89,51 @@ public class HandleClient implements Runnable{
 			return  _login((Login) message);
 		}else if (req.equals(String.valueOf(Request.GETCONNECTIONSCHAT))){
 			return _getConnectionChat((GetConnectionChat) message);
+		}else if (req.equals(String.valueOf(Request.FRIENDSONLINE))){
+			return _friendsOnline((GetConnectionChat) message);
+		}else if (req.equals(String.valueOf(Request.PROFILE))){
+			return _profile((GetConnectionChat) message);
 		}
 
+		return new Response("404","Invalid Request");
+
+
+	}
+
+	private Object _profile(GetConnectionChat message) {
+		ArrayList<Client> clients = null;
+		boolean flag;
+		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid1 = '"+message.getName()+"' ) ; ");
+		try{
+			while (res.next()){
+				File file = new File(res.getString("pic"));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+			}
+			return new GetConnectionChat("",clients);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 		return new Object();
-
-
+	}
+		boolean flag;
+		ResultSet res = Main.SQLQueryExecuter.select("select \n" +
+				"\n" +
+				"\tprivate Object _friendsOnline(GetConnectionChat message) {\n" +
+				"\t\tArrayList<Client> clients = null;* from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid1 = '"+message.getName()+"' ) ; ");
+		try{
+			while (res.next()){
+				File file = new File(res.getString("pic"));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+			}
+			return new GetConnectionChat("",clients);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return new Object();
 	}
 
 	private Object _getConnectionChat(GetConnectionChat message) {
@@ -103,7 +143,7 @@ public class HandleClient implements Runnable{
 		try{
 			while (res.next()){
 				File file = new File(res.getString("pic"));
-				clients.add(new Client(res.getString("name"), res.getBoolean("status"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline")));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
