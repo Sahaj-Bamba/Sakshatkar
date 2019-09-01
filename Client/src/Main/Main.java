@@ -28,7 +28,7 @@ public class Main extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("../FXML/DashBoardMainScreen.fxml"));
 		Scene scene = new Scene(root, WIDTH, HEIGHT);
 		primaryStage.setScene(scene);
-		primaryStage.setFullScreen(true);
+		//primaryStage.setFullScreen(true);
 		primaryStage.show();
 		System.out.println("Basic Welcome Screen ");
 
