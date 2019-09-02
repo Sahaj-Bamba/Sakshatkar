@@ -3,7 +3,7 @@ package Main;
 import Constant.Request;
 import DataClasses.Client;
 import RequestClasses.*;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+import Utilities.SavingImage;
 import javafx.scene.image.Image;
 
 import java.io.File;
@@ -92,17 +92,50 @@ public class HandleClient implements Runnable{
 			return _friendsOnline((FriendsOnline) message);
 		}else if (req.equals(String.valueOf(Request.PROFILE))){
 			return _profile((Profile) message);
+		}else if (req.equals(String.valueOf(Request.USERID))){
+			return _userID((UserID) message);
+		}else if (req.equals(String.valueOf(Request.REGISTER))){
+			return _Register((RegisterData) message);
 		}
 
 		return new Response(404,"Invalid Request");
 
 	}
 
+
+	private Object _Register(RegisterData message) {
+
+		Boolean doesFileExist = new File("/src/ProfilePictures").mkdir();
+		String fileName = "src/ProfilePictures/"+message.getUserName();
+		SavingImage savingImage = new SavingImage(fileName, message.getExtension(), message.getImage());
+		String savedImageLocation = "";
+		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "','" +savedImageLocation + "'," + 0 + "," + 0 + ");");
+		return new Response(0,"");
+
+	}
+
+
+	private Object _userID(UserID message) {
+		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT userID FROM user WHERE userID = '"+ message.getUserID() + "'");
+		try {
+			if(rs.next()){
+				return new Response(1,"User ID already exists");
+			}
+			else{
+				return new Response(0,"");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Response(500,"Internal Server Error");
+	}
+
+
 	private Object _friendsOnline(FriendsOnline message) {
 
 		ArrayList<Client> clients = null;
 		boolean flag;
-		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
 				File file = new File(res.getString("pic"));
@@ -123,7 +156,7 @@ public class HandleClient implements Runnable{
 
 		Client clients = null;
 		boolean flag;
-		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID = '"+message.getName()+"'; ");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getName()+"'; ");
 		try{
 			if (res.next()){
 				File file = new File(res.getString("pic"));
@@ -146,7 +179,7 @@ public class HandleClient implements Runnable{
 
 		ArrayList<Client> clients = null;
 		boolean flag;
-		ResultSet res = Main.SQLQueryExecuter.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
 				File file = new File(res.getString("pic"));
@@ -166,7 +199,7 @@ public class HandleClient implements Runnable{
 	private Object _login(Login login){
 
 		boolean flag = false;
-		ResultSet res = Main.SQLQueryExecuter.select("select name,password from user where name = '"+login.getName()+"' and password = '"+login.getPass()+"'");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where name = '"+login.getName()+"' and password = '"+login.getPass()+"'");
 		try{
 
 			flag = false;

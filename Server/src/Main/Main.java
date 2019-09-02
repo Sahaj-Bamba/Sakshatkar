@@ -4,11 +4,11 @@ import Utilities.SqlQueryExecuter;
 
 public class Main {
 
-	public static SqlQueryExecuter SQLQueryExecuter;
+	public static SqlQueryExecuter SQLQUERYEXECUTER;
 
 	public static void main(String args[]) {
 
-		SQLQueryExecuter = new SqlQueryExecuter("root", "root", "jdbc:mysql://localhost/sakshatkar");
+		SQLQUERYEXECUTER = new SqlQueryExecuter("root", "root", "jdbc:mysql://localhost/sakshatkar");
 
 		new Server().start();
 
