@@ -14,7 +14,9 @@ public enum Request {
 	FRIENDS("9"),
 	FILE("10"),
 	POLLCREATE("11"),
-	NOTIFICATION("12");
+	NOTIFICATION("12"),
+	CALLUSER("13"),
+	SEARCHFRIENDS("14");
 
 
 
@@ -23,4 +25,5 @@ public enum Request {
 	Request(String s){
 		s.toString();
 	}
+
 }

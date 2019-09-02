@@ -25,7 +25,7 @@ public class Login {
 			GAMER.send_message(new RequestClasses.Login(userName.getText(),password.getText()));
 //			System.out.println("1");
 			Response res = (Response) GAMER.receive_message();
-			System.out.println("2");
+			//System.out.println("2");
 			if (res.getStatus()==0){
 				System.out.println("Login Successful");
 			}else{
