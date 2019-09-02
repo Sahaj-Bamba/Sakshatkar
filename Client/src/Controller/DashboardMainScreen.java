@@ -31,27 +31,30 @@ public class DashboardMainScreen {
         AnchorPane root2=null;
         AnchorPane root3=null;
 
-
-//        root1 = FXMLLoader.load(getClass().getResource());
-//                root2 = FXMLLoader.load(getClass().getResource());
-//                root3 = FXMLLoader.load(getClass().getResource());
         try {
-            topAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/HeaderMain.fxml")));
-            System.out.println("Hi");
-            leftAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/LeftView.fxml")));
-            rightAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/RightView.fxml")));
-
+            root1 = FXMLLoader.load(getClass().getResource("../FXML/HeaderMain.fxml"));
+            root2 = FXMLLoader.load(getClass().getResource("../FXML/LeftView.fxml"));
+            root3 = FXMLLoader.load(getClass().getResource("../FXML/RightView.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        try {
+//            System.out.println("Hi");
+//            topAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/HeaderMain.fxml")));
+//            leftAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/LeftView.fxml")));
+//            rightAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/RightView.fxml")));
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         System.out.println("Die");
 
 
 
-//        topAnchorPane.getChildren().add(root1);
-//        leftAnchorPane.getChildren().add(root2);
-//        rightAnchorPane.getChildren().add(root3);
+        topAnchorPane.getChildren().add(root1);
+        leftAnchorPane.getChildren().add(root2);
+        rightAnchorPane.getChildren().add(root3);
 
         System.out.println("Kill");
     }
