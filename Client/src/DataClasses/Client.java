@@ -14,7 +14,7 @@ public class Client {
 
 	String name;
 	int isOnline;
-	BufferedImage pic;
+//	BufferedImage pic;
 	Timestamp lastOnline;
 	String id;
 	int status;
@@ -27,17 +27,17 @@ public class Client {
 		return isOnline;
 	}
 
-	public Image getPic() {
-		Image pic = null;
-		File outputfile = new File("zzzz.png");
-		try {
-			ImageIO.write(this.pic, "png", outputfile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		pic = new Image("zzzz.jpg");
-		return pic;
-	}
+//	public Image getPic() {
+//		Image pic = null;
+//		File outputfile = new File("zzzz.png");
+//		try {
+//			ImageIO.write(this.pic, "png", outputfile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		pic = new Image("zzzz.jpg");
+//		return pic;
+//	}
 
 	public Timestamp getLastOnline() {
 		return lastOnline;
@@ -51,10 +51,10 @@ public class Client {
 		return status;
 	}
 
-	public Client(String name, int isOnline, Image pic, Timestamp lastOnline, String id, int status) {
+	public Client(String name, int isOnline, Timestamp lastOnline, String id, int status) {
 		this.name = name;
 		this.isOnline = isOnline;
-		this.pic = SwingFXUtils.fromFXImage(pic, null);
+//		this.pic = SwingFXUtils.fromFXImage(pic, null);
 		this.lastOnline = lastOnline;
 		this.id = id;
 		this.status = status;

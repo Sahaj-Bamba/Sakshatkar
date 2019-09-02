@@ -199,7 +199,7 @@ public class HandleClient implements Runnable{
 	private Object _login(Login login){
 
 		boolean flag = false;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where name = '"+login.getName()+"' and password = '"+login.getPass()+"'");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where USERID = '"+login.getName()+"' and password = '"+login.getPass()+"'");
 		try{
 
 			flag = false;
