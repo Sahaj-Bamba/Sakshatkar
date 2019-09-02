@@ -1,14 +1,19 @@
 package DataClasses;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 
 public class Client {
 
 	String name;
 	int isOnline;
-	Image pic;
+	BufferedImage pic;
 	Timestamp lastOnline;
 	String id;
 	int status;
@@ -22,6 +27,14 @@ public class Client {
 	}
 
 	public Image getPic() {
+		Image pic = null;
+		File outputfile = new File("zzzz.png");
+		try {
+			ImageIO.write(this.pic, "png", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		pic = new Image("zzzz.jpg");
 		return pic;
 	}
 
@@ -40,12 +53,10 @@ public class Client {
 	public Client(String name, int isOnline, Image pic, Timestamp lastOnline, String id, int status) {
 		this.name = name;
 		this.isOnline = isOnline;
-		this.pic = pic;
+		this.pic = SwingFXUtils.fromFXImage(pic, null);
 		this.lastOnline = lastOnline;
 		this.id = id;
 		this.status = status;
 	}
-
-
 
 }

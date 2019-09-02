@@ -106,8 +106,8 @@ public class HandleClient implements Runnable{
 	private Object _Register(RegisterData message) {
 
 		Boolean doesFileExist = new File("/src/ProfilePictures").mkdir();
-		String fileName = "src/ProfilePictures/"+message.getUserName();
-		SavingImage savingImage = new SavingImage(fileName, message.getExtension(), message.getImage());
+//		String fileName = "src/ProfilePictures/"+message.getUserName();
+//		SavingImage savingImage = new SavingImage(fileName, message.getExtension(), message.getImage());
 		String savedImageLocation = "";
 		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "','" +savedImageLocation + "'," + 0 + "," + 0 + ");");
 		return new Response(0,"");

@@ -4,7 +4,10 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 
 public class Client {
@@ -26,8 +29,13 @@ public class Client {
 
 	public Image getPic() {
 		Image pic = null;
-//		pic = new Image(SwingFXUtils.toFXImage(this.pic,null));
-//		pic = new Image()
+		File outputfile = new File("zzzz.png");
+		try {
+			ImageIO.write(this.pic, "png", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		pic = new Image("zzzz.jpg");
 		return pic;
 	}
 

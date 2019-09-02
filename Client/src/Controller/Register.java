@@ -140,7 +140,7 @@ public class Register {
 
         GAMER.send_message(new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText, extension, lastOnline, image, 0));
         Response response = (Response) GAMER.receive_message();
-        Parent root = FXMLLoader.load(getClass().getResource("../FXML/Dashboard.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../FXML/DashBoardMainScreen.fxml"));
         Main.MAIN = new Scene(root);
         Main.PRIMARYSTAGE.setScene(Main.MAIN);
         Main.PRIMARYSTAGE.show();

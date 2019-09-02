@@ -1,8 +1,13 @@
 package RequestClasses;
 
 import Constant.Request;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class RegisterData implements Serializable{
@@ -85,12 +90,24 @@ public class RegisterData implements Serializable{
         this.lastOnline = lastOnline;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
     public void setImage(Image image) {
         this.image = image;
+    }
+
+//    public Image getImage() {
+//        Image pic = null;
+//        File outputfile = new File("zzzz.png");
+//        try {
+//            ImageIO.write(this.image, "png", outputfile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        pic = new Image("zzzz.jpg");
+//        return pic;
+//    }
+
+    public Image getImage(Image image){
+        return image;
     }
 
     public int getStatus() {
