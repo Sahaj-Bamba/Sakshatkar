@@ -15,8 +15,10 @@ public enum Request {
 	FILE("10"),
 	POLLCREATE("11"),
 	NOTIFICATION("12"),
-	CALLUSER("13"),
-	SEARCHFRIENDS("14");
+	USERID("13"),
+	REGISTER("14"),
+	CALLUSER("15"),
+	SEARCHFRIENDS("16");
 
 
 
