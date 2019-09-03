@@ -23,6 +23,7 @@ public class HandleClient implements Runnable{
 	private ObjectInputStream objectInputStream;
 	private ObjectOutputStream objectOutputStream;
 	private Object message;
+	private String user;
 
 	public HandleClient(Socket socket) {
 		this.socket = socket;
@@ -95,15 +96,37 @@ public class HandleClient implements Runnable{
 		}else if (req.equals(String.valueOf(Request.USERID))){
 			return _userID((UserID) message);
 		}else if (req.equals(String.valueOf(Request.REGISTER))){
-			return _Register((RegisterData) message);
+			return _register((RegisterData) message);
+		}else if (req.equals(String.valueOf(Request.SEARCHUSERS))){
+			return _searchUsers((SearchUsers) message);
 		}
 
 		return new Response(404,"Invalid Request");
 
 	}
 
+	private Object _searchUsers(SearchUsers message) {
 
-	private Object _Register(RegisterData message) {
+		ArrayList<Client> clients = null;
+		boolean flag;
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
+		try{
+			while (res.next()){
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+			}
+			return new SearchUsers("",clients);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (clients == null){
+			return new Response(1,"No user match the given criteria");
+		}
+		return new Object();
+
+	}
+
+
+	private Object _register(RegisterData message) {
 
 		Boolean doesFileExist = new File("/src/ProfilePictures").mkdir();
 //		String fileName = "src/ProfilePictures/"+message.getUserName();
@@ -138,13 +161,10 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
-				File file = new File(res.getString("pic"));
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return new Object();
@@ -159,15 +179,12 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getName()+"'; ");
 		try{
 			if (res.next()){
-				File file = new File(res.getString("pic"));
-				clients = (new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients = (new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
 				return new Profile("",clients);
 			}else {
 				return new Response(404,"User not found");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return new Object();
@@ -182,13 +199,10 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
-				File file = new File(res.getString("pic"));
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"), new Image(file.toURI().toURL().toString()),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return new Object();

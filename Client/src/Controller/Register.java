@@ -97,14 +97,14 @@ public class Register {
             return;
         }
         else{
-            System.out.println(passwordText);
-            if(passwordText.length()<6 || passwordText.length()>16) {
-                setErrorLabel("Password length inappropriate");
-                return;
-            }if(Pattern.compile(PASSWORD_PATTERN).matcher(passwordText).matches() == false){
-                setErrorLabel("Invalid password entered");
-                return;
-            }
+//            System.out.println(passwordText);
+//            if(passwordText.length()<6 || passwordText.length()>16) {
+//                setErrorLabel("Password length inappropriate");
+//                return;
+//            }if(Pattern.compile(PASSWORD_PATTERN).matcher(passwordText).matches() == false){
+//                setErrorLabel("Invalid password entered");
+//                return;
+//            }
         }
 
         String emailText = email.getText();
@@ -113,10 +113,10 @@ public class Register {
             return;
         }
         else{
-            if(Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE).matcher(emailText).matches() == false){
-                setErrorLabel("Invalid email entered");
-                return;
-            }
+//            if(Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE).matcher(emailText).matches() == false){
+//                setErrorLabel("Invalid email entered");
+//                return;
+//            }
         }
 
         String phoneNoText = phoneNo.getText();
@@ -125,10 +125,10 @@ public class Register {
             return;
         }
         else{
-            if(Pattern.compile(PHONENO_PATTERN).matcher(phoneNoText).matches() == false){
-                setErrorLabel("Invalid phone number");
-                return;
-            }
+//            if(Pattern.compile(PHONENO_PATTERN).matcher(phoneNoText).matches() == false){
+//                setErrorLabel("Invalid phone number");
+//                return;
+//            }
         }
 
         error.setText("");

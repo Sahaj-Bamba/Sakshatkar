@@ -18,7 +18,8 @@ public enum Request {
 	USERID("13"),
 	REGISTER("14"),
 	CALLUSER("15"),
-	SEARCHFRIENDS("16");
+	SEARCHFRIENDS("16"),
+	SEARCHUSERS("17");
 
 
 
@@ -27,4 +28,5 @@ public enum Request {
 	Request(String s){
 		s.toString();
 	}
+
 }

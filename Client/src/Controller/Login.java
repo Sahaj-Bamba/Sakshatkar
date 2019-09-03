@@ -64,5 +64,8 @@ public class Login {
 
 
 	public void SignUp(ActionEvent actionEvent) {
+
+
+
 	}
 }

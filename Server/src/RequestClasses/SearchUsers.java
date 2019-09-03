@@ -6,28 +6,29 @@ import DataClasses.Client;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GetConnectionChat implements Serializable {
+public class SearchUsers implements Serializable {
 
-	String name;
+	String text;
+
 	ArrayList<Client> clients;
 
-	public GetConnectionChat(String name,ArrayList<Client> clients) {
-		this.name = name;
+	public SearchUsers(String text, ArrayList<Client> clients) {
+		this.text = text;
 		this.clients = clients;
 	}
 
-	public GetConnectionChat(String name) {
-		this.name = name;
+	public SearchUsers(String name) {
+		this.text = name;
 		this.clients = new ArrayList<Client>();
 	}
 
 	public String getName() {
-		return name;
+		return text;
 	}
 
 	@Override
 	public String toString() {
-		return String.valueOf(Request.GETCONNECTIONSCHAT);
+		return String.valueOf(Request.SEARCHUSERS);
 	}
 
 }
