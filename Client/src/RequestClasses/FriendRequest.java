@@ -6,8 +6,8 @@ public class FriendRequest {
 
 	String name;
 
-	public FriendRequest(String user) {
-		this.name = user;
+	public String getName() {
+		return name;
 	}
 
 	@Override

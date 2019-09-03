@@ -21,7 +21,8 @@ public enum Request {
 	SEARCHFRIENDS("16"),
 	SEARCHUSERS("17"),
 	FRIENDREQUEST("18"),
-	GETUSER("19");
+	GETUSER("19"),
+	ACCEPTREQUEST("20");
 
 
 

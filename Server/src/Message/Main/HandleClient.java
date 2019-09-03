@@ -114,7 +114,11 @@ public class HandleClient implements Runnable{
 
 	private Object _acceptRequest(AcceptRequest message) {
 
-		Main.SQLQUERYEXECUTER.update("");
+//		update connectiontable
+//		set status = 1
+//		where userid1 = 'c'
+
+		Main.SQLQUERYEXECUTER.update("update connectiontable set status = 1 where userid2 = '"+this.user+"' and userid1 = '"+message.getName()+"' ; ");
 
 		return new Object();
 
@@ -178,7 +182,7 @@ public class HandleClient implements Runnable{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return new Response(500,"Internal Server Error");
+		return new Response(500,"Internal RequestServer Error");
 	}
 
 

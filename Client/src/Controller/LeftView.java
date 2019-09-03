@@ -108,6 +108,18 @@ public class LeftView {
 		}
 	}
 
+
+	public void acceptRequest(String name){
+		try {
+			GAMER.send_message(new AcceptRequest(name));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+
+
 	public void searchUser() {
 
 		try {
@@ -115,7 +127,7 @@ public class LeftView {
 			Object response = GAMER.receive_message();
 
 			if (response.equals(String.valueOf(Request.SEARCHUSERS))){
-				ArrayList<Client> res;
+				ArrayList<Client> res ;
 				/*      Got the array list of clients in  now do stuff */
 
 			}else{

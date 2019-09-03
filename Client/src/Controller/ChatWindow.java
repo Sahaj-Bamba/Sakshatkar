@@ -12,38 +12,44 @@ import static Main.Main.GAMER;
 
 public class ChatWindow {
 
-    private String user;
+	private String user;
 
-    public void initialize(){
+	public void initialize(){
 
-    }
+	}
 
 
-    public void friendRequest(){
+	public void setUser(String user){
+		this.user = user;
+		/*     Set  user name  to the user label      */
+	}
 
-        try {
-            GAMER.send_message(new FriendRequest(this.user));
-            Response res = (Response) GAMER.receive_message();
 
-            if (res.getStatus()==0){
+	public void friendRequest(){
 
-                /*    Connection created  */
-                new AlertBox("SUCCESS","Friend Request has been successfully sent. ");
+		try {
+			GAMER.send_message(new FriendRequest(this.user));
+			Response res = (Response) GAMER.receive_message();
 
-            }else{
+			if (res.getStatus()==0){
 
-                /*      Some Problem    */
-                new AlertBox("FAILURE","There was some problem with the server. Please try again latter ")
+				/*    Connection created  */
+				new AlertBox("SUCCESS","Friend Request has been successfully sent. ");
+				return;
+			}else{
 
-            }
+				/*      Some Problem    */
+				new AlertBox("FAILURE","There was some problem with the server. Please try again latter ");
+				return;
+			}
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 
 
 }
