@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class Server {
+public class RequestServer {
 
 	private ServerSocket serverSocket;
 	private Socket socket;
@@ -24,7 +24,7 @@ public class Server {
 			}
 		}while(flag);
 
-		System.out.println("Server started on port "+((Integer)port).toString());
+		System.out.println("RequestServer started on port "+((Integer)port).toString());
 
 		run();
 

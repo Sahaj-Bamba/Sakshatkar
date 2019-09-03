@@ -1,4 +1,4 @@
-package Main;
+package Message.Main;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

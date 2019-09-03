@@ -1,10 +1,10 @@
-package Main;
+package Message.Main;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MessageServer {
+public class Server {
 
 	private ServerSocket serverSocket;
 	private Socket socket;
@@ -12,7 +12,7 @@ public class MessageServer {
 	public void start(){
 
 		boolean flag;
-		int port = 5558;
+		int port = 6666;
 		do {
 			try {
 				serverSocket = new ServerSocket(port);
@@ -36,7 +36,7 @@ public class MessageServer {
 				System.out.println("Accepting sockets");
 				socket = serverSocket.accept();
 				System.out.println("Client socket accepted");
-				Thread t = new Thread(new MessageHandleClient(socket));
+				Thread t = new Thread(new HandleClient(socket));
 				System.out.println("Message Handle Client created");
 				t.start();
 				System.out.println("Thread Started");

@@ -1,4 +1,4 @@
-package Main;
+package Message.Main;
 
 import Request.ClientToken;
 import Request.GroupList;
@@ -19,7 +19,7 @@ public class Owner {
 		groupList = new GroupList();
 	}
 
-	public boolean add_group(String name,String password){
+	public boolean add_group(String name, String password){
 		if (group_exist(name)){
 			return false;
 		}
@@ -65,14 +65,14 @@ public class Owner {
 		return flag;
 	}
 
-	public boolean send_message(Object message,String groupName){
+	public boolean send_message(Object message, String groupName){
 		if (group_exist(groupName)){
 			return groups.get(groupName).send_message(message);
 		}
 		return false;
 	}
 
-	public boolean send_message(Object message,String groupName, String clientName){
+	public boolean send_message(Object message, String groupName, String clientName){
 		if (group_exist(groupName)){
 			return groups.get(groupName).send_message(message,clientName);
 		}

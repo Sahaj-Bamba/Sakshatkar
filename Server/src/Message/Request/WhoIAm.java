@@ -1,4 +1,4 @@
-package Request;
+package Message.Request;
 
 import Constant.Request;
 

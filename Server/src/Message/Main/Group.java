@@ -1,4 +1,4 @@
-package Main;
+package Message.Main;
 
 import Request.ClientToken;
 
