@@ -3,16 +3,18 @@ package Message.Main;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class Server {
 
 	private ServerSocket serverSocket;
 	private Socket socket;
+	private HashMap<String,Group> group;
 
 	public void start(){
 
 		boolean flag;
-		int port = 6666;
+		int port = 5555;
 		do {
 			try {
 				serverSocket = new ServerSocket(port);
@@ -23,8 +25,7 @@ public class Server {
 			}
 		}while(flag);
 
-		System.out.println("RequestServer started on port "+((Integer)port).toString());
-
+		System.out.println("Server started");
 		run();
 
 	}
@@ -33,11 +34,10 @@ public class Server {
 
 		while (true) {
 			try {
-				System.out.println("Accepting sockets");
 				socket = serverSocket.accept();
 				System.out.println("Client socket accepted");
 				Thread t = new Thread(new HandleClient(socket));
-				System.out.println("Message Handle Client created");
+				System.out.println("Handle client created");
 				t.start();
 				System.out.println("Thread Started");
 			} catch (IOException e) {

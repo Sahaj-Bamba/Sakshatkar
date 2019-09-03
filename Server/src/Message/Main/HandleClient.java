@@ -1,23 +1,23 @@
 package Message.Main;
 
-import Message.RequestClasses.Message;
+import Constant.Request;
+import Request.GroupList;
+import Request.GroupPass;
+import Request.Response;
+import Request.WhoIAm;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
+import static Main.Main.GAMER;
 
-public class HandleClient implements Runnable{
+public class HandleClient implements Runnable {
 
 	private Socket socket;
 	private ObjectInputStream objectInputStream;
 	private ObjectOutputStream objectOutputStream;
-	private Message message;
-	private String user;
 
 	public HandleClient(Socket socket) {
 		this.socket = socket;
@@ -46,55 +46,79 @@ public class HandleClient implements Runnable{
 
 		boolean flag;
 
-		while (true){
+		try {
 
+			WhoIAm ob1 = (WhoIAm) objectInputStream.readObject();
+			GAMER.add_client("extra", ob1.getName(),objectOutputStream);
+			System.out.println("Client Got and name set");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+
+		while (true) {
 			try {
-				message = (Message) objectInputStream.readObject();
+				Object message = (Object) objectInputStream.readObject();
+				System.out.println("Message received");
 
-				/*      Do processing       */
 
-				Object response = process();
 
-				/*      Do processing with esult */
+				/*      If Else for server handelling           */
 
-				objectOutputStream.writeObject(response);
-				objectOutputStream.flush();
+				String req = (String) message.toString();
 
-				System.out.println("Response sent");
+				System.out.println(req);
+				System.out.println(Request.GROUPLIST);
+				System.out.println(req.equals(String.valueOf(Request.GROUPLIST)));
 
-			} catch (IOException e) {
+				if (req.equals(String.valueOf(Request.GROUPPASS))){
+
+					System.out.println("Group creation request");
+
+					do {
+						GroupPass ob2 = (GroupPass) message;
+						if(GAMER.add_group(ob2.get_group_name(),ob2.get_password())){
+							GAMER.send_message(new Response(0,""),ob2.get_group_name(),ob2.get_client_name());
+							flag = false;
+							GAMER.remove_client("extra",ob2.get_client_name());
+							GAMER.add_client(ob2.get_group_name(),ob2.get_client_name(),objectOutputStream);
+							System.out.println("Client successfully added to the specified group");
+						}
+						else{
+							flag = true;
+							GAMER.send_message(new Response(1,"Group already exist please try a new name."),ob2.get_group_name(),ob2.get_client_name());
+							System.out.println("There was a problem retrying");
+						}
+					}while(flag);
+
+				}else if (req.equals(String.valueOf(Request.GROUPLIST))){
+
+					System.out.println("Group list Request");
+
+					GroupList ob3 = (GroupList)(message);
+					GAMER.send_message((Object)GAMER.get_group_list(),ob3.getter());
+
+				}
+
+
+
+
+
+
+
+
+
+
+				/*  Do Rest of processing on the object here    */
+
+			} catch (Exception e) {
 				System.out.println("Client Disconnected");
-				break;
-			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-
 		}
-
-
-	}
-
-	private Object process(){
-
-		boolean flag = false;
-
-		if (this.message.getType() == 1){
-			return oneToOne();
-		}else if (this.message.getType() == 2){
-			return ontToGroup();
-		}
-
-	}
-
-	private Object ontToGroup() {
-
-
-
-	}
-
-	private Object oneToOne() {
-
-
 	}
 
 
