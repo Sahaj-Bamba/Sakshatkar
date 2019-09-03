@@ -8,20 +8,24 @@ import java.io.Serializable;
 public class Profile implements Serializable {
 
 	String name;
-	Client clients;
+	Client client;
 
 	public Profile(String name, Client clients) {
 		this.name = name;
-		this.clients = clients;
+		this.client = clients;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public Client getClient() {
+		return client;
+	}
+
 	public Profile(String name) {
 		this.name = name;
-		this.clients = null;
+		this.client = null;
 	}
 
 	@Override

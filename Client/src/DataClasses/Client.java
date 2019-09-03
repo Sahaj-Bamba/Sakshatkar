@@ -10,6 +10,8 @@ public class Client {
 	String id;
 	int status;
 
+	public Client() { }
+
 	public String getName() {
 		return name;
 	}

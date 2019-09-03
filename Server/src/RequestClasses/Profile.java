@@ -2,24 +2,30 @@ package RequestClasses;
 
 import Constant.Request;
 import DataClasses.Client;
-import javafx.scene.image.Image;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Profile implements Serializable {
 
-
 	String name;
-	Client clients;
+	Client client;
 
 	public Profile(String name, Client clients) {
 		this.name = name;
-		this.clients = clients;
+		this.client = clients;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public Profile(String name) {
+		this.name = name;
+		this.client = null;
 	}
 
 	@Override

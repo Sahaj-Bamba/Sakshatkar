@@ -99,9 +99,24 @@ public class HandleClient implements Runnable{
 			return _register((RegisterData) message);
 		}else if (req.equals(String.valueOf(Request.SEARCHUSERS))){
 			return _searchUsers((SearchUsers) message);
+		}else if (req.equals(String.valueOf(Request.PROFILE))){
+			return _profile((Profile) message);
+		}else if (req.equals(String.valueOf(Request.FRIENDREQUEST))){
+			return _friendRequest((FriendRequest) message);
 		}
 
 		return new Response(404,"Invalid Request");
+
+	}
+
+	private Object _friendRequest(FriendRequest message) {
+
+		/*      Do insert query in connection of this.user and message.getName()                */
+
+		/*          Check if that really exist  and return respective response 0 or 1;*/
+
+
+		return new Object();
 
 	}
 
@@ -182,7 +197,7 @@ public class HandleClient implements Runnable{
 				clients = (new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
 				return new Profile("",clients);
 			}else {
-				return new Response(404,"User not found");
+				return new Response(1,"User not found");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
