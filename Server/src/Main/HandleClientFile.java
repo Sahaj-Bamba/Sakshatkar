@@ -1,7 +1,8 @@
 package Main;//Server is receiving file
 
+import Constant.RequestFile;
+
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class HandleClientFile extends Thread{
@@ -9,6 +10,9 @@ public class HandleClientFile extends Thread{
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+
+    private Boolean state;
+    private String description;
 
     public HandleClientFile(Socket socket) {
 //        System.out.println("In the constructor of HandleClientFile");
@@ -48,9 +52,9 @@ public class HandleClientFile extends Thread{
 
 //                //Now, sending the boolean status to client
 //                System.out.println("Hello");
-                Boolean response = process(type);
-                System.out.println(response);
-                dataOutputStream.writeBoolean(response);
+                process(type);
+                dataOutputStream.writeBoolean(state);
+                dataOutputStream.writeUTF(description);
                 dataOutputStream.flush();
                 System.out.println("Response sent");
 
@@ -61,11 +65,14 @@ public class HandleClientFile extends Thread{
         }
     }
 
-    private Boolean process(int type) {
-        if(type == 10) {
-            return true;
+    private void process(int type) {
+        if(type == RequestFile.PROFILEPICTURE.ordinal()){
+            storeImage();
         }
-        return false;
+    }
+
+    private Boolean storeImage() {
+        return true;
     }
 
 }

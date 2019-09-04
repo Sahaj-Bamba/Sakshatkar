@@ -1,9 +1,11 @@
 package Controller;
 
+import Constant.RequestFile;
 import Main.Main;
 import RequestClasses.RegisterData;
 import RequestClasses.Response;
 import RequestClasses.UserID;
+import Utilities.FXMLInitiator;
 import Utilities.FileExtension;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,7 +26,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
-import static Main.Main.GAMER;
+import static Main.Main.*;
 
 public class Register {
 
@@ -59,9 +61,9 @@ public class Register {
     private static final String PHONENO_PATTERN = "\\d{10}";
 
     private String extension = null;
-    private Image image = null;
+    private File selectedFile = null ;
 
-    public void register(ActionEvent event) throws IOException, ClassNotFoundException {
+    public void register(ActionEvent event) throws Exception {
 
         String userNameText = userName.getText();
         if(userNameText.isEmpty()){
@@ -82,7 +84,7 @@ public class Register {
             return;
         }
         else{
-            System.out.println("Hello");
+//            System.out.println("Hello");
             GAMER.send_message(new UserID(userIDText));
             Response res = (Response) GAMER.receive_message();
             if(res.getStatus() == 1){
@@ -138,27 +140,49 @@ public class Register {
         String lastOnline = dtf.format(now);
 //		    System.out.println(dtf.format(now));
 
-        GAMER.send_message(new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText, extension, lastOnline, image, 0));
+        GAMER.send_message(new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText, extension, lastOnline, 0));
         Response response = (Response) GAMER.receive_message();
-        Parent root = FXMLLoader.load(getClass().getResource("../FXML/DashBoardMainScreen.fxml"));
-        Main.MAIN = new Scene(root);
-        Main.PRIMARYSTAGE.setScene(Main.MAIN);
-        Main.PRIMARYSTAGE.show();
+
+//        FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal());
+//        Boolean fileResponse = FILEGAMER.recieveResponse();
+        Boolean fileResponse = true;
+
+        if(response.getStatus()==1 || fileResponse == false){
+            setErrorLabel("Network issue in sending the details to server");
+            return;
+        }
+
+        FXMLInitiator fxmlInitiator = new FXMLInitiator("../FXML/DashBoardMainScreen.fxml");
+        fxmlInitiator.start(PRIMARYSTAGE);
+
     }
 
     public void loadImage(ActionEvent event) {
+
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png, *jpg, *jpeg, *img)", "*.png", "*.jpeg", "*.img", "*jpg");
         fileChooser.getExtensionFilters().add(extFilter);
-        File selectedFile = fileChooser.showOpenDialog(null);
+        File selectedFile = new File("../Icons/newUserIcon.png");
+        extension = new FileExtension(selectedFile).getFileExtension();
+
+//        System.out.println(extension);
+//        System.out.println(selectedFile.getAbsolutePath());
+
+        File selectedFileTemp = (fileChooser.showOpenDialog(null));
+        selectedFile = (selectedFileTemp == null)? selectedFile : selectedFileTemp;
+
+//        System.out.println(selectedFile.getAbsolutePath());
         try {
-            image = new Image(selectedFile.toURI().toURL().toString());
-            imageView.setImage(image);
-            FileExtension fileExtension = new FileExtension(selectedFile);
-            extension = fileExtension.getFileExtension();
-//            System.out.println(extension);
+            if(selectedFile != null){
+
+                Image image = new Image(selectedFile.toURI().toURL().toString());
+                imageView.setImage(image);
+                FileExtension fileExtension = new FileExtension(selectedFile);
+                extension = fileExtension.getFileExtension();
+                System.out.println(extension);
+            }
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 

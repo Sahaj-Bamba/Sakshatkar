@@ -1,13 +1,7 @@
 package RequestClasses;
 
 import Constant.Request;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 
 public class RegisterData implements Serializable{
@@ -19,10 +13,9 @@ public class RegisterData implements Serializable{
     private String phone;
     private String extension;
     private String lastOnline;
-    private Image image;
     private int status;
 
-    public RegisterData(String userName, String userID, String password, String emailID, String phone, String extension, String lastOnline, Image image, int status) {
+    public RegisterData(String userName, String userID, String password, String emailID, String phone, String extension, String lastOnline, int status) {
         this.userName = userName;
         this.userID = userID;
         this.password = password;
@@ -30,7 +23,6 @@ public class RegisterData implements Serializable{
         this.phone = phone;
         this.extension = extension;
         this.lastOnline = lastOnline;
-        this.image = image;
         this.status = status;
     }
 
@@ -88,26 +80,6 @@ public class RegisterData implements Serializable{
 
     public void setLastOnline(String lastOnline) {
         this.lastOnline = lastOnline;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-//    public Image getImage() {
-//        Image pic = null;
-//        File outputfile = new File("zzzz.png");
-//        try {
-//            ImageIO.write(this.image, "png", outputfile);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        pic = new Image("zzzz.jpg");
-//        return pic;
-//    }
-
-    public Image getImage(Image image){
-        return image;
     }
 
     public int getStatus() {
