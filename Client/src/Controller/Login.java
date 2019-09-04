@@ -2,13 +2,13 @@ package Controller;
 
 import Main.Main;
 import RequestClasses.Response;
+import Utilities.FXMLInitiator;
 import Windows.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -64,8 +64,11 @@ public class Login {
 
 
 	public void SignUp(ActionEvent actionEvent) {
-
-
-
+		try {
+			FXMLInitiator fxmlInitiator = new FXMLInitiator("../FXML/Register.fxml");
+			fxmlInitiator.start(PRIMARYSTAGE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

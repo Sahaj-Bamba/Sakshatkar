@@ -33,7 +33,8 @@ public class GroupList extends ClientToken implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.valueOf(Request.GROUPLIST);
+		//return String.valueOf(Request.GROUPLIST);
+		return "100";
 	}
 
 }

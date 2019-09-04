@@ -11,6 +11,7 @@ public class Main {
 		SQLQUERYEXECUTER = new SqlQueryExecuter("root", "root", "jdbc:mysql://localhost/sakshatkar");
 
 		new RequestServer().start();
+		new RequestFileServer().start();
 
 	}
 
