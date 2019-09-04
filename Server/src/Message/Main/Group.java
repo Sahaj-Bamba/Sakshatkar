@@ -1,5 +1,6 @@
 package Message.Main;
 
+import Message.Request.ClientToken;
 import Request.ClientToken;
 
 import java.io.ObjectOutputStream;
