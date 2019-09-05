@@ -13,10 +13,6 @@ public class Profile {
 	private String user;
 
 
-	public void initialize(){
-
-	}
-
 	public void update(String name){
 
 		if (name == this.user){

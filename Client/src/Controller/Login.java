@@ -52,7 +52,7 @@ public class Login {
 
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("../FXML/DashBoardMainScreen.FXML"));
+			root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

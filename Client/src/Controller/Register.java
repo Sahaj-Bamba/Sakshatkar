@@ -180,7 +180,7 @@ public class Register {
 
 //        System.out.println(selectedFile.getAbsolutePath());
 
-        FXMLInitiator fxmlInitiator = new FXMLInitiator("../FXML/DashBoardMainScreen.fxml");
+        FXMLInitiator fxmlInitiator = new FXMLInitiator("../FXML/MainScreen.fxml");
         fxmlInitiator.start(PRIMARYSTAGE);
 
     }
