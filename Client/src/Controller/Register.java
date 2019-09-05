@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
@@ -51,10 +52,6 @@ public class Register {
     @FXML
     Label error;
 
-    private void setErrorLabel(String str){
-        error.setText(str);
-    }
-
     private static final String USERNAME_PATTERN = "^[\\p{L} .'-]+$";
     private static final String PASSWORD_PATTERN ="((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{6,16})";
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -62,6 +59,21 @@ public class Register {
 
     private String extension = null;
     private File selectedFile = null ;
+
+    private void setErrorLabel(String str){
+        error.setText(str);
+    }
+
+    public void initialize(){
+        try {
+            selectedFile = new File("src/Icons/newUserIcon.png");
+//            System.out.println(file.getAbsolutePath());
+            Image image = new Image(selectedFile.toURI().toURL().toString());
+            imageView.setImage(image);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void register(ActionEvent event) throws Exception {
 
@@ -143,14 +155,15 @@ public class Register {
         GAMER.send_message(new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText, extension, lastOnline, 0));
         Response response = (Response) GAMER.receive_message();
 
-//        FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal());
-//        Boolean fileResponse = FILEGAMER.recieveResponse();
-        Boolean fileResponse = true;
+        FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal());
+        Boolean fileResponse = FILEGAMER.recieveResponse();
 
         if(response.getStatus()==1 || fileResponse == false){
             setErrorLabel("Network issue in sending the details to server");
             return;
         }
+
+//        System.out.println(selectedFile.getAbsolutePath());
 
         FXMLInitiator fxmlInitiator = new FXMLInitiator("../FXML/DashBoardMainScreen.fxml");
         fxmlInitiator.start(PRIMARYSTAGE);
@@ -162,7 +175,6 @@ public class Register {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png, *jpg, *jpeg, *img)", "*.png", "*.jpeg", "*.img", "*jpg");
         fileChooser.getExtensionFilters().add(extFilter);
-        File selectedFile = new File("../Icons/newUserIcon.png");
         extension = new FileExtension(selectedFile).getFileExtension();
 
 //        System.out.println(extension);
@@ -171,7 +183,6 @@ public class Register {
         File selectedFileTemp = (fileChooser.showOpenDialog(null));
         selectedFile = (selectedFileTemp == null)? selectedFile : selectedFileTemp;
 
-//        System.out.println(selectedFile.getAbsolutePath());
         try {
             if(selectedFile != null){
 
@@ -184,6 +195,9 @@ public class Register {
         } catch (MalformedURLException e) {
 //            e.printStackTrace();
         }
+
+
     }
+
 
 }

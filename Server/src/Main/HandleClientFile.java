@@ -71,8 +71,8 @@ public class HandleClientFile extends Thread{
         }
     }
 
-    private Boolean storeImage() {
-        return true;
+    private void storeImage(){
+
     }
 
 }

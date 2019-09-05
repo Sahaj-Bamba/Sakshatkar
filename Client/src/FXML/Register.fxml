@@ -52,6 +52,6 @@
          </font>
       </Label>
       <TextField fx:id="userID" layoutX="246.0" layoutY="260.0" prefHeight="45.0" prefWidth="252.0" promptText="username" />
-      <Label fx:id="error" layoutX="345.0" layoutY="158.0" prefHeight="45.0" prefWidth="176.0" text="Label" />
+      <Label fx:id="error" layoutX="345.0" layoutY="158.0" prefHeight="45.0" prefWidth="176.0" />
    </children>
 </AnchorPane>
