@@ -1,6 +1,9 @@
 package Main;//Server is receiving file
 
 import Constant.RequestFile;
+import RequestClasses.Response;
+import Utilities.SaveFile;
+import Utilities.SqlQueryExecuter;
 
 import java.io.*;
 import java.net.Socket;
@@ -10,16 +13,19 @@ public class HandleClientFile extends Thread{
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-
-    private Boolean state;
-    private String description;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+    private int type;
+    private String fileName;
 
     public HandleClientFile(Socket socket) {
-//        System.out.println("In the constructor of HandleClientFile");
+        System.out.println("In the constructor of HandleClientFile");
         this.socket = socket;
         try {
             this.dataInputStream = new DataInputStream(socket.getInputStream());
-            this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            System.out.println("Data Input stream created at server");
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("Object Output stream created at server");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,31 +37,25 @@ public class HandleClientFile extends Thread{
 
         while(true) {
 
-            int bytesRead;
-            String fileName = null;
+
             try {
 
                 fileName = dataInputStream.readUTF();
-                long size = dataInputStream.readLong();
-                int type = dataInputStream.readInt();
 
-                OutputStream output = new FileOutputStream(fileName);
-                System.out.println(size);
+//                String extension = dataInputStream.readUTF();
+//                System.out.println("Extension = " + extension);
+
+                type = dataInputStream.readInt();
+
+
                 System.out.println(type);
-                byte[] buffer = new byte[1024];
-                while (size > 0 && (bytesRead = dataInputStream.read(buffer, 0, (int)Math.min(buffer.length, size))) != -1)
-                {
-                    output.write(buffer, 0, bytesRead);
-                    size -= bytesRead;
-                }
-                //File stored on server
+                System.out.println(fileName);
 
-//                //Now, sending the boolean status to client
-//                System.out.println("Hello");
-                process(type);
-                dataOutputStream.writeBoolean(state);
-                dataOutputStream.writeUTF(description);
-                dataOutputStream.flush();
+                Object response = (Object) process();
+
+                objectOutputStream.writeObject(response);
+                objectOutputStream.flush();
+
                 System.out.println("Response sent");
 
             } catch (IOException e) {
@@ -65,14 +65,33 @@ public class HandleClientFile extends Thread{
         }
     }
 
-    private void process(int type) {
+    private Object process() throws IOException {
+
         if(type == RequestFile.PROFILEPICTURE.ordinal()){
-            storeImage();
+            return _saveProfilePicture();
         }
+
+        return new Response(1,"Error in storing on server. Try again later.");
     }
 
-    private void storeImage(){
+    private Object _saveProfilePicture() throws IOException {
 
+        String dirName = "src/ProfilePictures";
+        String filePath = dirName + "/" + fileName;
+        Boolean doesFileExist = new File(dirName).mkdir();
+        try{
+            new SaveFile(dataInputStream).saveFile(dirName, fileName);
+        }
+        catch(Exception e){
+            return new Response(1, "Error in storing image on server");
+        }
+
+        String fileNameWithoutExtension = fileName.substring(0,fileName.indexOf("."));
+
+        //SQL Query to update ImageLocation on Server
+        Main.SQLQUERYEXECUTER.update("UPDATE user SET picture = " + "'" + filePath +"'" + " WHERE userID = "+ "'" + fileNameWithoutExtension + "';");
+
+        return new Response(0,"");
     }
 
 }

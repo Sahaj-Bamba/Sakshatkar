@@ -22,7 +22,9 @@ public class Main extends Application {
 
 		System.out.println("Started");
 		GAMER = new Client("localhost",5558,"Sam");
-		FILEGAMER = new FileClient("localhost", 5558,"FileClientSocket");
+		System.out.println("GAMER created");
+		FILEGAMER = new FileClient("localhost", 6000,"FileClientSocket");
+		System.out.println("FILEGAMER created");
 		System.out.println("Came back to main");
 		PRIMARYSTAGE = primaryStage;
 

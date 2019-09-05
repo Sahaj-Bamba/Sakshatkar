@@ -53,6 +53,7 @@ public class Register {
     Label error;
 
     private static final String USERNAME_PATTERN = "^[\\p{L} .'-]+$";
+    private static final String USERID_PATTERN = "^(?=.*[a-z])[a-z0-9]{4,20}$";
     private static final String PASSWORD_PATTERN ="((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{6,16})";
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String PHONENO_PATTERN = "\\d{10}";
@@ -67,6 +68,7 @@ public class Register {
     public void initialize(){
         try {
             selectedFile = new File("src/Icons/newUserIcon.png");
+            extension = "png";
 //            System.out.println(file.getAbsolutePath());
             Image image = new Image(selectedFile.toURI().toURL().toString());
             imageView.setImage(image);
@@ -96,7 +98,14 @@ public class Register {
             return;
         }
         else{
-//            System.out.println("Hello");
+            if(userIDText.length()<4 || userIDText.length()>20){
+                setErrorLabel("UserID must be between 4 to 20 characters");
+                return;
+            }
+            if(Pattern.compile(USERID_PATTERN).matcher(userNameText).matches() == false){
+                setErrorLabel("Invalid user ID entered");
+                return;
+            }
             GAMER.send_message(new UserID(userIDText));
             Response res = (Response) GAMER.receive_message();
             if(res.getStatus() == 1){
@@ -112,13 +121,13 @@ public class Register {
         }
         else{
 //            System.out.println(passwordText);
-//            if(passwordText.length()<6 || passwordText.length()>16) {
-//                setErrorLabel("Password length inappropriate");
-//                return;
-//            }if(Pattern.compile(PASSWORD_PATTERN).matcher(passwordText).matches() == false){
-//                setErrorLabel("Invalid password entered");
-//                return;
-//            }
+            if(passwordText.length()<6 || passwordText.length()>16) {
+                setErrorLabel("Password length inappropriate");
+                return;
+            }if(Pattern.compile(PASSWORD_PATTERN).matcher(passwordText).matches() == false){
+                setErrorLabel("Invalid password entered");
+                return;
+            }
         }
 
         String emailText = email.getText();
@@ -127,10 +136,10 @@ public class Register {
             return;
         }
         else{
-//            if(Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE).matcher(emailText).matches() == false){
-//                setErrorLabel("Invalid email entered");
-//                return;
-//            }
+            if(Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE).matcher(emailText).matches() == false){
+                setErrorLabel("Invalid email entered");
+                return;
+            }
         }
 
         String phoneNoText = phoneNo.getText();
@@ -139,10 +148,10 @@ public class Register {
             return;
         }
         else{
-//            if(Pattern.compile(PHONENO_PATTERN).matcher(phoneNoText).matches() == false){
-//                setErrorLabel("Invalid phone number");
-//                return;
-//            }
+            if(Pattern.compile(PHONENO_PATTERN).matcher(phoneNoText).matches() == false){
+                setErrorLabel("Invalid phone number");
+                return;
+            }
         }
 
         error.setText("");
@@ -155,13 +164,19 @@ public class Register {
         GAMER.send_message(new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText, extension, lastOnline, 0));
         Response response = (Response) GAMER.receive_message();
 
-        FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal());
-        Boolean fileResponse = FILEGAMER.recieveResponse();
+        FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal(), userIDText + "." + extension);
+        System.out.println("Output sent");
+        Response fileResponse = (Response) FILEGAMER.receiveResponse();
+        System.out.println("Response received");
 
-        if(response.getStatus()==1 || fileResponse == false){
-            setErrorLabel("Network issue in sending the details to server");
-            return;
-        }
+        System.out.println(fileResponse.getStatus());
+
+//      To be handled
+
+//        if(response.getStatus()==1 || fileResponse == false){
+//            setErrorLabel("Network issue in sending the details to server");
+//            return;
+//        }
 
 //        System.out.println(selectedFile.getAbsolutePath());
 
@@ -175,7 +190,6 @@ public class Register {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png, *jpg, *jpeg, *img)", "*.png", "*.jpeg", "*.img", "*jpg");
         fileChooser.getExtensionFilters().add(extFilter);
-        extension = new FileExtension(selectedFile).getFileExtension();
 
 //        System.out.println(extension);
 //        System.out.println(selectedFile.getAbsolutePath());

@@ -5,12 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class RequestServer {
+public class RequestServer extends Thread{
 
 	private ServerSocket serverSocket;
 	private Socket socket;
 
-	public void start(){
+	public void serverInitializer(){
 
 		boolean flag;
 		int port = 5558;
@@ -26,11 +26,11 @@ public class RequestServer {
 
 		System.out.println("RequestServer started on port "+((Integer)port).toString());
 
-		run();
-
 	}
 
-	protected void run() {
+	public void run() {
+
+		serverInitializer();
 
 		while (true) {
 			try {

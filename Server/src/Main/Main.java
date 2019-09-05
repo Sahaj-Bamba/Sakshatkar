@@ -10,8 +10,12 @@ public class Main {
 
 		SQLQUERYEXECUTER = new SqlQueryExecuter("root", "root", "jdbc:mysql://localhost/sakshatkar");
 
-		new RequestServer().start();
-		new RequestFileServer().start();
+		//t1 for server
+		Thread t1 = new Thread(new RequestServer());
+		//t2 for file server
+		Thread t2 = new Thread(new RequestFileServer());
+		t1.start();
+		t2.start();
 
 	}
 
