@@ -1,7 +1,7 @@
 package Message.Main;
 
-import Request.ClientToken;
-import Request.GroupList;
+import Message.Request.ClientToken;
+import Message.Request.GroupList;
 
 import java.io.ObjectOutputStream;
 import java.util.HashMap;

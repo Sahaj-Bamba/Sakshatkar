@@ -3,15 +3,11 @@ package Main;
 import Constant.Request;
 import DataClasses.Client;
 import RequestClasses.*;
-import Utilities.SavingImage;
-import Utilities.SqlQueryExecuter;
-import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,6 +30,7 @@ public class HandleClient implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Both streams created for HandleClient");
 	}
 
 	/**
@@ -62,7 +59,7 @@ public class HandleClient implements Runnable{
 
 				Object response = process();
 
-				/*      Do processing with esult */
+				/*      Do processing with result */
 
 				objectOutputStream.writeObject(response);
 				objectOutputStream.flush();
@@ -108,8 +105,12 @@ public class HandleClient implements Runnable{
 			return _acceptRequest((AcceptRequest) message);
 		}
 
+		//This type of status needs handling
 		return new Response(404,"Invalid Request");
-
+		//
+	//
+	//
+	//
 	}
 
 	private Object _acceptRequest(AcceptRequest message) {
@@ -160,11 +161,7 @@ public class HandleClient implements Runnable{
 
 	private Object _register(RegisterData message) {
 
-		Boolean doesFileExist = new File("/src/ProfilePictures").mkdir();
-//		String fileName = "src/ProfilePictures/"+message.getUserName();
-//		SavingImage savingImage = new SavingImage(fileName, message.getExtension(), message.getImage());
-		String savedImageLocation = "";
-		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "','" +savedImageLocation + "'," + 0 + "," + 0 + ");");
+		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
 		return new Response(0,"");
 
 	}

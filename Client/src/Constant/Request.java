@@ -25,9 +25,6 @@ public enum Request {
 	ACCEPTREQUEST("20");
 
 
-
-
-
 	Request(String s){
 		s.toString();
 	}

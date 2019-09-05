@@ -1,6 +1,6 @@
 package Message.Main;
 
-import Request.ClientToken;
+import Message.Request.ClientToken;
 
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
