@@ -23,6 +23,8 @@ public class Profile {
 			return;
 		}
 
+
+
 		try {
 			GAMER.send_message(new RequestClasses.Profile(name));
 			Object res = GAMER.receive_message();
