@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Client implements Serializable {
 
 	String name;
+	String userID;
 	int isOnline;
 	String lastOnline;
 	String id;

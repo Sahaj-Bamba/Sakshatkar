@@ -53,7 +53,10 @@ public class ListViewCell extends ListCell<Client> {
             userName.setText(client.getName());
             lastOnline.setText(client.getLastOnline());
             Boolean doesDirectoryExist = new File("src/ProfilePictures").mkdir();
-//            File file = new File("src/ProfilePictures/"+)
+            File file = new File("src/ProfilePictures/"+client.getUserID()+"."+client.getExtension());
+            if(file.exists() == false){
+                Main.Main.FILEGAMER.s
+            }
             setText(null);
             setGraphic(anchorPane);
         }
