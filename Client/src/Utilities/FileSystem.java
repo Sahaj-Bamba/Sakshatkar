@@ -75,24 +75,42 @@ public class FileSystem {
 
     }
 
+    public Client isLoggedIn() throws IOException {
+
+        String basePath = System.getProperty("user.home");
+        basePath += "/"+base+"/";
+        BufferedReader br = new BufferedReader(new FileReader(basePath+"login"));
+        String line;
+        line = br.readLine();
+        if (Integer.parseInt(line) == 0) {
+            return null;
+        }else {
+            line = br.readLine();
+            String[] content = line.split("#");
+            br.close();
+            return (new Client(content[0],Integer.parseInt(content[1]),content[2],content[3],Integer.parseInt(content[4]),content[5],content[6]));
+        }
+
+    }
 
     public void logout() throws IOException {
 
         String basePath = System.getProperty("user.home");
-        basePath += "/test/";
+        basePath += "/"+base+"/";
         BufferedWriter bw = new BufferedWriter(new PrintWriter(basePath+"login"));
         bw.write(0);
         bw.close();
 
     }
 
-    public void login(String userID) throws IOException {
+    public void login(Client client) throws IOException {
 
         String basePath = System.getProperty("user.home");
         basePath += "/test/";
         BufferedWriter bw = new BufferedWriter(new PrintWriter(basePath+"login"));
         bw.write(1);
-        bw.write(" "+userID);
+        bw.newLine();
+        bw.write(" "+client.toString());
         bw.newLine();
         bw.close();
 
@@ -110,8 +128,8 @@ public class FileSystem {
         Client c;
         while ((line = br.readLine()) != null) {
             String[] content = line.split("#");
-            clients.remove(new Client(content[0],Integer.parseInt(content[1]),content[2],content[3],Integer.parseInt(content[4])));
-            clients.add(new Client(content[0],Integer.parseInt(content[1]),content[2],content[3],Integer.parseInt(content[4])));
+            clients.remove(new Client(content[0],Integer.parseInt(content[1]),content[2],content[3],Integer.parseInt(content[4]),content[5],content[6]));
+            clients.add(new Client(content[0],Integer.parseInt(content[1]),content[2],content[3],Integer.parseInt(content[4]),content[5],content[6]));
         }
         br.close();
 
