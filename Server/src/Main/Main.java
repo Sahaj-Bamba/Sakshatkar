@@ -14,6 +14,7 @@ public class Main {
 		MESSAGESENDER = new MessageSender();
 		//t1 for server
 		Thread t1 = new Thread(new RequestServer());
+//		System.out.println("Request Ser");
 		//t2 for file server
 		Thread t2 = new Thread(new FileServer());
 		//t3 for messaging

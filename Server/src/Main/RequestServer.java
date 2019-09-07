@@ -34,13 +34,13 @@ public class RequestServer extends Thread{
 
 		while (true) {
 			try {
-				System.out.println("Accepting sockets");
+//				System.out.println("Accepting sockets");
 				socket = serverSocket.accept();
-				System.out.println("Client socket accepted");
+//				System.out.println("Client socket accepted");
 				Thread t = new Thread(new HandleClient(socket));
-				System.out.println("Handle Client created");
+//				System.out.println("Handle Client created");
 				t.start();
-				System.out.println("Thread Started");
+//				System.out.println("Thread Started");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

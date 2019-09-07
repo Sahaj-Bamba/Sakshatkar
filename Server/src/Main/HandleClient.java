@@ -1,6 +1,7 @@
 package Main;
 
 import Constant.Request;
+import DataClasses.Client;
 import RequestClasses.*;
 
 import java.io.IOException;
@@ -143,7 +144,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
 			}
 			return new SearchUsers("",clients);
 		} catch (SQLException e) {
@@ -188,7 +189,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
@@ -206,7 +207,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getName()+"'; ");
 		try{
 			if (res.next()){
-				clients = (new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients = (new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
 				return new Profile("",clients);
 			}else {
 				return new Response(1,"User not found");
@@ -226,7 +227,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getTimestamp("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
