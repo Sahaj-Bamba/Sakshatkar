@@ -1,16 +1,16 @@
-package Main;
+package Message.Main;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class RequestServer extends Thread{
+public class MessageServer {
 
 	private ServerSocket serverSocket;
 	private Socket socket;
 
-	public void serverInitializer(){
+	public void start(){
 
 		boolean flag;
 		int port = 5555;
@@ -24,21 +24,19 @@ public class RequestServer extends Thread{
 			}
 		}while(flag);
 
-		System.out.println("RequestServer started on port "+port);
+		System.out.println("MessageServer started at "+port);
+		run();
 
 	}
 
-	public void run() {
-
-		serverInitializer();
+	protected void run() {
 
 		while (true) {
 			try {
-				System.out.println("Accepting sockets");
 				socket = serverSocket.accept();
 				System.out.println("Client socket accepted");
 				Thread t = new Thread(new HandleClient(socket));
-				System.out.println("Handle Client created");
+				System.out.println("Handle client created");
 				t.start();
 				System.out.println("Thread Started");
 			} catch (IOException e) {

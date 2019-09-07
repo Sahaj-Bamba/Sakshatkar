@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class RequestFileServer extends Thread{
+public class FileServer extends Thread{
         private ServerSocket serverSocket;
         private Socket socket;
 
         int port = 6000;
         public void fileServerInitializer() {
-            System.out.println("In the start method of RequestFileServer");
+            System.out.println("In the start method of FileServer");
             while (true) {
                 try {
                     serverSocket = new ServerSocket(port);
@@ -21,7 +21,7 @@ public class RequestFileServer extends Thread{
                 }
             }
 
-            System.out.println("File Server started on port " + port);
+            System.out.println("File MessageServer started on port " + port);
 
         }
 
@@ -31,13 +31,13 @@ public class RequestFileServer extends Thread{
 
         while (true) {
             try {
-                System.out.println("Accepting sockets from RequestFileServer");
+                System.out.println("Accepting sockets from FileServer");
                 socket = serverSocket.accept();
-                System.out.println("Client socket accepted from RequestFileServer");
+                System.out.println("Client socket accepted from FileServer");
                 Thread t = new Thread(new HandleClientFile(socket));
                 System.out.println("Handle client for file server created");
                 t.start();
-                System.out.println("Thread Started for RequestFileServer");
+                System.out.println("Thread Started for FileServer");
             } catch (IOException e) {
                 e.printStackTrace();
             }

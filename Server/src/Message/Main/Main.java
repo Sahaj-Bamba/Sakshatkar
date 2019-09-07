@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String args[]) {
 		GAMER = new Owner();
-		new Server().start();
+		new MessageServer().start();
 	}
 
 }

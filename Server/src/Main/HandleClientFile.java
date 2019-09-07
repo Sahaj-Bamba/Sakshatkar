@@ -1,4 +1,4 @@
-package Main;//Server is receiving file
+package Main;//MessageServer is receiving file
 
 import Constant.RequestFile;
 import RequestClasses.Response;
@@ -88,7 +88,7 @@ public class HandleClientFile extends Thread{
 
         String fileNameWithoutExtension = fileName.substring(0,fileName.indexOf("."));
 
-        //SQL Query to update ImageLocation on Server
+        //SQL Query to update ImageLocation on MessageServer
         Main.SQLQUERYEXECUTER.update("UPDATE user SET picture = " + "'" + filePath +"'" + " WHERE userID = "+ "'" + fileNameWithoutExtension + "';");
 
         return new Response(0,"");
