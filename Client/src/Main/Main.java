@@ -39,7 +39,6 @@ public class Main extends Application {
 			System.out.println("Message GAMER created");
 		}
 
-<<<<<<< HEAD
 		PRIMARYSTAGE = primaryStage;
 		USER = FILESYSTEM.isLoggedIn();
 		if (USER == null){
@@ -60,14 +59,6 @@ public class Main extends Application {
 			primaryStage.show();
 			System.out.println("Basic Welcome Screen ");
 		}
-=======
-		Parent root = FXMLLoader.load(getClass().getResource("../FXML/Login.fxml"));
-		Scene scene = new Scene(root, WIDTH, HEIGHT);
-		primaryStage.setScene(scene);
-		//primaryStage.setFullScreen(true);
-		primaryStage.show();
-		System.out.println("Basic Welcome Screen ");
->>>>>>> ad56a5a0b9f3f98c09a655061001818d8716ff22
 
 	}
 
