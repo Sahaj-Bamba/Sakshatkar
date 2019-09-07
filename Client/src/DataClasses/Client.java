@@ -8,8 +8,10 @@ public class Client implements Serializable {
 	String userID;
 	int isOnline;
 	String lastOnline;
-	String id;
+	String userId;
 	int status;
+	String phone;
+	String extension;
 
 	public Client() { }
 
@@ -25,25 +27,31 @@ public class Client implements Serializable {
 		return lastOnline;
 	}
 
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
 	public int getStatus() {
 		return status;
 	}
 
-	public Client(String name, int isOnline, String lastOnline, String id, int status) {
+	public int getIsOnline() {
+		return isOnline;
+	}
+
+	public Client(String name, int isOnline, String lastOnline, String userId, int status, String phone, String extension) {
 		this.name = name;
 		this.isOnline = isOnline;
 		this.lastOnline = lastOnline;
-		this.id = id;
+		this.userId = userId;
 		this.status = status;
+		this.phone = phone;
+		this.extension = extension;
 	}
 
 	@Override
 	public String toString() {
-		return this.name+"#"+this.isOnline+"#"+this.lastOnline+"#"+this.id+"#"+this.status;
+		return this.name+"#"+this.isOnline+"#"+this.lastOnline+"#"+this.userId+"#"+this.status+"#"+this.phone+"#"+this.extension;
 	}
 
 }

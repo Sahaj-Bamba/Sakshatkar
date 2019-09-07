@@ -11,26 +11,22 @@ public class FileClient {
 
     private String ip;
     private int port;
-    private String name;
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
-    public FileClient(String ip, int port, String name) {
+    public FileClient(String ip, int port) {
 
         this.port = port;
         this.ip = ip;
-        this.name = name;
 
         try {
             this.socket = new Socket(ip, port);
-            System.out.println("Client File socket created");
             this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
             System.out.println("Data output stream created");
             this.dataInputStream = new DataInputStream(socket.getInputStream());
             System.out.println("Data input stream created");
-
-            System.out.println("Client socket created");
+            System.out.println("File Client socket created");
 
         } catch (IOException e) {
             e.printStackTrace();

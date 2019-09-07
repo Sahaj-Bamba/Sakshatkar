@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static Main.Main.GAMER;
+import static Main.Main.*;
 
 public class LeftView {
 
@@ -37,7 +37,7 @@ public class LeftView {
 	public void chattedUsers(){
 
 		try {
-			GAMER.send_message(new GetConnectionChat(GAMER.get_name()));
+			GAMER.send_message(new GetConnectionChat(USER.getName()));
 
 			System.out.println("MESSAGE SENT");
 
@@ -63,7 +63,7 @@ public class LeftView {
 		public void callUser()
 		{
 			try {
-				GAMER.send_message(new CallUser(GAMER.get_name()));
+				GAMER.send_message(new CallUser(USER.getName()));
 			}catch (IOException e)
 			{
 				e.printStackTrace();
@@ -79,7 +79,7 @@ public class LeftView {
 
 	public void searchFriends() {
 		try {
-			GAMER.send_message(new SearchFriends(GAMER.get_name()));
+			GAMER.send_message(new SearchFriends(USER.getName()));
 		}catch (IOException  e)
 		{
 			e.printStackTrace();
@@ -96,7 +96,7 @@ public class LeftView {
 
 	public void notification() {
 		try {
-			GAMER.send_message(new Notification(GAMER.get_name()));
+			GAMER.send_message(new Notification(USER.getName()));
 		}catch (IOException e)
 		{
 			e.printStackTrace();

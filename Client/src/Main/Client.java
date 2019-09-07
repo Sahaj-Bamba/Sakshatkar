@@ -8,22 +8,18 @@ public class Client implements Serializable {
 	private Socket socket;
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
-	private String name;
 
-	public Client(String ip, int port, String name) {
+	public Client(String ip, int port) {
 		try {
-			this.name = name;
-			this.socket = new Socket(ip, port);
-			System.out.println(name);
-			this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-			System.out.println(name);
-			this.objectInputStream = new ObjectInputStream(socket.getInputStream());
-			System.out.println("Input stream created");
 
+			this.socket = new Socket(ip, port);
+			this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+			this.objectInputStream = new ObjectInputStream(socket.getInputStream());
 			System.out.println("Client created.");
+			Main.ISONLINE = true;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			Main.ISONLINE = false;
 		}
 	}
 
@@ -34,10 +30,6 @@ public class Client implements Serializable {
 
 	public Object receive_message() throws IOException, ClassNotFoundException {
 		return (Object) objectInputStream.readObject();
-	}
-
-	public String get_name() {
-		return name;
 	}
 
 }
