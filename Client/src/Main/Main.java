@@ -25,17 +25,16 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception{
 
 		FILESYSTEM = new FileSystem("Sakshatkar");
-
 		System.out.println("Started");
 		GAMER = new Client("localhost",5555);
-		Thread.sleep(200);
+		Thread.sleep(100);
 		if (Main.ISONLINE) {
 			System.out.println("GAMER created");
 			FILEGAMER = new FileClient("localhost", 6000);
-			Thread.sleep(200);
+			Thread.sleep(100);
 			System.out.println("File Gamer created");
 			MESSAGEGAMER = new MessageClient("localhost", 5701);
-			Thread.sleep(200);
+			Thread.sleep(100);
 			System.out.println("Message GAMER created");
 		}
 
@@ -43,7 +42,7 @@ public class Main extends Application {
 		USER = FILESYSTEM.isLoggedIn();
 		if (USER == null){
 			if (!(Main.ISONLINE)) {
-				new AlertBox("Connection timed Out", "You must be connected to internet to login or register.");
+				new AlertBox("Connection timed Out", "You must be connected to internet to login or register.").start();
 				System.exit(0);
 			}else{
 				Parent root = FXMLLoader.load(getClass().getResource("../FXML/Login.fxml"));

@@ -14,11 +14,14 @@ public class FileSystem {
     private String base = "test";
 
 
-    public FileSystem(String base) {
+    public FileSystem(String base) throws IOException {
         this.base = base;
+        fileSystemSetUp();
     }
 
-    void fileSystemSetUp() throws IOException {
+    private void fileSystemSetUp() throws IOException {
+
+        System.out.println("hi");
 
         String basePath = System.getProperty("user.home");
 
@@ -35,9 +38,13 @@ public class FileSystem {
         basePath += "/"+base+"/";
         new File(basePath+"login").createNewFile();
         BufferedWriter bw = new BufferedWriter(new PrintWriter(basePath+"login"));
-        bw.write(0);
+        bw.write("0");
+        bw.flush();
         bw.close();
+
         new File(basePath+"users").mkdir();
+
+        System.out.println("New System Started");
 
     }
 
