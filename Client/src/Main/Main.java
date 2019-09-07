@@ -31,7 +31,7 @@ public class Main extends Application {
 		PRIMARYSTAGE = primaryStage;
 
 
-		Parent root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("../FXML/Login.fxml"));
 		Scene scene = new Scene(root, WIDTH, HEIGHT);
 		primaryStage.setScene(scene);
 		//primaryStage.setFullScreen(true);

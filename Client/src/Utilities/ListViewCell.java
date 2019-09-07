@@ -5,8 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ListViewCell extends ListCell<Client> {
@@ -16,6 +19,9 @@ public class ListViewCell extends ListCell<Client> {
 
     @FXML
     Label lastOnline;
+
+    @FXML
+    ImageView imageView;
 
     @FXML
     AnchorPane anchorPane;
@@ -46,7 +52,8 @@ public class ListViewCell extends ListCell<Client> {
 
             userName.setText(client.getName());
             lastOnline.setText(client.getLastOnline());
-
+            Boolean doesDirectoryExist = new File("src/ProfilePictures").mkdir();
+//            File file = new File("src/ProfilePictures/"+)
             setText(null);
             setGraphic(anchorPane);
         }
