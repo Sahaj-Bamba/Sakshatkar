@@ -59,6 +59,7 @@ public class HandleClientFile extends Thread{
                 System.out.println("Response sent");
 
             } catch (IOException e) {
+                System.out.println("File Server disconnected");
 //                e.printStackTrace();
             }
 
