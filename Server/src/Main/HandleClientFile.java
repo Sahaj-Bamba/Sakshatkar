@@ -89,9 +89,10 @@ public class HandleClientFile extends Thread{
         }
 
         String fileNameWithoutExtension = fileName.substring(0,fileName.indexOf("."));
+        String extension = fileName.substring(fileName.lastIndexOf(".")+1);
 
         //SQL Query to update ImageLocation on MessageServer
-        Main.SQLQUERYEXECUTER.update("UPDATE user SET picture = " + "'" + filePath +"'" + " WHERE userID = "+ "'" + fileNameWithoutExtension + "';");
+        Main.SQLQUERYEXECUTER.update("UPDATE user SET extension = " + "'" + extension +"'" + " WHERE userID = "+ "'" + fileNameWithoutExtension + "';");
 
         return new Response(0,"");
     }
