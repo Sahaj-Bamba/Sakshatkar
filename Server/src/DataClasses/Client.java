@@ -1,21 +1,14 @@
 package DataClasses;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
-
 public class Client {
 
 	String name;
 	int isOnline;
-	Timestamp lastOnline;
+	String lastOnline;
 	String id;
 	int status;
+
+	public Client() { }
 
 	public String getName() {
 		return name;
@@ -37,7 +30,7 @@ public class Client {
 //		return pic;
 //	}
 
-	public Timestamp getLastOnline() {
+	public String getLastOnline() {
 		return lastOnline;
 	}
 
@@ -49,12 +42,17 @@ public class Client {
 		return status;
 	}
 
-	public Client(String name, int isOnline, Timestamp lastOnline, String id, int status) {
+	public Client(String name, int isOnline, String lastOnline, String id, int status) {
 		this.name = name;
 		this.isOnline = isOnline;
 		this.lastOnline = lastOnline;
 		this.id = id;
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return this.name+"#"+this.isOnline+"#"+this.lastOnline+"#"+this.id+"#"+this.status;
 	}
 
 }

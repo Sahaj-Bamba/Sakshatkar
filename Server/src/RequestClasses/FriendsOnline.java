@@ -1,7 +1,6 @@
 package RequestClasses;
 
 import Constant.Request;
-import DataClasses.Client;
 
 import java.io.Serializable;
 import java.util.ArrayList;

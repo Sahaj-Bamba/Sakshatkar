@@ -1,10 +1,8 @@
 package Main;
 
 import Constant.Request;
-import DataClasses.Client;
 import RequestClasses.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

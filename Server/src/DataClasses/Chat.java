@@ -1,4 +1,4 @@
-package DataClasses.DataClasses;
+package DataClasses;
 
 public class Chat {
 
