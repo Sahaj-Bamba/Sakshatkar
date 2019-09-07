@@ -12,6 +12,7 @@ public class Main extends Application {
 	public static Scene MAIN;
 	public static Client GAMER;
 	public static FileClient FILEGAMER;
+	public static MessageClient MESSAGEGAMER;
 	public static int HEIGHT = 800;
 	public static int WIDTH = 1400;
 
@@ -19,10 +20,13 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception{
 
 		System.out.println("Started");
-		GAMER = new Client("localhost",5558,"Sam");
+		GAMER = new Client("localhost",5555,"Sam");
 		System.out.println("GAMER created");
 		FILEGAMER = new FileClient("localhost", 6000,"FileClientSocket");
-		System.out.println("FILEGAMER created");
+		System.out.println("File Gamer created");
+		MESSAGEGAMER = new MessageClient("localhost", 5700,"FileClientSocket");
+		System.out.println("Message GAMER created");
+
 		System.out.println("Came back to main");
 		PRIMARYSTAGE = primaryStage;
 
