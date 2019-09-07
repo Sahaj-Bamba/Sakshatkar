@@ -6,16 +6,17 @@ import DataClasses.Client;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SearchUser implements Serializable{
+public class CallUser implements Serializable{
+
     String name;
     ArrayList<Client> clients;
 
-    public SearchUser(String name,ArrayList<Client> clients) {
+    public CallUser(String name,ArrayList<Client> clients) {
         this.name = name;
         this.clients = clients;
     }
 
-    public SearchUser(String name) {
+    public CallUser(String name) {
         this.name = name;
         this.clients = new ArrayList<Client>();
     }
@@ -26,7 +27,7 @@ public class SearchUser implements Serializable{
 
     @Override
     public String toString() {
-        return String.valueOf(Request.SEARCHUSER);
+        return String.valueOf(Request.CALLUSER);
     }
 
 }

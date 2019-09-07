@@ -33,7 +33,7 @@ public class ListViewCell extends ListCell<Client> {
 
         } else {
             if (mLLoader == null) {
-                mLLoader = new FXMLLoader(getClass().getResource("ListCell.fxml"));
+                mLLoader = new FXMLLoader(getClass().getResource("../FXML/ListCell.fxml"));
                 mLLoader.setController(this);
 
                 try {

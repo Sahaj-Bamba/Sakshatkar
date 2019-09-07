@@ -6,6 +6,10 @@ public class FriendRequest {
 
 	String name;
 
+	public FriendRequest(String name) {
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}

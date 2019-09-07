@@ -48,9 +48,9 @@ public class LeftView {
 
 			GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
 			System.out.println("MESSAGE RECEIVED");
-//			GetListView getListView = new GetListView(response.getClients());
-//			ListView listView = getListView.generateListView();
-//			anchorPane.getChildren().add(listView);
+			GetListView getListView = new GetListView(response.getClients());
+			ListView listView = getListView.generateListView();
+			anchorPane.getChildren().add(listView);
 
 		} catch (IOException e) {
 			e.printStackTrace();
