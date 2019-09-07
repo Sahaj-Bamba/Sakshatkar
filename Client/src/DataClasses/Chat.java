@@ -1,6 +1,8 @@
 package DataClasses;
 
-public class Chat {
+import java.io.Serializable;
+
+public class Chat implements Serializable {
 
 	private String from;
 	private String to;

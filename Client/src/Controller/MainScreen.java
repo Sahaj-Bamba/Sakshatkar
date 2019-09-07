@@ -22,40 +22,40 @@ public class MainScreen {
     }
 
     public void initialize() {
-        System.out.println("Hello");
-        System.out.println(topAnchorPane);
-        System.out.println(leftAnchorPane);
-        System.out.println(rightAnchorPane);
+//        System.out.println("Hello");
+//        System.out.println(topAnchorPane);
+//        System.out.println(leftAnchorPane);
+//        System.out.println(rightAnchorPane);
 
-        AnchorPane root1=null;
-        AnchorPane root2=null;
-        AnchorPane root3=null;
-
-        try {
-            root1 = FXMLLoader.load(getClass().getResource("../FXML/Header.fxml"));
-            root2 = FXMLLoader.load(getClass().getResource("../FXML/MainScreenLeftView.fxml"));
-            root3 = FXMLLoader.load(getClass().getResource("../FXML/MainScreenRightPart.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        try {
-//            System.out.println("Hi");
-//            topAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Header.fxml")));
-//            leftAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/MainScreenLeftView.fxml")));
-//            rightAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/MainScreenRightPart.fxml")));
+//        AnchorPane root1=null;
+//        AnchorPane root2=null;
+//        AnchorPane root3=null;
 //
+//        try {
+//            root1 = FXMLLoader.load(getClass().getResource("../FXML/Header.fxml"));
+//            root2 = FXMLLoader.load(getClass().getResource("../FXML/MainScreenLeftView.fxml"));
+//            root3 = FXMLLoader.load(getClass().getResource("../FXML/MainScreenRightPart.fxml"));
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+        try {
+//            System.out.println("Hi");
+            topAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Header.fxml")));
+            leftAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/MainScreenLeftView.fxml")));
+            rightAnchorPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/MainScreenRightPart.fxml")));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Die");
 
 
 
-        topAnchorPane.getChildren().add(root1);
-        leftAnchorPane.getChildren().add(root2);
-        rightAnchorPane.getChildren().add(root3);
-
+//        topAnchorPane.getChildren().add(root1);
+//        leftAnchorPane.getChildren().add(root2);
+//        rightAnchorPane.getChildren().add(root3);
+//
         System.out.println("Kill");
     }
 }

@@ -17,9 +17,9 @@ public class MessageServer extends Thread{
 		do {
 			try {
 				serverSocket = new ServerSocket(port);
-				flag = true;
-			} catch (IOException e) {
 				flag = false;
+			} catch (Exception e) {
+				flag = true;
 				port++;
 			}
 		}while(flag);

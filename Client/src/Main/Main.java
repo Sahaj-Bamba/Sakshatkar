@@ -24,7 +24,7 @@ public class Main extends Application {
 		System.out.println("GAMER created");
 		FILEGAMER = new FileClient("localhost", 6000,"FileClientSocket");
 		System.out.println("File Gamer created");
-		MESSAGEGAMER = new MessageClient("localhost", 5700,"FileClientSocket");
+		MESSAGEGAMER = new MessageClient("localhost", 5701,"FileClientSocket");
 		System.out.println("Message GAMER created");
 
 		System.out.println("Came back to main");

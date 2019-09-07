@@ -3,11 +3,13 @@ package Controller;
 import Constant.Request;
 import DataClasses.Client;
 import RequestClasses.*;
+import Utilities.GetListView;
 import View.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,16 +21,10 @@ public class LeftView {
 	private Object Gamer;
 
 	@FXML
-	private ListView listView;
-
-	@FXML
 	private TextField searchID;
 
-	private ListView<String> chat;
-	private ListView<String> call;
-	private ListView<String> friends;
-	private ListView<String> notification;
-
+	@FXML
+	AnchorPane anchorPane;
 
 	public void initialize(){
 
@@ -42,19 +38,25 @@ public class LeftView {
 
 		try {
 			GAMER.send_message(new GetConnectionChat(GAMER.get_name()));
+
+			System.out.println("MESSAGE SENT");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
+
 			GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
+			System.out.println("MESSAGE RECEIVED");
+//			GetListView getListView = new GetListView(response.getClients());
+//			ListView listView = getListView.generateListView();
+//			anchorPane.getChildren().add(listView);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
-
-		/*      Data Got now displaying     */
 
 	}
 

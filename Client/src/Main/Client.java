@@ -3,7 +3,7 @@ package Main;
 import java.io.*;
 import java.net.Socket;
 
-public class Client {
+public class Client implements Serializable {
 
 	private Socket socket;
 	private ObjectOutputStream objectOutputStream;

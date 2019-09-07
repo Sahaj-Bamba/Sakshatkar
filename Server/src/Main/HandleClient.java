@@ -47,14 +47,14 @@ public class HandleClient implements Runnable{
 	@Override
 	public void run() {
 
-		boolean flag;
-
 		while (true){
 
 			try {
+
 				message = (Object) objectInputStream.readObject();
 
 				/*      Do processing       */
+
 
 				Object response = process();
 
@@ -79,7 +79,6 @@ public class HandleClient implements Runnable{
 
 	private Object process(){
 
-		boolean flag = false;
 		String req = message.toString();
 
 		if (req.equals(String.valueOf(Request.LOGIN))){
@@ -222,9 +221,12 @@ public class HandleClient implements Runnable{
 
 	private Object _getConnectionChat(GetConnectionChat message) {
 
-		ArrayList<Client> clients = null;
-		boolean flag;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
+
+		System.out.println("Hello");
+		ArrayList<Client> clients = new ArrayList<Client>();
+		System.out.println("SENDING MESSAGE");
+//		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("SELECT * FROM user");
 		try{
 			while (res.next()){
 				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));

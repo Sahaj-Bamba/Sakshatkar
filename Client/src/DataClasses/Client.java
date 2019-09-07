@@ -1,6 +1,8 @@
 package DataClasses;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable {
 
 	String name;
 	int isOnline;
@@ -17,18 +19,6 @@ public class Client {
 	public int isOnline() {
 		return isOnline;
 	}
-
-//	public Image getPic() {
-//		Image pic = null;
-//		File outputfile = new File("zzzz.png");
-//		try {
-//			ImageIO.write(this.pic, "png", outputfile);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		pic = new Image("zzzz.jpg");
-//		return pic;
-//	}
 
 	public String getLastOnline() {
 		return lastOnline;

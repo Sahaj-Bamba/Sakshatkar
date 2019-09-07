@@ -17,9 +17,9 @@ public class RequestServer extends Thread{
 		do {
 			try {
 				serverSocket = new ServerSocket(port);
-				flag = true;
-			} catch (IOException e) {
 				flag = false;
+			} catch (IOException e) {
+				flag = true;
 				port++;
 			}
 		}while(flag);
