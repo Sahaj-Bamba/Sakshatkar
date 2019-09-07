@@ -18,8 +18,14 @@ public class MessageServer extends Thread{
 			try {
 				serverSocket = new ServerSocket(port);
 				flag = false;
+<<<<<<< HEAD
 			} catch (Exception e) {
 				flag = true;
+||||||| merged common ancestors
+=======
+			} catch (IOException e) {
+				flag = true;
+>>>>>>> 9d6cfbd5302f568435d35bdb03bfdd274338536d
 				port++;
 			}
 		}while(flag);

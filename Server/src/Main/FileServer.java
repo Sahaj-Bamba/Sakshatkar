@@ -31,11 +31,11 @@ public class FileServer extends Thread{
 
         while (true) {
             try {
-                System.out.println("Accepting sockets from FileServer");
+//                System.out.println("Accepting sockets from FileServer");
                 socket = serverSocket.accept();
-                System.out.println("Client socket accepted from FileServer");
+//                System.out.println("Client socket accepted from FileServer");
                 Thread t = new Thread(new HandleClientFile(socket));
-                System.out.println("Handle client for file server created");
+//                System.out.println("Handle client for file server created");
                 t.start();
                 System.out.println("Thread Started for FileServer");
             } catch (IOException e) {

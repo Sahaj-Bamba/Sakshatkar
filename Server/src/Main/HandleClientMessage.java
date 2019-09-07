@@ -67,7 +67,7 @@ public class HandleClientMessage implements Runnable{
 				System.out.println("Response sent");
 
 			} catch (IOException e) {
-				System.out.println("Client Disconnected");
+				System.out.println("Client Message Disconnected");
 				break;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
