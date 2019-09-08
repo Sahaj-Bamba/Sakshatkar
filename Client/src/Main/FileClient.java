@@ -3,6 +3,7 @@
 package Main;
 
 import RequestClasses.Response;
+import Utilities.SaveFile;
 
 import java.net.*;
 import java.io.*;
@@ -67,9 +68,18 @@ public class FileClient {
 //        sock.close();
     }
 
-    public DataInputStream receiveFile() throws IOException, ClassNotFoundException {
-        return dataInputStream;
+    public void receiveFile(String dirName) throws IOException, ClassNotFoundException {
+        String fileName = dataInputStream.readUTF();
+        new SaveFile(dataInputStream).saveFile(dirName, fileName);
+    }
 
+    public void sendResponse(Object obj) throws IOException {
+        objectOutputStream.writeObject(obj);
+        objectOutputStream.flush();
+    }
+
+    public Object receiveResponse() throws IOException, ClassNotFoundException {
+        return (Object) objectInputStream.readObject();
     }
 
 }

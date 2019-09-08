@@ -1,6 +1,7 @@
 package Main;
 
 import RequestClasses.SetUser;
+import Utilities.FXMLInitiator;
 import Utilities.FileSystem;
 import Windows.AlertBox;
 import javafx.application.Application;
@@ -37,6 +38,10 @@ public class Main extends Application {
 			MESSAGEGAMER = new MessageClient("localhost", 5701);
 			Thread.sleep(100);
 			System.out.println("Message GAMER created");
+		} else {
+
+			/* Write code to do everything from file */
+
 		}
 
 		PRIMARYSTAGE = primaryStage;
@@ -46,10 +51,7 @@ public class Main extends Application {
 				new AlertBox("Connection timed Out", "You must be connected to internet to login or register.").start();
 				System.exit(0);
 			}else{
-				Parent root = FXMLLoader.load(getClass().getResource("../FXML/Login.fxml"));
-				Scene scene = new Scene(root, WIDTH, HEIGHT);
-				primaryStage.setScene(scene);
-				primaryStage.show();
+				new FXMLInitiator("../FXML/Login.fxml");
 				System.out.println("Basic Welcome Screen ");
 			}
 		}else {
