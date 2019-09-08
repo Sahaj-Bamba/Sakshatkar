@@ -117,6 +117,7 @@ public class HandleClient implements Runnable{
 	private Object _register(RegisterData message) {
 
 		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
+
 		return new Response(0,"");
 
 	}
