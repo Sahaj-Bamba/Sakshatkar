@@ -305,7 +305,7 @@ public class FileSystem {
             Main.FILEGAMER.sendFileResponse(RequestFile.GETPROFILEPICTURE.ordinal(),profilePictureWithExtension);
             Main.FILEGAMER.receiveFile(basePath,profilePictureWithExtension,RequestFile.GETPROFILEPICTURE.ordinal());
             file = new File(basePath + "/"+profilePictureWithExtension);
-//            System.out.println("Hello @ FileSystem");
+            System.out.println("Hello @ FileSystem");
         }
         return file;
     }
