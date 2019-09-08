@@ -19,7 +19,7 @@ public class HandleClient implements Runnable{
 	private ObjectInputStream objectInputStream;
 	private ObjectOutputStream objectOutputStream;
 	private Object message;
-	private String user;
+	private Client user;
 
 	public HandleClient(Socket socket) {
 		this.socket = socket;
@@ -103,21 +103,121 @@ public class HandleClient implements Runnable{
 			return _friendRequest((FriendRequest) message);
 		}else if (req.equals(String.valueOf(Request.ACCEPTREQUEST))){
 			return _acceptRequest((AcceptRequest) message);
+		}else if (req.equals(String.valueOf(Request.ONLINE))){
+			return _online((Online) message);
+		}else if (req.equals(String.valueOf(Request.SETUSER))){
+			return _setUser((SetUser) message);
 		}
 
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
-		//
-	//
-	//
-	//
+
+
+	}
+
+
+	private Object _register(RegisterData message) {
+
+		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
+
+		return new Response(0,"");
+
+	}
+
+	private Object _login(Login login){
+
+		boolean flag = false;
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where USERID = '"+login.getName()+"' and password = '"+login.getPass()+"'");
+		try{
+
+			flag = false;
+			if(res.next()){
+				flag = true;
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		if (flag){
+			user = ((Profile)_profile(new Profile(login.getName()))).getClient();
+			return (new Response(0,""));
+		}else {
+			return (new Response(1,"Invalid username password combination"));
+		}
+
+	}
+
+
+<<<<<<< HEAD
+		ArrayList<Client> clients = null;
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
+||||||| merged common ancestors
+		ArrayList<Client> clients = null;
+		boolean flag;
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
+=======
+	private Object _profile(Profile message) {
+
+		Client clients = null;
+		boolean flag;
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getUserId()+"'; ");
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
+		try{
+<<<<<<< HEAD
+			while (res.next()){
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+||||||| merged common ancestors
+			while (res.next()){
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+=======
+			if (res.next()){
+				clients = (new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status"),res.getString("phoneNumber"),res.getString("picture")));
+				return new Profile(clients);
+			}else {
+				return new Response(1,"User not found");
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Object();
+
+	}
+
+	private Object _userID(UserID message) {
+		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT userID FROM user WHERE userID = '"+ message.getUserID() + "'");
+		try {
+			if(rs.next()){
+				return new Response(1,"User ID already exists");
+			}
+			else{
+				return new Response(0,"");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Response(500,"Internal RequestServer Error");
+	}
+
+	private Object _online(Online message){
+//		UPDATE user set isonline = 1 where userId = "manas_uni";
+
+		Main.SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserId()+" ;" );
+
+		return new Response(0,"");
+
+	}
+
+	public Object _setUser(SetUser message){
+
+		user = message.getClient();
+
+		return new Object();
+
 	}
 
 	private Object _acceptRequest(AcceptRequest message) {
-
-//		update connectiontable
-//		set status = 1
-//		where userid1 = 'c'
 
 		Main.SQLQUERYEXECUTER.update("update connectiontable set status = 1 where userid2 = '"+this.user+"' and userid1 = '"+message.getName()+"' ; ");
 
@@ -141,10 +241,17 @@ public class HandleClient implements Runnable{
 	private Object _searchUsers(SearchUsers message) {
 
 		ArrayList<Client> clients = null;
+		boolean flag;
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
 		try{
 			while (res.next()){
+<<<<<<< HEAD
 				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+||||||| merged common ancestors
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+=======
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status"),res.getString("phoneNumber"),res.getString("picture")));
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
 			}
 			return new SearchUsers("",clients);
 		} catch (SQLException e) {
@@ -158,38 +265,35 @@ public class HandleClient implements Runnable{
 	}
 
 
-	private Object _register(RegisterData message) {
-
-		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
-		return new Response(0,"");
-
-	}
-
-
-	private Object _userID(UserID message) {
-		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT userID FROM user WHERE userID = '"+ message.getUserID() + "'");
-		try {
-			if(rs.next()){
-				return new Response(1,"User ID already exists");
-			}
-			else{
-				return new Response(0,"");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return new Response(500,"Internal RequestServer Error");
-	}
-
 
 	private Object _friendsOnline(FriendsOnline message) {
 
 		ArrayList<Client> clients = null;
 		boolean flag;
+<<<<<<< HEAD
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getUserID()+"'; ");
+||||||| merged common ancestors
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getName()+"'; ");
+=======
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
 		try{
+<<<<<<< HEAD
+			if (res.next()){
+				clients = new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"));
+				return new Profile("",clients);
+			}else {
+				return new Response(1,"User not found");
+||||||| merged common ancestors
+			if (res.next()){
+				clients = (new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+				return new Profile("",clients);
+			}else {
+				return new Response(1,"User not found");
+=======
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status"),res.getString("phoneNumber"),res.getString("picture")));
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
@@ -200,24 +304,6 @@ public class HandleClient implements Runnable{
 	}
 
 
-	private Object _profile(Profile message) {
-
-		Client clients = null;
-		boolean flag;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getUserID()+"'; ");
-		try{
-			if (res.next()){
-				clients = new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"));
-				return new Profile("",clients);
-			}else {
-				return new Response(1,"User not found");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return new Object();
-
-	}
 
 
 	private Object _getConnectionChat(GetConnectionChat message) {
@@ -230,7 +316,13 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("SELECT * FROM user");
 		try{
 			while (res.next()){
+<<<<<<< HEAD
 				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+||||||| merged common ancestors
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+=======
+				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status"),res.getString("phoneNumber"),res.getString("picture")));
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
@@ -241,6 +333,7 @@ public class HandleClient implements Runnable{
 	}
 
 
+<<<<<<< HEAD
 	private Object _login(Login login){
 
 		boolean flag = false;
@@ -263,5 +356,30 @@ public class HandleClient implements Runnable{
 		}
 
 	}
+||||||| merged common ancestors
+	private Object _login(Login login){
+
+		boolean flag = false;
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where USERID = '"+login.getName()+"' and password = '"+login.getPass()+"'");
+		try{
+
+			flag = false;
+			if(res.next()){
+				flag = true;
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		if (flag){
+			return (new Response(0,""));
+		}else {
+			return (new Response(1,"Invalid username password combination"));
+		}
+
+	}
+=======
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
 
 }

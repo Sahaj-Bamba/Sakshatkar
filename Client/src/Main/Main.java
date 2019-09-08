@@ -1,6 +1,12 @@
 package Main;
 
+<<<<<<< HEAD
 import Utilities.FXMLInitiator;
+||||||| merged common ancestors
+=======
+import RequestClasses.Online;
+import RequestClasses.SetUser;
+>>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
 import Utilities.FileSystem;
 import Windows.AlertBox;
 import javafx.application.Application;
@@ -61,7 +67,30 @@ public class Main extends Application {
 //			System.out.println("Basic Welcome Screen ");
 //		}
 
-	}
+		PRIMARYSTAGE = primaryStage;
+		USER = FILESYSTEM.isLoggedIn();
+		if (USER == null){
+			if (!(Main.ISONLINE)) {
+				new AlertBox("Connection timed Out", "You must be connected to internet to login or register.").start();
+				System.exit(0);
+			}else{
+				Parent root = FXMLLoader.load(getClass().getResource("../FXML/Login.fxml"));
+				Scene scene = new Scene(root, WIDTH, HEIGHT);
+				primaryStage.setScene(scene);
+				primaryStage.show();
+				System.out.println("Basic Welcome Screen ");
+			}
+		}else {
+			if ((Main.ISONLINE)) {
+				GAMER.send_message(new SetUser(USER));
+				GAMER.receive_message();
+			}
+			Parent root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
+			Scene scene = new Scene(root, WIDTH, HEIGHT);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			System.out.println("Basic Welcome Screen ");
+		}
 
 //		PRIMARYSTAGE = primaryStage;
 //		Parent root = FXMLLoader.load(getClass().getResource("../FXML/Login.fxml"));

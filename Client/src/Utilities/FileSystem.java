@@ -48,8 +48,8 @@ public class FileSystem {
 
     }
 
-    public void newUser(String userId) throws IOException {
-
+    public void newUser(Client client) throws IOException {
+		String userId = client.getUserId();
         this.userID = userId;
 
         String basePath = System.getProperty("user.home");
@@ -80,6 +80,7 @@ public class FileSystem {
         new File(basePath+"/chat").mkdir();
         new File(basePath+"/media").mkdir();
 
+		login(client);
     }
 
     public Client isLoggedIn() throws IOException {

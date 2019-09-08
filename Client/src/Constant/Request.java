@@ -22,8 +22,9 @@ public enum Request {
 	SEARCHUSERS("17"),
 	FRIENDREQUEST("18"),
 	GETUSER("19"),
-	ACCEPTREQUEST("20");
-
+	ACCEPTREQUEST("20"),
+	ONLINE("21"),
+	SETUSER("22");
 
 	Request(String s){
 		s.toString();

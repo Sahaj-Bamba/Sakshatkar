@@ -15,17 +15,21 @@ public class Profile implements Serializable {
 		this.client = clients;
 	}
 
+	public Profile(String userID) {
+		this.userID = userID;
+		this.client = null;
+	}
+
+	public Profile(Client client) {
+		this.client = client;
+	}
+
 	public String getUserID() {
 		return userID;
 	}
 
 	public Client getClient() {
 		return client;
-	}
-
-	public Profile(String userID) {
-		this.userID = userID;
-		this.client = null;
 	}
 
 	@Override
