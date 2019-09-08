@@ -1,16 +1,9 @@
 package Main;
 
-<<<<<<< HEAD
-import Utilities.FXMLInitiator;
-||||||| merged common ancestors
-=======
-import RequestClasses.Online;
 import RequestClasses.SetUser;
->>>>>>> 98d27ac525fc39087c4a0cb353c5c4d5bcb1977c
 import Utilities.FileSystem;
 import Windows.AlertBox;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,40 +25,19 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-//		FILESYSTEM = new FileSystem("Sakshatkar");
-//		System.out.println("Started");
-//		GAMER = new Client("localhost",5555);
-//		Thread.sleep(100);
-//		if (Main.ISONLINE) {
-//			System.out.println("GAMER created");
-//			FILEGAMER = new FileClient("localhost", 6000);
-//			Thread.sleep(100);
-//			System.out.println("File Gamer created");
-//			MESSAGEGAMER = new MessageClient("localhost", 5701);
-//			Thread.sleep(100);
-//			System.out.println("Message GAMER created");
-//		}
-//
-//		PRIMARYSTAGE = primaryStage;
-//		USER = FILESYSTEM.isLoggedIn();
-//		if (USER == null){
-//			if (!(Main.ISONLINE)) {
-//				new AlertBox("Connection timed Out", "You must be connected to internet to login or register.").start();
-//				System.exit(0);
-//			}else{
-//				Parent root = FXMLLoader.load(getClass().getResource("../FXML/Login.fxml"));
-//				Scene scene = new Scene(root, WIDTH, HEIGHT);
-//				primaryStage.setScene(scene);
-//				primaryStage.show();
-//				System.out.println("Basic Welcome Screen ");
-//			}
-//		}else {
-//			Parent root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
-//			Scene scene = new Scene(root, WIDTH, HEIGHT);
-//			primaryStage.setScene(scene);
-//			primaryStage.show();
-//			System.out.println("Basic Welcome Screen ");
-//		}
+		FILESYSTEM = new FileSystem("Sakshatkar");
+		System.out.println("Started");
+		GAMER = new Client("localhost",5555);
+		Thread.sleep(100);
+		if (Main.ISONLINE) {
+			System.out.println("GAMER created");
+			FILEGAMER = new FileClient("localhost", 6000);
+			Thread.sleep(100);
+			System.out.println("File Gamer created");
+			MESSAGEGAMER = new MessageClient("localhost", 5701);
+			Thread.sleep(100);
+			System.out.println("Message GAMER created");
+		}
 
 		PRIMARYSTAGE = primaryStage;
 		USER = FILESYSTEM.isLoggedIn();

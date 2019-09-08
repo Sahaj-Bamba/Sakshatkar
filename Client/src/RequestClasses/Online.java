@@ -1,21 +1,19 @@
 package RequestClasses;
 
 import Constant.Request;
-import DataClasses.Client;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Online implements Serializable {
 
-	String userId;
+	String userID;
 
-	public Online(String userId) {
-		this.userId = userId;
+	public Online(String userID) {
+		this.userID = userID;
 	}
 
 	public String getUserId() {
-		return userId;
+		return userID;
 	}
 
 	@Override

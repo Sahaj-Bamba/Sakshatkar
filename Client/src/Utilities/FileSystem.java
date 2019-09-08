@@ -49,7 +49,7 @@ public class FileSystem {
     }
 
     public void newUser(Client client) throws IOException {
-		String userId = client.getUserId();
+		String userId = client.getUserID();
         this.userID = userId;
 
         String basePath = System.getProperty("user.home");

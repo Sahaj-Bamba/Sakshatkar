@@ -6,14 +6,14 @@ import java.io.Serializable;
 
 public class Online implements Serializable {
 
-	String userId;
+	String userID;
 
-	public Online(String userId) {
-		this.userId = userId;
+	public Online(String userID) {
+		this.userID = userID;
 	}
 
 	public String getUserId() {
-		return userId;
+		return userID;
 	}
 
 	@Override
