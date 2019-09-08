@@ -51,7 +51,7 @@ public class Main extends Application {
 				new AlertBox("Connection timed Out", "You must be connected to internet to login or register.").start();
 				System.exit(0);
 			}else{
-				new FXMLInitiator("../FXML/Login.fxml");
+				new FXMLInitiator("../FXML/Login.fxml").start(PRIMARYSTAGE);
 				System.out.println("Basic Welcome Screen ");
 			}
 		}else {
@@ -59,10 +59,7 @@ public class Main extends Application {
 				GAMER.send_message(new SetUser(USER));
 				GAMER.receive_message();
 			}
-			Parent root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
-			Scene scene = new Scene(root, WIDTH, HEIGHT);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			new FXMLInitiator("../FXML/MainScreen.fxml").start(PRIMARYSTAGE);
 			System.out.println("Basic Welcome Screen ");
 		}
 

@@ -20,7 +20,7 @@ public class SaveFile {
         long size = dataInputStream.readLong();
         System.out.println(size);
         String filePath = dirName + "/" + fileName;
-        System.out.println(filePath);
+//        System.out.println("@ Save file " + filePath);
 
         int bytesRead = 0;
 

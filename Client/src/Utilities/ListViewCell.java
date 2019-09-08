@@ -1,6 +1,7 @@
 package Utilities;
 
 import DataClasses.Client;
+import Main.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -53,8 +54,18 @@ public class ListViewCell extends ListCell<Client> {
 
             userName.setText(client.getName());
             lastOnline.setText(client.getLastOnline());
-            Boolean doesDirectoryExist = new File("src/ProfilePictures").mkdir();
-            File file = new File("src/ProfilePictures/"+client.getUserID()+"."+client.getExtension());
+            try {
+
+                File file = Main.FILESYSTEM.getProfilePicture(client.getUserID()+"."+client.getExtension());
+                Image image = new Image(file.toURI().toURL().toString());
+                imageView.setImage(image);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
 //            if(file.exists() == false){
 //                try {
 //                    DataInputStream dataInputStream = Main.Main.FILEGAMER.receiveResponse();

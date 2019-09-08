@@ -96,21 +96,24 @@ public class HandleClientFile extends Thread{
     private void _getProfilePicture() {
 
         //This picture will always exist
-        String userID;
-        String extension;
+        String profilePictureWithExtension;
+        String extension = null;
         String filePath;
+
         try {
 
-            userID = dataInputStream.readUTF();
+            profilePictureWithExtension = dataInputStream.readUTF();
 
             dataOutputStream.writeInt(type);
             dataOutputStream.writeBoolean(true);
 
-            //SQL Query to get the extension
-            ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT extension FROM user WHERE userID = " + userID +";");
-            extension = rs.getString("extension");
+//            SQL Query to get the extension
+//            ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT extension FROM user WHERE userID = '" + userID +"';");
+//            while(rs.next()) {
+//                extension = rs.getString("extension");
+//            }
 
-            filePath = "src/ProfilePictures/"+userID+"."+extension;
+            filePath = "src/ProfilePictures/" + profilePictureWithExtension;
             File myFile = new File(filePath);
 //            System.out.println(myFile.getAbsolutePath());
             byte[] mybytearray = new byte[(int) myFile.length()];
@@ -122,13 +125,15 @@ public class HandleClientFile extends Thread{
             DataInputStream dis = new DataInputStream(bis);
             dis.readFully(mybytearray, 0, mybytearray.length);
 
-            dataOutputStream.writeUTF(userID);
+            dataOutputStream.writeUTF(profilePictureWithExtension);
             dataOutputStream.writeLong(mybytearray.length);
             dataOutputStream.write(mybytearray);
             dataOutputStream.flush();
 
 
-        } catch (IOException | SQLException e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

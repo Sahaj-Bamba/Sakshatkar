@@ -67,7 +67,7 @@ public class FileClient {
         int type1 = dataInputStream.readInt();
         boolean status = dataInputStream.readBoolean();
         String fileName1 = dataInputStream.readUTF();
-        fileName = (fileName == null)? fileName1 : fileName;
+//        fileName = (fileName == null)? fileName1 : fileName;
         if(type1 == type && status == true) {
             new SaveFile(dataInputStream).saveFile(dirName, fileName);
         }

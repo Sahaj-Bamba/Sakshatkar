@@ -296,14 +296,16 @@ public class FileSystem {
 
     }
 
-    public File getProfilePicture(String otherUserID) throws IOException, ClassNotFoundException {
-        String basePath = System.getProperty("user.home")+"/"+base+"/users/"+ Main.USER.getUserID()+"/ProfilePictures"+otherUserID;
-        System.out.println(basePath);
-        File file = new File(basePath);
+    public File getProfilePicture(String profilePictureWithExtension) throws IOException, ClassNotFoundException {
+
+        String basePath = System.getProperty("user.home")+"/"+base+"/users/"+ Main.USER.getUserID()+"/ProfilePictures";
+        System.out.println("Base path - " + basePath);
+        File file = new File(basePath + "/"+profilePictureWithExtension);
         if(file.exists() == false) {
-            Main.FILEGAMER.sendFileResponse(RequestFile.GETPROFILEPICTURE.ordinal(),otherUserID);
-            Main.FILEGAMER.receiveFile(basePath,null,RequestFile.GETPROFILEPICTURE.ordinal());
-            file = new File(basePath);
+            Main.FILEGAMER.sendFileResponse(RequestFile.GETPROFILEPICTURE.ordinal(),profilePictureWithExtension);
+            Main.FILEGAMER.receiveFile(basePath,profilePictureWithExtension,RequestFile.GETPROFILEPICTURE.ordinal());
+            file = new File(basePath + "/"+profilePictureWithExtension);
+//            System.out.println("Hello @ FileSystem");
         }
         return file;
     }
