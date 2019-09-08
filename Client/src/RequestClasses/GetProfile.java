@@ -4,7 +4,6 @@ import Constant.Request;
 import DataClasses.Client;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class GetProfile implements Serializable {
 
@@ -18,7 +17,6 @@ public class GetProfile implements Serializable {
 
 	public GetProfile(String name) {
 		this.name = name;
-		this.client = new Client();
 	}
 
 	public String getName() {

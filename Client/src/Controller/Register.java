@@ -1,7 +1,6 @@
 package Controller;
 
 import Constant.RequestFile;
-import Main.Main;
 import RequestClasses.RegisterData;
 import RequestClasses.Response;
 import RequestClasses.UserID;
@@ -20,8 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -166,10 +163,10 @@ public class Register {
 
         FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal(), userIDText + "." + extension);
         System.out.println("Output sent");
-        Response fileResponse = (Response) FILEGAMER.receiveResponse();
-        System.out.println("Response received");
-
-        System.out.println(fileResponse.getStatus());
+//        Response fileResponse = (Response) FILEGAMER.receiveResponse();
+//        System.out.println("Response received");
+//
+//        System.out.println(fileResponse.getStatus());
 
 //      To be handled
 
@@ -183,6 +180,10 @@ public class Register {
         FXMLInitiator fxmlInitiator = new FXMLInitiator("../FXML/MainScreen.fxml");
         fxmlInitiator.start(PRIMARYSTAGE);
 
+//        Parent root = FXMLLoader.load(getClass().getResource("../FXML/Register.fxml"));
+//        Scene scene = new Scene(root,800,1400);
+//        PRIMARYSTAGE.setScene(scene);
+//        PRIMARYSTAGE.show();
     }
 
     public void loadImage(ActionEvent event) {

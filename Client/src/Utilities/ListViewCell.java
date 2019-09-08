@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -54,9 +55,19 @@ public class ListViewCell extends ListCell<Client> {
             lastOnline.setText(client.getLastOnline());
             Boolean doesDirectoryExist = new File("src/ProfilePictures").mkdir();
             File file = new File("src/ProfilePictures/"+client.getUserID()+"."+client.getExtension());
-            if(file.exists() == false){
-                Main.Main.FILEGAMER.s
-            }
+//            if(file.exists() == false){
+//                try {
+//                    DataInputStream dataInputStream = Main.Main.FILEGAMER.receiveResponse();
+//                    Boolean doesItContainFile = dataInputStream.readBoolean();
+//                    if(doesItContainFile == true){
+
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//            }
             setText(null);
             setGraphic(anchorPane);
         }

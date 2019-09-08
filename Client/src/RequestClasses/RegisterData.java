@@ -1,13 +1,7 @@
 package RequestClasses;
 
 import Constant.Request;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 
 public class RegisterData implements Serializable{

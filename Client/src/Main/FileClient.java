@@ -14,6 +14,8 @@ public class FileClient {
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream;
 
     public FileClient(String ip, int port) {
 
@@ -26,6 +28,10 @@ public class FileClient {
             System.out.println("Data output stream created");
             this.dataInputStream = new DataInputStream(socket.getInputStream());
             System.out.println("Data input stream created");
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("Object output stream created at FileClient");
+            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Object input stream created at FileClient");
             System.out.println("File Client socket created");
 
         } catch (IOException e) {
@@ -61,7 +67,7 @@ public class FileClient {
 //        sock.close();
     }
 
-    public DataInputStream receiveObjectResponse() throws IOException, ClassNotFoundException {
+    public DataInputStream receiveFile() throws IOException, ClassNotFoundException {
         return dataInputStream;
 
     }

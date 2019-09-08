@@ -34,31 +34,29 @@ public class LeftView {
 		System.out.println(searchID.getText());
 	}
 
-	public void chattedUsers(){
+	public void chattedUsers() {
 
 		try {
 			GAMER.send_message(new GetConnectionChat(USER.getName()));
-
 			System.out.println("MESSAGE SENT");
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try {
+			try {
 
-			GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
-			System.out.println("MESSAGE RECEIVED");
-			GetListView getListView = new GetListView(response.getClients());
-			ListView listView = getListView.generateListView();
-			anchorPane.getChildren().add(listView);
+				GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
+				System.out.println("MESSAGE RECEIVED");
+				GetListView getListView = new GetListView(response.getClients());
+				ListView listView = getListView.generateListView();
+				anchorPane.getChildren().add(listView);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
 		}
-
-	}
 
 		public void callUser()
 		{

@@ -17,7 +17,6 @@ public class GetProfile implements Serializable {
 
 	public GetProfile(String name) {
 		this.name = name;
-		this.client = new Client();
 	}
 
 	public String getName() {

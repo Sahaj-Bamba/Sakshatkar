@@ -6,11 +6,11 @@ import java.io.Serializable;
 
 public class Login implements Serializable{
 
-		private String name;
+		private String userID;
 		private String pass;
 
 		public Login(String name,String pass) {
-			this.name = name;
+			this.userID = name;
 			this.pass = pass;
 		}
 
@@ -18,8 +18,8 @@ public class Login implements Serializable{
 		return pass;
 	}
 
-	public String getName() {
-			return name;
+	public String getUserID() {
+			return userID;
 		}
 
 		@Override

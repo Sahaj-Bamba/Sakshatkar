@@ -87,9 +87,11 @@ public class HandleClient implements Runnable{
 			return _getConnectionChat((GetConnectionChat) message);
 		}else if (req.equals(String.valueOf(Request.FRIENDSONLINE))){
 			return _friendsOnline((FriendsOnline) message);
-		}else if (req.equals(String.valueOf(Request.PROFILE))){
-			return _profile((Profile) message);
-		}else if (req.equals(String.valueOf(Request.USERID))){
+		}
+//		else if (req.equals(String.valueOf(Request.PROFILE))){
+//			return _profile((Profile) message);
+//		}
+		else if (req.equals(String.valueOf(Request.USERID))){
 			return _userID((UserID) message);
 		}else if (req.equals(String.valueOf(Request.REGISTER))){
 			return _register((RegisterData) message);
@@ -139,11 +141,10 @@ public class HandleClient implements Runnable{
 	private Object _searchUsers(SearchUsers message) {
 
 		ArrayList<Client> clients = null;
-		boolean flag;
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
 			}
 			return new SearchUsers("",clients);
 		} catch (SQLException e) {
@@ -188,7 +189,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
@@ -203,10 +204,10 @@ public class HandleClient implements Runnable{
 
 		Client clients = null;
 		boolean flag;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getName()+"'; ");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getUserID()+"'; ");
 		try{
 			if (res.next()){
-				clients = (new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients = new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"));
 				return new Profile("",clients);
 			}else {
 				return new Response(1,"User not found");
@@ -229,7 +230,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = Main.SQLQUERYEXECUTER.select("SELECT * FROM user");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isonline"),res.getString("lastonline"),res.getString("userid"),res.getInt("status")));
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
@@ -243,7 +244,7 @@ public class HandleClient implements Runnable{
 	private Object _login(Login login){
 
 		boolean flag = false;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where USERID = '"+login.getName()+"' and password = '"+login.getPass()+"'");
+		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where USERID = '"+login.getUserID()+"' and password = '"+login.getPass()+"'");
 		try{
 
 			flag = false;

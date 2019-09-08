@@ -24,8 +24,13 @@ public class HandleClientFile extends Thread{
         try {
             this.dataInputStream = new DataInputStream(socket.getInputStream());
             System.out.println("Data Input stream created at server");
-            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
             System.out.println("Object Output stream created at server");
+            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Object input stream created at FileClient");
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("Object output stream created at FileClient");
+            System.out.println("File Server socket created");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,8 +58,8 @@ public class HandleClientFile extends Thread{
 
                 Object response = (Object) process();
 
-                objectOutputStream.writeObject(response);
-                objectOutputStream.flush();
+//                objectOutputStream.writeObject(response);
+//                objectOutputStream.flush();
 
                 System.out.println("Response sent");
 
