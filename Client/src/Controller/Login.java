@@ -38,6 +38,7 @@ public class Login {
 				if (result instanceof Profile){
 					USER = ((Profile) result).getClient();
 					FILESYSTEM.login(USER);
+					FILESYSTEM.newUser(USER);
 				}
 			}else{
 				System.out.println("Login failed due to following error");

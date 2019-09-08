@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -67,6 +69,7 @@ public class HandleClient implements Runnable{
 
 			} catch (IOException e) {
 				System.out.println("Client Disconnected");
+				_offline();
 				break;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -115,7 +118,7 @@ public class HandleClient implements Runnable{
 	private Object _register(RegisterData message) {
 
 		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
-
+		_login(new Login(message.getUserID(),message.getPassword()));
 		return new Response(0,"");
 
 	}
@@ -137,6 +140,7 @@ public class HandleClient implements Runnable{
 
 		if (flag){
 			user = ((Profile)_profile(new Profile(login.getUserID()))).getClient();
+			_online();
 			return (new Response(0,""));
 		}else {
 			return (new Response(1,"Invalid username password combination"));
@@ -181,16 +185,34 @@ public class HandleClient implements Runnable{
 	private Object _online(Online message){
 //		UPDATE user set isonline = 1 where userId = "manas_uni";
 
-		Main.SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserID()+" ;" );
+		Main.SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserID()+"' ;" );
 
 		return new Response(0,"");
+
+	}
+
+	private void _online(){
+//		UPDATE user set isonline = 1 where userId = "manas_uni";
+
+		Main.SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserID()+"' ;" );
+
+	}
+
+	private void _offline(){
+//		UPDATE user set isonline = 1 where userId = "manas_uni";
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String lastOnline = dtf.format(now);
+
+		Main.SQLQUERYEXECUTER.update("update user set isonline = 0 and lastonline = '"+lastOnline+"' where userid = '"+this.user.getUserID()+"' ;" );
 
 	}
 
 	public Object _setUser(SetUser message){
 
 		user = message.getClient();
-
+		_online();
 		return new Response(0,"");
 
 	}

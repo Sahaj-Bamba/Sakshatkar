@@ -1,6 +1,7 @@
 package Controller;
 
 import Constant.RequestFile;
+import RequestClasses.Profile;
 import RequestClasses.RegisterData;
 import RequestClasses.Response;
 import RequestClasses.UserID;
@@ -99,10 +100,10 @@ public class Register {
                 setErrorLabel("UserID must be between 4 to 20 characters");
                 return;
             }
-            if(Pattern.compile(USERID_PATTERN).matcher(userNameText).matches() == false){
-                setErrorLabel("Invalid user ID entered");
-                return;
-            }
+//            if(Pattern.compile(USERID_PATTERN).matcher(userNameText).matches() == false){
+//                setErrorLabel("Invalid user ID entered");
+//                return;
+//            }
             GAMER.send_message(new UserID(userIDText));
             Response res = (Response) GAMER.receive_message();
             if(res.getStatus() == 1){
@@ -117,7 +118,6 @@ public class Register {
             return;
         }
         else{
-//            System.out.println(passwordText);
             if(passwordText.length()<6 || passwordText.length()>16) {
                 setErrorLabel("Password length inappropriate");
                 return;
@@ -156,14 +156,22 @@ public class Register {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String lastOnline = dtf.format(now);
-//		    System.out.println(dtf.format(now));
 
         GAMER.send_message(new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText, extension, lastOnline, 0));
         Response response = (Response) GAMER.receive_message();
 
         FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal(), userIDText + "." + extension);
         System.out.println("Output sent");
-//        Response fileResponse = (Response) FILEGAMER.receiveResponse();
+        Thread.sleep(300);
+        GAMER.send_message(new RequestClasses.Profile(userIDText));
+        Object result = (Object) GAMER.receive_message();
+        if (result instanceof RequestClasses.Profile){
+            USER = ((Profile) result).getClient();
+            FILESYSTEM.login(USER);
+        }
+
+
+        //        Response fileResponse = (Response) FILEGAMER.receiveResponse();
 //        System.out.println("Response received");
 //
 //        System.out.println(fileResponse.getStatus());
