@@ -191,7 +191,7 @@ public class HandleClient implements Runnable{
 
 		user = message.getClient();
 
-		return new Object();
+		return new Response(0,"");
 
 	}
 

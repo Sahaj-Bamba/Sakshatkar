@@ -89,7 +89,7 @@ public class FileSystem {
         basePath += "/"+base+"/";
         BufferedReader br = new BufferedReader(new FileReader(basePath+"login"));
         String line;
-        line = br.readLine();
+        line = br.readLine().trim();
         if (Integer.parseInt(line) == 0) {
             return null;
         }else {
@@ -106,7 +106,7 @@ public class FileSystem {
         String basePath = System.getProperty("user.home");
         basePath += "/"+base+"/";
         BufferedWriter bw = new BufferedWriter(new PrintWriter(basePath+"login"));
-        bw.write(0);
+        bw.write("0");
         bw.close();
 
     }
@@ -116,7 +116,7 @@ public class FileSystem {
         String basePath = System.getProperty("user.home");
         basePath += "/"+base+"/";
         BufferedWriter bw = new BufferedWriter(new PrintWriter(basePath+"login"));
-        bw.write(1);
+        bw.write("1");
         bw.newLine();
         bw.write(" "+client.toString());
         bw.newLine();
