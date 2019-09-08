@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 public class Login implements Serializable{
 
-		private String name;
-		private String pass;
+	private String name;
+	private String pass;
 
-		public Login(String name,String pass) {
-			this.name = name;
-			this.pass = pass;
-		}
+	public Login(String name, String pass) {
+		this.name = name;
+		this.pass = pass;
+	}
 
 	public String getPass() {
 		return pass;
@@ -22,11 +22,11 @@ public class Login implements Serializable{
 			return name;
 		}
 
-		@Override
-		public String toString() {
-			return String.valueOf(Request.LOGIN);
-		}
-
+	@Override
+	public String toString() {
+		return String.valueOf(Request.LOGIN);
 	}
+
+}
 
 

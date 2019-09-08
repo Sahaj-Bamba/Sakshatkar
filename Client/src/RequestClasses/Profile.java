@@ -7,25 +7,29 @@ import java.io.Serializable;
 
 public class Profile implements Serializable {
 
-	String name;
+	String userId;
 	Client client;
 
-	public Profile(String name, Client clients) {
-		this.name = name;
+	public Profile(String userId, Client clients) {
+		this.userId = userId;
 		this.client = clients;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserId() {
+		return userId;
 	}
 
 	public Client getClient() {
 		return client;
 	}
 
-	public Profile(String name) {
-		this.name = name;
+	public Profile(String userId) {
+		this.userId = userId;
 		this.client = null;
+	}
+
+	public Profile(Client client) {
+		this.client = client;
 	}
 
 	@Override

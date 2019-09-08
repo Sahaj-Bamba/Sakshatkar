@@ -1,5 +1,7 @@
 package Main;
 
+import RequestClasses.Online;
+import RequestClasses.SetUser;
 import Utilities.FileSystem;
 import Windows.AlertBox;
 import javafx.application.Application;
@@ -52,6 +54,10 @@ public class Main extends Application {
 				System.out.println("Basic Welcome Screen ");
 			}
 		}else {
+			if ((Main.ISONLINE)) {
+				GAMER.send_message(new SetUser(USER));
+				GAMER.receive_message();
+			}
 			Parent root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
 			Scene scene = new Scene(root, WIDTH, HEIGHT);
 			primaryStage.setScene(scene);

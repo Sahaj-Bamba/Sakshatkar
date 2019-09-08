@@ -1,6 +1,7 @@
 package Controller;
 
 import Main.Main;
+import RequestClasses.Profile;
 import RequestClasses.Response;
 import Utilities.FXMLInitiator;
 import Windows.AlertBox;
@@ -29,11 +30,15 @@ public class Login {
 	public void Login(){
 		try {
 			GAMER.send_message(new RequestClasses.Login(userName.getText(),password.getText()));
-//			System.out.println("1");
 			Response res = (Response) GAMER.receive_message();
-			//System.out.println("2");
 			if (res.getStatus()==0){
 				System.out.println("Login Successful");
+				GAMER.send_message(new RequestClasses.Profile(userName.getText()));
+				Object result = (Object) GAMER.receive_message();
+				if (result instanceof Profile){
+					USER = ((Profile) result).getClient();
+					FILESYSTEM.login(USER);
+				}
 			}else{
 				System.out.println("Login failed due to following error");
 				System.out.println(res.getErrorMessage());
