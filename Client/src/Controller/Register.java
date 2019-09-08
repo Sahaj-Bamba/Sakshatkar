@@ -9,9 +9,6 @@ import Utilities.FXMLInitiator;
 import Utilities.FileExtension;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -160,9 +157,19 @@ public class Register {
         GAMER.send_message(new RegisterData(userNameText, userIDText, passwordText, emailText, phoneNoText, extension, lastOnline, 0));
         Response response = (Response) GAMER.receive_message();
 
-        FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.PROFILEPICTURE.ordinal(), userIDText + "." + extension);
+        FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.SETPROFILEPICTURE.ordinal(), userIDText + "." + extension);
         System.out.println("Output sent");
+
+        int fileResponse = FILEGAMER.receiveFileResponse();
+        System.out.println("Input received");
+
+        if(response.getStatus() ==1 || fileResponse==-1){
+            setErrorLabel("Error in uploading the details to server");
+            return;
+        }
+
         Thread.sleep(300);
+
         GAMER.send_message(new RequestClasses.Profile(userIDText));
         Object result = (Object) GAMER.receive_message();
         if (result instanceof RequestClasses.Profile){

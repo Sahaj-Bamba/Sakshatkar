@@ -1,5 +1,6 @@
 package Main;//MessageServer is receiving file
 
+import Constant.Request;
 import Constant.RequestFile;
 import RequestClasses.Response;
 import Utilities.SaveFile;
@@ -7,16 +8,15 @@ import Utilities.SqlQueryExecuter;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class HandleClientFile extends Thread{
 
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
     private int type;
-    private String fileName;
 
     public HandleClientFile(Socket socket) {
         System.out.println("In the constructor of HandleClientFile");
@@ -26,10 +26,6 @@ public class HandleClientFile extends Thread{
             System.out.println("Data Input stream created at server");
             this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
             System.out.println("Object Output stream created at server");
-            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
-            System.out.println("Object input stream created at FileClient");
-            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            System.out.println("Object output stream created at FileClient");
             System.out.println("File Server socket created");
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,24 +38,11 @@ public class HandleClientFile extends Thread{
 
         while(true) {
 
-
             try {
-
-                fileName = dataInputStream.readUTF();
-
-//                String extension = dataInputStream.readUTF();
-//                System.out.println("Extension = " + extension);
 
                 type = dataInputStream.readInt();
 
-
-                System.out.println(type);
-                System.out.println(fileName);
-
-                Object response = (Object) process();
-
-//                objectOutputStream.writeObject(response);
-//                objectOutputStream.flush();
+                process(type);
 
                 System.out.println("Response sent");
 
@@ -72,34 +55,83 @@ public class HandleClientFile extends Thread{
         }
     }
 
-    private Object process() throws IOException {
+    private void process(int type) throws IOException {
 
-        if(type == RequestFile.PROFILEPICTURE.ordinal()){
-            return _saveProfilePicture();
+        if (type == RequestFile.SETPROFILEPICTURE.ordinal()) {
+            _saveProfilePicture();
         }
+        else if(type == RequestFile.GETPROFILEPICTURE.ordinal()) {
+            _getProfilePicture();
+       }
 
-        return new Response(1,"Error in storing on server. Try again later.");
     }
 
-    private Object _saveProfilePicture() throws IOException {
 
-        String dirName = "src/ProfilePictures";
-        String filePath = dirName + "/" + fileName;
-        Boolean doesFileExist = new File(dirName).mkdir();
-        try{
+    private void _saveProfilePicture(){
+
+        String fileName;
+        try {
+
+            fileName = dataInputStream.readUTF();
+            String dirName = "src/ProfilePictures";
+            new File(dirName).mkdir();
             new SaveFile(dataInputStream).saveFile(dirName, fileName);
+
+            String fileNameWithoutExtension = fileName.substring(0,fileName.indexOf("."));
+            String extension = fileName.substring(fileName.lastIndexOf(".")+1);
+
+            //SQL Query to update ImageLocation on MessageServer
+            Main.SQLQUERYEXECUTER.update("UPDATE user SET extension = " + "'" + extension +"'" + " WHERE userID = "+ "'" + fileNameWithoutExtension + "';");
+
+            dataOutputStream.writeInt(type);
+            dataOutputStream.writeBoolean(true);
+            dataOutputStream.flush();
+
+        } catch (IOException e) {
+//            e.printStackTrace();
         }
-        catch(Exception e){
-            return new Response(1, "Error in storing image on server");
+    }
+
+
+    private void _getProfilePicture() {
+
+        //This picture will always exist
+        String userID;
+        String extension;
+        String filePath;
+        try {
+
+            userID = dataInputStream.readUTF();
+
+            dataOutputStream.writeInt(type);
+            dataOutputStream.writeBoolean(true);
+
+            //SQL Query to get the extension
+            ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT extension FROM user WHERE userID = " + userID +";");
+            extension = rs.getString("extension");
+
+            filePath = "src/ProfilePictures/"+userID+"."+extension;
+            File myFile = new File(filePath);
+//            System.out.println(myFile.getAbsolutePath());
+            byte[] mybytearray = new byte[(int) myFile.length()];
+
+            FileInputStream fis = new FileInputStream(myFile);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            //bis.read(mybytearray, 0, mybytearray.length);
+
+            DataInputStream dis = new DataInputStream(bis);
+            dis.readFully(mybytearray, 0, mybytearray.length);
+
+            dataOutputStream.writeUTF(userID);
+            dataOutputStream.writeLong(mybytearray.length);
+            dataOutputStream.write(mybytearray);
+            dataOutputStream.flush();
+
+
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
         }
 
-        String fileNameWithoutExtension = fileName.substring(0,fileName.indexOf("."));
-        String extension = fileName.substring(fileName.lastIndexOf(".")+1);
-
-        //SQL Query to update ImageLocation on MessageServer
-        Main.SQLQUERYEXECUTER.update("UPDATE user SET extension = " + "'" + extension +"'" + " WHERE userID = "+ "'" + fileNameWithoutExtension + "';");
-
-        return new Response(0,"");
     }
 
 }

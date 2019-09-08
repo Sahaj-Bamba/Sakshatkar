@@ -1,5 +1,6 @@
 package Utilities;
 
+import Constant.RequestFile;
 import DataClasses.Chat;
 import DataClasses.Client;
 import Main.Main;
@@ -300,8 +301,8 @@ public class FileSystem {
         System.out.println(basePath);
         File file = new File(basePath);
         if(file.exists() == false) {
-            Main.FILEGAMER.sendResponse(new GetProfilePicture(otherUserID));
-            Main.FILEGAMER.receiveFile(basePath);
+            Main.FILEGAMER.sendFileResponse(RequestFile.GETPROFILEPICTURE.ordinal(),otherUserID);
+            Main.FILEGAMER.receiveFile(basePath,null,RequestFile.GETPROFILEPICTURE.ordinal());
             file = new File(basePath);
         }
         return file;

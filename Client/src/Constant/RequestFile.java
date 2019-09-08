@@ -4,9 +4,10 @@ package Constant;
 
 public enum RequestFile {
 
-	PROFILEPICTURE(0);
+	SETPROFILEPICTURE,
+	GETPROFILEPICTURE;
 
-	RequestFile(int i) {
+	RequestFile() {
 
 	}
 }

@@ -31,6 +31,5 @@ public class SaveFile {
             output.write(buffer, 0, bytesRead);
             size -= bytesRead;
         }
-        //File stored on server
     }
 }
