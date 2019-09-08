@@ -11,7 +11,7 @@ public class CallUser implements Serializable{
     String name;
     ArrayList<Client> clients;
 
-    public CallUser(String name, ArrayList<Client> clients) {
+    public CallUser(String name,ArrayList<Client> clients) {
         this.name = name;
         this.clients = clients;
     }

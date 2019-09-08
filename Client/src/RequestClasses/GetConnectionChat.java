@@ -21,6 +21,9 @@ public class GetConnectionChat implements Serializable {
 		this.clients = new ArrayList<Client>();
 	}
 
+	public GetConnectionChat(){
+	}
+
 	public String getName() {
 		return name;
 	}

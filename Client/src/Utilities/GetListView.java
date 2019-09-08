@@ -1,6 +1,10 @@
 package Utilities;
 
 import DataClasses.Client;
+import RequestClasses.CallUser;
+import RequestClasses.GetConnectionChat;
+import RequestClasses.Notification;
+import RequestClasses.SearchFriends;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
@@ -11,14 +15,14 @@ import java.util.ArrayList;
 
 public class GetListView {
 
-    ObservableList<Client> observableList;
+    ObservableList observableList;
 
-    public GetListView(ArrayList<Client> arrayList) {
+    public GetListView(ArrayList arrayList) {
         this.observableList = FXCollections.observableArrayList();
         this.observableList.addAll(arrayList);
     }
 
-    public ObservableList<Client> getObservableList() {
+    public ObservableList getObservableList() {
         return observableList;
     }
 
@@ -26,13 +30,22 @@ public class GetListView {
         this.observableList = observableList;
     }
 
-    public ListView<Client> generateListView() {
-        ListView<Client> setListView = new ListView<Client>();
+    public ListView generateListView(Object obj) {
+        ListView setListView = new ListView();
 //        listView.setPrefWidth(600);
         setListView.setItems(observableList);
-        setListView.setCellFactory(new Callback<ListView<Client>, ListCell<Client>>() {
+        setListView.setCellFactory(new Callback<ListView, ListCell>() {
             @Override
-            public ListCell<Client> call(ListView<Client> listView) {
+            public ListCell call(ListView listView) {
+                if (obj instanceof GetConnectionChat) {
+                    return new ListViewCell();
+                } else if (obj instanceof CallUser) {
+                    return new ListViewCellCall();
+                } else if (obj instanceof SearchFriends) {
+                    return new ListViewCell();
+                } else if(obj instanceof Notification) {
+                    return new ListViewCell();
+                }
                 return new ListViewCell();
             }
         });

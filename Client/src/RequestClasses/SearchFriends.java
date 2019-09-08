@@ -16,6 +16,9 @@ public class SearchFriends implements Serializable {
         this.clients = clients;
     }
 
+    public SearchFriends(){
+    }
+
     public SearchFriends(String userID) {
         this.userID = userID;
     }

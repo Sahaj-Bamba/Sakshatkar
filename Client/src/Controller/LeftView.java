@@ -44,12 +44,11 @@ public class LeftView {
 			e.printStackTrace();
 		}
 			try {
-
 				anchorPane.getChildren().clear();
 				GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
 				System.out.println("MESSAGE RECEIVED");
 				GetListView getListView = new GetListView(response.getClients());
-				ListView listView = getListView.generateListView();
+				ListView listView = getListView.generateListView(new GetConnectionChat());
 				listView.setPrefHeight(anchorPane.getHeight());
 				listView.setPrefWidth(anchorPane.getWidth());
 				anchorPane.getChildren().add(listView);
@@ -91,7 +90,7 @@ public class LeftView {
 			SearchFriends response = (SearchFriends) GAMER.receive_message();
 			System.out.println("Search Friends Request received");
 			GetListView getListView = new GetListView(response.getClients());
-			ListView listView = getListView.generateListView();
+			ListView listView = getListView.generateListView(new SearchFriends());
 			listView.setPrefHeight(anchorPane.getHeight());
 			listView.setPrefWidth(anchorPane.getWidth());
 			anchorPane.getChildren().add(listView);
