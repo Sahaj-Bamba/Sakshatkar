@@ -8,25 +8,37 @@ import java.util.ArrayList;
 
 public class SearchFriends implements Serializable {
 
-    String name;
+    String userID;
     ArrayList<Client> clients;
 
-    public SearchFriends(String name,ArrayList<Client> clients) {
-        this.name = name;
+    public SearchFriends(String userID, ArrayList<Client> clients) {
+        this.userID = userID;
         this.clients = clients;
     }
 
-    public SearchFriends(String name) {
-        this.name = name;
-        this.clients = new ArrayList<Client>();
+    public SearchFriends(String userID) {
+        this.userID = userID;
     }
 
-    public String getName() {
-        return name;
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String name) {
+        this.userID = userID;
+    }
+
+    public ArrayList<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(ArrayList<Client> clients) {
+        this.clients = clients;
     }
 
     @Override
     public String toString() {
         return String.valueOf(Request.SEARCHFRIENDS);
     }
+
 }

@@ -7,6 +7,7 @@ import Utilities.GetListView;
 import View.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -44,10 +45,13 @@ public class LeftView {
 		}
 			try {
 
+				anchorPane.getChildren().clear();
 				GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
 				System.out.println("MESSAGE RECEIVED");
 				GetListView getListView = new GetListView(response.getClients());
 				ListView listView = getListView.generateListView();
+				listView.setPrefHeight(anchorPane.getHeight());
+				listView.setPrefWidth(anchorPane.getWidth());
 				anchorPane.getChildren().add(listView);
 
 			} catch (IOException e) {
@@ -77,13 +81,20 @@ public class LeftView {
 
 	public void searchFriends() {
 		try {
-			GAMER.send_message(new SearchFriends(USER.getName()));
-		}catch (IOException  e)
-		{
+			GAMER.send_message(new SearchFriends(USER.getUserID()));
+			System.out.println("SearchFriends response sent");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
+			anchorPane.getChildren().clear();
 			SearchFriends response = (SearchFriends) GAMER.receive_message();
+			System.out.println("Search Friends Request received");
+			GetListView getListView = new GetListView(response.getClients());
+			ListView listView = getListView.generateListView();
+			listView.setPrefHeight(anchorPane.getHeight());
+			listView.setPrefWidth(anchorPane.getWidth());
+			anchorPane.getChildren().add(listView);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

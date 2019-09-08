@@ -26,6 +26,7 @@ public enum Request {
 	ONLINE("21"),
 	SETUSER("22");
 
+
 	Request(String s){
 		s.toString();
 	}

@@ -21,8 +21,20 @@ public class CallUser implements Serializable{
         this.clients = new ArrayList<Client>();
     }
 
-    public String getName() {
+    public String getName(){
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(ArrayList<Client> clients) {
+        this.clients = clients;
     }
 
     @Override

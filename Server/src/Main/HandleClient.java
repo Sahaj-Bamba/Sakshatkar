@@ -57,7 +57,7 @@ public class HandleClient implements Runnable{
 
 				/*      Do processing       */
 
-
+				System.out.println("Response received");
 				Object response = process();
 
 				/*      Do processing with result */
@@ -106,12 +106,48 @@ public class HandleClient implements Runnable{
 			return _online((Online) message);
 		}else if (req.equals(String.valueOf(Request.SETUSER))){
 			return _setUser((SetUser) message);
+		}else if (req.equals(String.valueOf(Request.SEARCHFRIENDS))){
+			return _searchFriends((SearchFriends) message);
 		}
 
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
 
 
+	}
+
+	private Object _searchFriends(SearchFriends message) {
+
+		System.out.println("Into searchFriends");
+		ArrayList<String> friendsUserIDs = new ArrayList<String>();
+		ArrayList<Client> friendsDetails = new ArrayList<Client>();
+		String userID = message.getUserID();
+
+		try {
+			ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT UserID2 from connectiontable WHERE userID1 = '" +userID+ "';");
+			while (rs.next()) {
+				friendsUserIDs.add(rs.getString("UserID2"));
+			}
+
+			rs = Main.SQLQUERYEXECUTER.select("SELECT UserID1 from connectiontable WHERE userID2 = '" +userID+ "';");
+			while (rs.next()) {
+				friendsUserIDs.add(rs.getString("UserID1"));
+			}
+
+			System.out.println(userID);
+			for (String X : friendsUserIDs) {
+				rs = Main.SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" + X + "';");
+				while(rs.next()){
+					friendsDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension")));
+				}
+			}
+		}
+
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+
+		return new SearchFriends(userID, friendsDetails);
 	}
 
 
