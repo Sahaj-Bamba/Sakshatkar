@@ -114,7 +114,7 @@ public class FileSystem {
     public void login(Client client) throws IOException {
 
         String basePath = System.getProperty("user.home");
-        basePath += "/test/";
+        basePath += "/"+base+"/";
         BufferedWriter bw = new BufferedWriter(new PrintWriter(basePath+"login"));
         bw.write(1);
         bw.newLine();
@@ -128,7 +128,7 @@ public class FileSystem {
 
         ArrayList<Client> clients = new ArrayList<>();
         String basePath = System.getProperty("user.home");
-        basePath += "/test/users/"+this.userID ;
+        basePath += "/"+base+"/users/"+this.userID ;
 
         BufferedReader br = new BufferedReader(new FileReader(basePath+"chattedUsers"));
         StringBuffer inputBuffer = new StringBuffer();
@@ -224,7 +224,7 @@ public class FileSystem {
         ArrayList<Chat> chats = new ArrayList<Chat>();
 
         String basePath = System.getProperty("user.home");
-        basePath += "/test/users/"+from+"/local/"+to+"/";
+        basePath += "/"+base+"/users/"+from+"/local/"+to+"/";
 
         /*      base path set       */
 
@@ -247,7 +247,7 @@ public class FileSystem {
         ArrayList<Chat> chats = new ArrayList<Chat>();
 
         String basePath = System.getProperty("user.home");
-        basePath += "/test/users/"+from+"/delayed/chat";
+        basePath += "/"+base+"/users/"+from+"/delayed/chat";
 
 //        /*      base path set       */
 //
@@ -274,7 +274,7 @@ public class FileSystem {
         ArrayList<Chat> chats = new ArrayList<Chat>();
 
         String basePath = System.getProperty("user.home");
-        basePath += "/test/users/"+from+"/local/"+to+"/";
+        basePath += "/"+base+"/users/"+from+"/local/"+to+"/";
 
         /*      base path set       */
 
