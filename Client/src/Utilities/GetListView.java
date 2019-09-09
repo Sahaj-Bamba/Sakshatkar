@@ -1,7 +1,6 @@
 package Utilities;
 
-import DataClasses.Client;
-import RequestClasses.CallUser;
+import RequestClasses.CallDetails;
 import RequestClasses.GetConnectionChat;
 import RequestClasses.Notification;
 import RequestClasses.SearchFriends;
@@ -39,7 +38,7 @@ public class GetListView {
             public ListCell call(ListView listView) {
                 if (obj instanceof GetConnectionChat) {
                     return new ListViewCell();
-                } else if (obj instanceof CallUser) {
+                } else if (obj instanceof CallDetails) {
                     return new ListViewCellCall();
                 } else if (obj instanceof SearchFriends) {
                     return new ListViewCell();

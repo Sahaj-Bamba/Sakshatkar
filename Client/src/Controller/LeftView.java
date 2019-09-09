@@ -38,7 +38,7 @@ public class LeftView {
 	public void chattedUsers() {
 
 		try {
-			GAMER.send_message(new GetConnectionChat(USER.getName()));
+			GAMER.send_message(new GetConnectionChat(USER.getUserID()));
 			System.out.println("MESSAGE SENT");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -64,13 +64,20 @@ public class LeftView {
 		public void callUser()
 		{
 			try {
-				GAMER.send_message(new CallUser(USER.getName()));
+				GAMER.send_message(new CallDetails(USER.getUserID()));
 			}catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 			try {
-				CallUser response = (CallUser) GAMER.receive_message();
+				anchorPane.getChildren().clear();
+				CallDetails response = (CallDetails) GAMER.receive_message();
+				System.out.println("Search Friends Request received");
+				GetListView getListView = new GetListView(response.getUserDetails());
+				ListView listView = getListView.generateListView(new CallDetails());
+				listView.setPrefHeight(anchorPane.getHeight());
+				listView.setPrefWidth(anchorPane.getWidth());
+				anchorPane.getChildren().add(listView);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {

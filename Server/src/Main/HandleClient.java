@@ -1,8 +1,10 @@
 package Main;
 
 import Constant.Request;
+import DataClasses.Call;
 import DataClasses.Client;
 import RequestClasses.*;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -108,12 +110,57 @@ public class HandleClient implements Runnable{
 			return _setUser((SetUser) message);
 		}else if (req.equals(String.valueOf(Request.SEARCHFRIENDS))){
 			return _searchFriends((SearchFriends) message);
+		}else if (req.equals(String.valueOf(Request.CALLDETAILS))){
+			return _callDetails((CallDetails) message);
 		}
 
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
 
 
+	}
+
+	private Object _callDetails(CallDetails message){
+
+		String userID = message.getUserID();
+		ArrayList<Call> callInformation = new ArrayList<>();
+		ArrayList<Pair<String,Integer>> userInformation = new ArrayList<>();
+
+		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT Sender, Receiver, Type FROM messagetable WHERE Type IN (2,3) AND (Sender = '" + userID + "' OR Receiver = '" + userID + "');");
+			try {
+				while (rs.next()) {
+					String fromUserID = rs.getString("Sender");
+					String toUserID = rs.getString("Receiver");
+					int type = rs.getInt("Type");
+					int isCallReceivedCalledMissed = 0;
+					String userIDToFetchTheDataFor = null;
+
+					//All outgoing calls
+					if (fromUserID.equals(userID) == true) {
+						isCallReceivedCalledMissed = Call.callTypeEnum.OUTGOING.getValue();
+						userIDToFetchTheDataFor = toUserID;
+					} else if (toUserID.equals(userID) == true) {
+						//handling incoming calls
+						userIDToFetchTheDataFor = fromUserID;
+						if (type == 2) {
+							isCallReceivedCalledMissed = Call.callTypeEnum.INCOMING.getValue();
+						} else if (type == 3) {
+							isCallReceivedCalledMissed = Call.callTypeEnum.MISSED.getValue();
+						}
+					}
+					userInformation.add(new Pair(userIDToFetchTheDataFor, isCallReceivedCalledMissed));
+				}
+				for(Pair<String,Integer> X: userInformation) {
+					rs = Main.SQLQUERYEXECUTER.select("SELECT phoneNumber, name, lastOnline, isOnline, extension FROM user WHERE userID = '" + X.getKey() + "';");
+					while (rs.next()) {
+						callInformation.add(new Call(X.getKey(), rs.getString("name"), rs.getString("phoneNumber"), rs.getString("lastOnline"), rs.getString("isOnline"), X.getValue(), rs.getString("extension")));
+					}
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return new CallDetails(userID, callInformation);
 	}
 
 	private Object _searchFriends(SearchFriends message) {
