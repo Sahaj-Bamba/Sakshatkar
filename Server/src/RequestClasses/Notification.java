@@ -8,21 +8,36 @@ import java.util.ArrayList;
 
 public class Notification implements Serializable {
 
-    String name;
+    String userID;
     ArrayList<Client> clients;
 
-    public Notification(String name,ArrayList<Client> clients) {
-        this.name = name;
-        this.clients = clients;
+    public Notification(){
     }
 
-    public Notification(String name) {
-        this.name = name;
+    public Notification(String userID) {
+        this.userID = userID;
         this.clients = new ArrayList<Client>();
     }
 
-    public String getName() {
-        return name;
+    public Notification(String userID,ArrayList<Client> clients) {
+        this.userID = userID;
+        this.clients = clients;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public ArrayList<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(ArrayList<Client> clients) {
+        this.clients = clients;
     }
 
     @Override

@@ -111,13 +111,20 @@ public class LeftView {
 
 	public void notification() {
 		try {
-			GAMER.send_message(new Notification(USER.getName()));
+			GAMER.send_message(new Notification(USER.getUserID()));
 		}catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		try {
 			Notification response = (Notification) GAMER.receive_message();
+			anchorPane.getChildren().clear();
+			GetListView getListView = new GetListView(response.getClients());
+			ListView listView = getListView.generateListView(new Notification());
+			listView.setPrefHeight(anchorPane.getHeight());
+			listView.setPrefWidth(anchorPane.getWidth());
+//			System.out.println("Received response");
+			anchorPane.getChildren().add(listView);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

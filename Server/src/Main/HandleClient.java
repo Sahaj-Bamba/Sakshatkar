@@ -112,12 +112,38 @@ public class HandleClient implements Runnable{
 			return _searchFriends((SearchFriends) message);
 		}else if (req.equals(String.valueOf(Request.CALLDETAILS))){
 			return _callDetails((CallDetails) message);
+		}else if (req.equals(String.valueOf(Request.NOTIFICATION))){
+			return _notification((Notification) message);
 		}
 
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
 
 
+	}
+
+	private Object _notification(Notification message) {
+		String userID = message.getUserID();
+		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT userID1, userID2 FROM connectiontable WHERE (Status = 1 AND (UserID1 = '"+userID+"' OR UserID2 = '"+userID+"'));");
+		ArrayList<String> userIDArrayList = new ArrayList<>();
+		ArrayList<Client> userDetails = new ArrayList<>();
+			try {
+				while(rs.next()){
+					String userID1 = rs.getString("userID1");
+					String userID2 = rs.getString("userID2");
+					userIDArrayList.add(userID.equals(userID1)?userID2:userID1);
+				}
+				for(String X : userIDArrayList) {
+					rs = Main.SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" +X+ "';");
+					while(rs.next()) {
+						userDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension")));
+					}
+				}
+			}
+		catch (SQLException e) {
+				e.printStackTrace();
+			}
+		return new Notification(userID,userDetails);
 	}
 
 	private Object _callDetails(CallDetails message){
