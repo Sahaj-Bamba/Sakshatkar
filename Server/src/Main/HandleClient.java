@@ -56,6 +56,7 @@ public class HandleClient implements Runnable{
 
 			try {
 
+				System.out.println("HELLO @ TOP");
 				message = (Object) objectInputStream.readObject();
 
 				/*      Do processing       */
@@ -97,8 +98,6 @@ public class HandleClient implements Runnable{
 			return _userID((UserID) message);
 		}else if (req.equals(String.valueOf(Request.REGISTER))){
 			return _register((RegisterData) message);
-		}else if (req.equals(String.valueOf(Request.SEARCHUSERS))){
-			return _searchUsers((SearchUsers) message);
 		}else if (req.equals(String.valueOf(Request.PROFILE))){
 			return _profile((Profile) message);
 		}else if (req.equals(String.valueOf(Request.FRIENDREQUEST))){
@@ -115,6 +114,8 @@ public class HandleClient implements Runnable{
 			return _callDetails((CallDetails) message);
 		}else if (req.equals(String.valueOf(Request.NOTIFICATION))){
 			return _notification((Notification) message);
+		}else if (req.equals(String.valueOf(Request.SEARCHUSER))){
+			return _searchUser((SearchUser) message);
 		}
 
 		//This type of status needs handling
@@ -349,24 +350,20 @@ public class HandleClient implements Runnable{
 
 	}
 
-	private Object _searchUsers(SearchUsers message) {
+	private Object _searchUser(SearchUser message) {
 
-		ArrayList<Client> clients = null;
+		System.out.println("Hello");
+		ArrayList<Client> clients = new ArrayList<>();
 		boolean flag;
 		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
-		try{
-			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+		try {
+			while (res.next()) {
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"), res.getString("lastOnline"), res.getString("userID"), res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
 			}
-			return new SearchUsers("",clients);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (clients == null){
-			return new Response(1,"No user match the given criteria");
-		}
-		return new Object();
-
+		return new SearchUser(message.getName(),clients);
 	}
 
 

@@ -38,7 +38,6 @@ public class ListViewCellCall extends ListCell<Call> {
         super.updateItem(call, empty);
 
         if(empty || call == null) {
-
             setText(null);
             setGraphic(null);
 

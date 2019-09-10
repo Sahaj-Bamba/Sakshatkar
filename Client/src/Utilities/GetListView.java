@@ -1,9 +1,6 @@
 package Utilities;
 
-import RequestClasses.CallDetails;
-import RequestClasses.GetConnectionChat;
-import RequestClasses.Notification;
-import RequestClasses.SearchFriends;
+import RequestClasses.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
@@ -44,6 +41,8 @@ public class GetListView {
                 } else if (obj instanceof SearchFriends) {
                     return new ListViewCell();
                 } else if(obj instanceof Notification) {
+                    return new ListViewCell();
+                } else if(obj instanceof SearchUser) {
                     return new ListViewCell();
                 }
                 return new ListViewCell();
