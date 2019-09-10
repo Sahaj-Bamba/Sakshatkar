@@ -45,5 +45,4 @@ public class Notification implements Serializable {
         return String.valueOf(Request.NOTIFICATION);
     }
 
-
 }

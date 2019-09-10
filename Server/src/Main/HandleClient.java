@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class HandleClient implements Runnable{
@@ -143,6 +144,7 @@ public class HandleClient implements Runnable{
 		catch (SQLException e) {
 				e.printStackTrace();
 			}
+		Collections.reverse(userDetails);
 		return new Notification(userID,userDetails);
 	}
 
