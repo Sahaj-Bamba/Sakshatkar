@@ -5,9 +5,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="leftSidePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChatWindow">
+<AnchorPane id="leftSidePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChatWindow">
    <children>
-      <AnchorPane prefHeight="50.0" prefWidth="700.0" style="-fx-background-color: #7F99FB;">
+      <AnchorPane prefHeight="111.0" prefWidth="700.0" style="-fx-background-color: #7F99FB;">
          <children>
             <TextField id="userName" fx:id="userName" alignment="CENTER" layoutX="8.0" layoutY="7.0" onAction="#userProfile" prefHeight="37.0" prefWidth="191.0" promptText="User Name" style="-fx-background-color: #AC1FC1;" />
             <Button id="addFriend" fx:id="addFriend" layoutX="600.0" layoutY="-2.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #3369F3;" text="Add Friend" />

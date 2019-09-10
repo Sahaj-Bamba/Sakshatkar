@@ -1,13 +1,17 @@
 package Utilities;
 
+import Controller.MainScreen;
+import Main.Main;
 import RequestClasses.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Background;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GetListView {
@@ -46,6 +50,23 @@ public class GetListView {
                     return new ListViewCell();
                 }
                 return new ListViewCell();
+            }
+        });
+        setListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                String otherUserDetails = setListView.getSelectionModel().getSelectedItem().toString();
+                System.out.println(otherUserDetails);
+                String[] userDetails = otherUserDetails.split("#");
+                String otherUserID = userDetails[3];
+                try {
+                    Main.GAMER.send_message(new GetChats(Main.USER.getUserID(), otherUserID));
+                    System.out.println("Message sent");
+//                    GetChats response = (GetChats) Main.GAMER.receive_message();
+                    MainScreen.showChats();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         return setListView;

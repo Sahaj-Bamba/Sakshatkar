@@ -29,11 +29,7 @@ public class LeftView {
 	@FXML
 	AnchorPane anchorPane;
 
-	@FXML
-	AnchorPane baseAnchorPane;
-
 	public void initialize() {
-
 	}
 
 //	public void searchIt(){

@@ -2,6 +2,7 @@ package Main;
 
 import Constant.Request;
 import DataClasses.Call;
+import DataClasses.Chat;
 import DataClasses.Client;
 import RequestClasses.*;
 import javafx.util.Pair;
@@ -116,12 +117,35 @@ public class HandleClient implements Runnable{
 			return _notification((Notification) message);
 		}else if (req.equals(String.valueOf(Request.SEARCHUSER))){
 			return _searchUser((SearchUser) message);
+		}else if (req.equals(String.valueOf(Request.GETCHATS))){
+			return _getChats((GetChats) message);
 		}
 
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
 
 
+	}
+
+	private Object _getChats(GetChats message) {
+		String userID1 = message.getUserID1();
+		String userID2 = message.getUserID2();
+		ArrayList<Chat> chats = new ArrayList<>();
+		ResultSet rs = Main.SQLQUERYEXECUTER.select("Sender, Receiver, Content, Type FROM user WHERE (Sender = '"+userID1+"' AND Receiver = '"+userID2+"') OR (Sender = '"+userID2+"' AND Receiver = '"+userID1+"');");
+		try {
+			while (rs.next()) {
+				String senderUserID = null;
+				senderUserID = rs.getString("Sender");
+				String receiverUserID = rs.getString("Receiver");
+				boolean shouldIntentLeft = (senderUserID == userID1);
+				chats.add(new Chat(senderUserID, receiverUserID, 0, rs.getString("Content"), 0, rs.getInt("Type"), shouldIntentLeft));
+			}
+		}
+		catch (SQLException e) {
+				e.printStackTrace();
+		}
+		Collections.reverse(chats);
+		return new GetChats(userID1, userID2, chats);
 	}
 
 	private Object _notification(Notification message) {
@@ -387,7 +411,6 @@ public class HandleClient implements Runnable{
 	}
 
 	private Object _getConnectionChat(GetConnectionChat message) {
-
 
 		System.out.println("Hello");
 		ArrayList<Client> clients = new ArrayList<Client>();

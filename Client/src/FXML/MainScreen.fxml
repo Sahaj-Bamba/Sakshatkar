@@ -7,5 +7,6 @@
       <AnchorPane id="leftAnchorPane" fx:id="leftAnchorPane" layoutY="50.0" prefHeight="750.0" prefWidth="400.0" style="-fx-background-color: #ABC2FC;" />
       <AnchorPane id="topAnchorPane" fx:id="topAnchorPane" prefHeight="50.0" prefWidth="1400.0" style="-fx-background-color: #ABC2FC;" />
       <AnchorPane id="rightAnchorPane" fx:id="rightAnchorPane" layoutX="1100.0" layoutY="50.0" prefHeight="750.0" prefWidth="300.0" style="-fx-background-color: #ABC2FC;" />
+      <AnchorPane fx:id="mainAnchorPane" layoutX="400.0" layoutY="50.0" prefHeight="750.0" prefWidth="699.0" />
    </children>
 </AnchorPane>

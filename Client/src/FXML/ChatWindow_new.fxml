@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ListView fx:id="listView" layoutY="184.0" prefHeight="523.0" prefWidth="600.0" />
+      <Button layoutX="513.0" layoutY="712.0" mnemonicParsing="false" onAction="#sendButton" prefHeight="42.0" prefWidth="70.0" text="Send" />
+      <TextField fx:id="chatInput" layoutX="14.0" layoutY="718.0" prefHeight="31.0" prefWidth="445.0" />
+      <ImageView fx:id="imageView" fitHeight="137.0" fitWidth="152.0" layoutX="166.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="userName" layoutX="377.0" layoutY="69.0" prefHeight="54.0" prefWidth="190.0" text="Name">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Button layoutX="375.0" layoutY="22.0" mnemonicParsing="false" onAction="#voiceCall" text="Voice" />
+      <Button layoutX="439.0" layoutY="22.0" mnemonicParsing="false" onAction="#videoCall" text="Video" />
+      <Button layoutX="505.0" layoutY="22.0" mnemonicParsing="false" onAction="#addFriend" text="Add friend" />
+      <Button layoutX="468.0" layoutY="718.0" mnemonicParsing="false" onAction="#addAttachments" prefHeight="31.0" prefWidth="40.0" text="Choose" />
+      <Button layoutX="415.0" layoutY="127.0" mnemonicParsing="false" onAction="#viewProfile" prefHeight="31.0" prefWidth="134.0" text="View Profile" />
+   </children>
+</AnchorPane>

@@ -24,8 +24,8 @@ public enum Request {
 	GETUSER("19"),
 	ACCEPTREQUEST("20"),
 	ONLINE("21"),
-	SETUSER("22");
-
+	SETUSER("22"),
+	GETCHATS("23");
 
 	Request(String s){
 		s.toString();
