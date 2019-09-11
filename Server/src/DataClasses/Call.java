@@ -98,6 +98,6 @@ public class Call implements Serializable {
 
     @Override
     public String toString() {
-        return this.userID+"#"+this.userName+"#"+this.phone+"#"+this.lastOnline+"#"+this.isOnline+"#"+this.isCallReceivedCalledMissed+"#"+this.extension;
+        return this.userID+"#"+this.userName+"#"+this.extension+"#"+this.phone+"#"+this.lastOnline+"#"+this.isOnline+"#"+this.isCallReceivedCalledMissed;
     }
 }

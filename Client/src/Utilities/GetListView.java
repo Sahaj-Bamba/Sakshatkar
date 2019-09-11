@@ -1,11 +1,12 @@
 package Utilities;
 
-import Controller.MainScreen;
 import Main.Main;
 import RequestClasses.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +14,8 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static Main.Main.MAINSCREENCONTROLLER;
 
 public class GetListView {
 
@@ -35,9 +38,12 @@ public class GetListView {
         ListView setListView = new ListView();
 //        listView.setPrefWidth(600);
         setListView.setItems(observableList);
+
         setListView.setCellFactory(new Callback<ListView, ListCell>() {
+
             @Override
             public ListCell call(ListView listView) {
+                System.out.println(obj.getClass().toString());
                 if (obj instanceof GetConnectionChat) {
                     return new ListViewCell();
                 } else if (obj instanceof CallDetails) {
@@ -48,27 +54,33 @@ public class GetListView {
                     return new ListViewCell();
                 } else if(obj instanceof SearchUser) {
                     return new ListViewCell();
+                } else if(obj instanceof GetChats) {
+                    return new ListViewCellChat();
                 }
+
                 return new ListViewCell();
             }
         });
+
         setListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
                 String otherUserDetails = setListView.getSelectionModel().getSelectedItem().toString();
-                System.out.println(otherUserDetails);
-                String[] userDetails = otherUserDetails.split("#");
-                String otherUserID = userDetails[3];
+
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("../FXML/ChatWindow_new.fxml"));
+                Parent root = null;
                 try {
-                    Main.GAMER.send_message(new GetChats(Main.USER.getUserID(), otherUserID));
-                    System.out.println("Message sent");
-//                    GetChats response = (GetChats) Main.GAMER.receive_message();
-                    MainScreen.showChats();
+                    root = fxmlLoader.load();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                Main.CHATWINDOWCONTROLLER = fxmlLoader.getController();
+                Main.CHATWINDOWCONTROLLER.setUser(otherUserDetails, root);
             }
         });
+
         return setListView;
     }
 

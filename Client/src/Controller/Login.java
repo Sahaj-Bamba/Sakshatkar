@@ -56,14 +56,25 @@ public class Login {
 			return;
 		}
 
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(getClass().getResource("../FXML/MainScreen.fxml"));
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
+			root = fxmlLoader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Main.MAIN = new Scene(root);
-		PRIMARYSTAGE.setScene(MAIN);
+		MAINSCREENCONTROLLER = fxmlLoader.getController();
+
+//		try {
+//			root = FXMLLoader.load(getClass().getResource("../FXML/MainScreen.fxml"));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		Main.MAIN = new Scene(root);
+//		PRIMARYSTAGE.setScene(MAIN);
+
+		PRIMARYSTAGE.setScene(new Scene(root));
 		PRIMARYSTAGE.show();
 
 	}

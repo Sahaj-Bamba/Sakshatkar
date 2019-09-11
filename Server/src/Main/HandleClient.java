@@ -131,7 +131,7 @@ public class HandleClient implements Runnable{
 		String userID1 = message.getUserID1();
 		String userID2 = message.getUserID2();
 		ArrayList<Chat> chats = new ArrayList<>();
-		ResultSet rs = Main.SQLQUERYEXECUTER.select("Sender, Receiver, Content, Type FROM user WHERE (Sender = '"+userID1+"' AND Receiver = '"+userID2+"') OR (Sender = '"+userID2+"' AND Receiver = '"+userID1+"');");
+		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT Sender, Receiver, Content, Type FROM messagetable WHERE TYPE IN (0,1) AND ((Sender = '"+userID1+"' AND Receiver = '"+userID2+"') OR (Sender = '"+userID2+"' AND Receiver = '"+userID1+"'));");
 		try {
 			while (rs.next()) {
 				String senderUserID = null;

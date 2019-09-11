@@ -12,7 +12,6 @@ public class Client implements Serializable {
 	String phone;
 	String extension;
 
-
 	public Client(String name, int isOnline, String lastOnline, String userID, int status, String phone, String extension) {
 		this.name = name;
 		this.isOnline = isOnline;
@@ -51,8 +50,8 @@ public class Client implements Serializable {
 		return userID;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUserID(String userId) {
+		this.userID = userId;
 	}
 
 	public int getStatus() {
@@ -81,6 +80,6 @@ public class Client implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.name+"#"+this.isOnline+"#"+this.lastOnline+"#"+this.userID+"#"+this.status+"#"+this.phone+"#"+this.extension;
+		return this.userID+"#"+this.name+"#"+this.extension+"#"+this.isOnline+"#"+this.status+"#"+this.phone+"#"+this.lastOnline;
 	}
 }

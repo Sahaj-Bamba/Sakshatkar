@@ -239,7 +239,7 @@ public class FileSystem {
         while ((line = br.readLine()) != null) {
             String[] content = line.split("#");
 //            chats.remove(new Chat(from,to,Integer.parseInt(content[0]),content[2],Integer.parseInt(content[1])));
-            chats.add(new Chat(from, to, Integer.parseInt(content[0]), content[2], Integer.parseInt(content[1]), Integer.parseInt(content[3])));
+            chats.add(new Chat(from, to, Integer.parseInt(content[0]), content[2], Integer.parseInt(content[1]), Integer.parseInt(content[3]),false));
         }
         br.close();
         return chats;
@@ -289,7 +289,7 @@ public class FileSystem {
         while ((line = br.readLine()) != null) {
             String[] content = line.split("#");
 //            chats.remove(new Chat(from,to,Integer.parseInt(content[0]),content[2],Integer.parseInt(content[1])));
-            chats.add(new Chat(from, to, Integer.parseInt(content[0]), content[2], Integer.parseInt(content[1]), Integer.parseInt(content[3])));
+            chats.add(new Chat(from, to, Integer.parseInt(content[0]), content[2], Integer.parseInt(content[1]), Integer.parseInt(content[3]),false));
         }
         br.close();
         return chats;

@@ -80,6 +80,6 @@ public class Client implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.name+"#"+this.isOnline+"#"+this.lastOnline+"#"+this.userID+"#"+this.status+"#"+this.phone+"#"+this.extension;
+		return this.userID+"#"+this.name+"#"+this.extension+"#"+this.isOnline+"#"+this.status+"#"+this.phone+"#"+this.lastOnline;
 	}
 }

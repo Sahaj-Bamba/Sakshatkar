@@ -1,5 +1,6 @@
 package RequestClasses;
 
+import Constant.Request;
 import DataClasses.Chat;
 
 import java.io.Serializable;
@@ -46,5 +47,10 @@ public class GetChats implements Serializable {
 
     public void setChats(ArrayList<Chat> chats) {
         this.chats = chats;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(Request.GETCHATS);
     }
 }

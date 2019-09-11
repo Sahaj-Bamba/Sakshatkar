@@ -10,14 +10,16 @@ public class Chat implements Serializable {
 	private String content;
 	private int level;                  /*      0 sender        1 receiver          */
 	private int status;
+	private boolean shouldIntentLeft;   /* for displaying chats */
 
-	public Chat(String from, String to, int type, String content, int level,int status) {
+	public Chat(String from, String to, int type, String content, int level,int status, boolean shouldIntentLeft) {
 		this.from = from;
 		this.to = to;
 		this.type = type;
 		this.content = content;
 		this.level = level;
 		this.status = status;
+		this.shouldIntentLeft = shouldIntentLeft;
 	}
 
 	public int getStatus() {
@@ -66,6 +68,14 @@ public class Chat implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public boolean isShouldIntentLeft() {
+		return shouldIntentLeft;
+	}
+
+	public void setShouldIntentLeft(boolean shouldIntentLeft) {
+		this.shouldIntentLeft = shouldIntentLeft;
 	}
 
 	@Override

@@ -1,10 +1,14 @@
 package Main;
 
+import Controller.ChatWindow_new;
+import Controller.LeftView;
+import Controller.MainScreen;
 import RequestClasses.SetUser;
 import Utilities.FXMLInitiator;
 import Utilities.FileSystem;
 import Windows.AlertBox;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,6 +26,8 @@ public class Main extends Application {
 	public static MessageClient MESSAGEGAMER;
 	public static int HEIGHT = 800;
 	public static int WIDTH = 1400;
+	public static MainScreen MAINSCREENCONTROLLER = null;
+	public static ChatWindow_new CHATWINDOWCONTROLLER = null;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -59,7 +65,13 @@ public class Main extends Application {
 				GAMER.send_message(new SetUser(USER));
 				GAMER.receive_message();
 			}
-			new FXMLInitiator("../FXML/MainScreen.fxml").start(PRIMARYSTAGE);
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			fxmlLoader.setLocation(getClass().getResource("../FXML/MainScreen.fxml"));
+			Parent root = fxmlLoader.load();
+			MAINSCREENCONTROLLER = (MainScreen) fxmlLoader.getController();
+			PRIMARYSTAGE.setScene(new Scene(root));
+			PRIMARYSTAGE.show();
+//			new FXMLInitiator("../FXML/MainScreen.fxml").start(PRIMARYSTAGE);
 			System.out.println("Basic Welcome Screen ");
 		}
 
