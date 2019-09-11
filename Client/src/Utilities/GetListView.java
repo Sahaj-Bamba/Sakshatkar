@@ -54,8 +54,6 @@ public class GetListView {
                     return new ListViewCell();
                 } else if(obj instanceof SearchUser) {
                     return new ListViewCell();
-                } else if(obj instanceof GetChats) {
-                    return new ListViewCellChat();
                 }
 
                 return new ListViewCell();
