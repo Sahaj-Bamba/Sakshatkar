@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -38,6 +39,8 @@ public class ChatWindow_new {
     @FXML
     ListView chatListView;
 
+    private String otherUserDetails;
+
     public void sendButton(ActionEvent event) {
         chatListView.getItems().add(new Chat("asdasd","asddsnjnnkjnknjknkjnjknkjnkjnjknjknkjnkjnjkna",0,"ghhjgjhhgjgjhgjhgjhgjhghjgjhgjhgjhgjhgjhghgjghj",1,0,false));
     }
@@ -55,10 +58,20 @@ public class ChatWindow_new {
     }
 
     public void viewProfile(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("../FXML/Profile.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MAINSCREENCONTROLLER.setMainAnchorPane(root);
     }
 
     public void showChats(String otherUserDetails){
 
+        this.otherUserDetails = otherUserDetails;
         String[] userDetails = otherUserDetails.split("#");
         String targetUserID = userDetails[0];
         String targetUserName = userDetails[1];

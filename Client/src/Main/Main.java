@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -34,14 +35,14 @@ public class Main extends Application {
 
 		FILESYSTEM = new FileSystem("Sakshatkar");
 		System.out.println("Started");
-		GAMER = new Client("localhost",5556);
+		GAMER = new Client("localhost",5555);
 		Thread.sleep(100);
 		if (Main.ISONLINE) {
 			System.out.println("GAMER created");
-			FILEGAMER = new FileClient("localhost", 6001);
+			FILEGAMER = new FileClient("localhost", 6000);
 			Thread.sleep(100);
 			System.out.println("File Gamer created");
-			MESSAGEGAMER = new MessageClient("localhost", 5702);
+			MESSAGEGAMER = new MessageClient("localhost", 5701);
 			Thread.sleep(100);
 			System.out.println("Message GAMER created");
 		} else {
@@ -69,7 +70,9 @@ public class Main extends Application {
 			fxmlLoader.setLocation(getClass().getResource("../FXML/MainScreen.fxml"));
 			Parent root = fxmlLoader.load();
 			MAINSCREENCONTROLLER = (MainScreen) fxmlLoader.getController();
-			PRIMARYSTAGE.setScene(new Scene(root));
+			PRIMARYSTAGE.setScene(new Scene(root, 1500,1000));
+			//Code contributed by chits
+//			primaryStage.initStyle(StageStyle.UNDECORATED);
 			PRIMARYSTAGE.show();
 //			new FXMLInitiator("../FXML/MainScreen.fxml").start(PRIMARYSTAGE);
 			System.out.println("Basic Welcome Screen ");
