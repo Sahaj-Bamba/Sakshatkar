@@ -39,6 +39,9 @@ public class ChatWindow_new {
     @FXML
     ListView chatListView;
 
+    @FXML
+    Label mutualFriendsLabel;
+
     private String otherUserDetails;
 
     public void sendButton(ActionEvent event) {
@@ -66,10 +69,34 @@ public class ChatWindow_new {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ViewProfile viewProfile = fxmlLoader.getController();
+        viewProfile.setProfile(otherUserDetails);
         MAINSCREENCONTROLLER.setMainAnchorPane(root);
     }
 
-    public void showChats(String otherUserDetails){
+//    public void showChats(String otherUserDetails){
+//
+//        this.otherUserDetails = otherUserDetails;
+//        String[] userDetails = otherUserDetails.split("#");
+//        String targetUserID = userDetails[0];
+//        String targetUserName = userDetails[1];
+//        String targetUserImageExtension = userDetails[2];
+//
+//        try {
+//            File file = FILESYSTEM.getProfilePicture(targetUserID+"."+targetUserImageExtension);
+//            Image image = new Image(file.toURI().toURL().toString());
+//            this.imageView.setImage(image);
+//            this.userName.setText(targetUserName);
+//            System.out.println("@UserName "+this.userName.getText());
+//            System.out.println("@USERTEXT "+userName.getText());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void setUser(String otherUserDetails, Parent root){
 
         this.otherUserDetails = otherUserDetails;
         String[] userDetails = otherUserDetails.split("#");
@@ -80,28 +107,13 @@ public class ChatWindow_new {
         try {
             File file = FILESYSTEM.getProfilePicture(targetUserID+"."+targetUserImageExtension);
             Image image = new Image(file.toURI().toURL().toString());
-            this.imageView.setImage(image);
-            this.userName.setText(targetUserName);
-            System.out.println("@UserName "+this.userName.getText());
-            System.out.println("@USERTEXT "+userName.getText());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+            imageView.setImage(image);
+            userName.setText(targetUserName);
 
-    public void setUser(String otherUserDetails, Parent root){
-
-        String[] userDetails = otherUserDetails.split("#");
-        String targetUserID = userDetails[0];
-        String targetUserName = userDetails[1];
-        String targetUserImageExtension = userDetails[2];
-        try {
-            File file = FILESYSTEM.getProfilePicture(targetUserID+"."+targetUserImageExtension);
-            Image image = new Image(file.toURI().toURL().toString());
-            this.imageView.setImage(image);
-            this.userName.setText(targetUserName);
+            GAMER.send_message(new GetMutualFriends(USER.getUserID(), targetUserID));
+            GetMutualFriends getMutualFriends = (GetMutualFriends) GAMER.receive_message();
+            int mutualFriendsCount = getMutualFriends.getMutualFriendsCount();
+            mutualFriendsLabel.setText(mutualFriendsCount+" mutual friends");
 
             GAMER.send_message(new GetChats(USER.getUserID(), targetUserID));
             GetChats response = (GetChats) GAMER.receive_message();

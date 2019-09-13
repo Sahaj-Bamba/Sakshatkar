@@ -13,10 +13,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static Main.Main.SQLQUERYEXECUTER;
 
 
 public class HandleClient implements Runnable{
@@ -119,19 +124,61 @@ public class HandleClient implements Runnable{
 			return _searchUser((SearchUser) message);
 		}else if (req.equals(String.valueOf(Request.GETCHATS))){
 			return _getChats((GetChats) message);
+		}else if (req.equals(String.valueOf(Request.GETMUTUALFRIENDS))){
+			return _getMutualFriends((GetMutualFriends) message);
 		}
-
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
 
 
 	}
 
+	private Object _getMutualFriends(GetMutualFriends message) {
+		String userID1 = message.getUserID1();
+		String userID2 = message.getUserID2();
+		String firstUser = null;
+		String secondUser = null;
+		HashMap<String,Integer> friendsListofUser1 = new HashMap<>();
+		HashMap<String,Integer> friendsListofUser2 = new HashMap<>();
+		int mutualFriendsCount = 0;
+		ResultSet rs = null;
+
+		try {
+			rs = SQLQUERYEXECUTER.select("SELECT * FROM connectiontable WHERE ((Status = 0) AND ((UserID1 = '"+userID1+"' AND UserID2 = '"+userID2+"') OR (UserID1 = '"+userID2+"' AND UserID2 = '"+userID1+"')));");
+			while(rs.next()){
+				mutualFriendsCount--;	//Subtracting the two friends before hand
+			}
+			System.out.println(mutualFriendsCount);
+			rs = SQLQUERYEXECUTER.select("SELECT UserID1, UserID2 FROM connectiontable WHERE ((Status = 0) AND (UserID1 = '" + userID1 + "' OR UserID2 = '" + userID1 + "'));");
+			while (rs.next()) {
+				firstUser = rs.getString("UserID1");
+				secondUser = rs.getString("UserID2");
+				friendsListofUser1.put(((firstUser == userID1) ? secondUser : firstUser), 1);
+			}
+			System.out.println(friendsListofUser1.size());
+			rs = SQLQUERYEXECUTER.select("SELECT UserID1, UserID2 FROM connectiontable WHERE ((Status = 0) AND (UserID1 = '" + userID2 + "' OR UserID2 = '" + userID2 + "'));");
+			while (rs.next()) {
+				firstUser = rs.getString("UserID1");
+				secondUser = rs.getString("UserID2");
+				friendsListofUser2.put(((firstUser == userID2) ? secondUser : firstUser), 1);
+			}
+			for(String X : friendsListofUser1.keySet()){
+				if(friendsListofUser2.get(X) != null){
+					mutualFriendsCount++;
+				}
+			}
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		return new GetMutualFriends(userID1, userID2, mutualFriendsCount);
+	}
+
 	private Object _getChats(GetChats message) {
 		String userID1 = message.getUserID1();
 		String userID2 = message.getUserID2();
 		ArrayList<Chat> chats = new ArrayList<>();
-		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT Sender, Receiver, Content, Type FROM messagetable WHERE TYPE IN (0,1) AND ((Sender = '"+userID1+"' AND Receiver = '"+userID2+"') OR (Sender = '"+userID2+"' AND Receiver = '"+userID1+"'));");
+		ResultSet rs = SQLQUERYEXECUTER.select("SELECT Sender, Receiver, Content, Type FROM messagetable WHERE TYPE IN (0,1) AND ((Sender = '"+userID1+"' AND Receiver = '"+userID2+"') OR (Sender = '"+userID2+"' AND Receiver = '"+userID1+"'));");
 		try {
 			while (rs.next()) {
 				String senderUserID = null;
@@ -150,7 +197,7 @@ public class HandleClient implements Runnable{
 
 	private Object _notification(Notification message) {
 		String userID = message.getUserID();
-		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT userID1, userID2 FROM connectiontable WHERE (Status = 1 AND (UserID1 = '"+userID+"' OR UserID2 = '"+userID+"'));");
+		ResultSet rs = SQLQUERYEXECUTER.select("SELECT userID1, userID2 FROM connectiontable WHERE (Status = 1 AND (UserID1 = '"+userID+"' OR UserID2 = '"+userID+"'));");
 		ArrayList<String> userIDArrayList = new ArrayList<>();
 		ArrayList<Client> userDetails = new ArrayList<>();
 			try {
@@ -160,7 +207,7 @@ public class HandleClient implements Runnable{
 					userIDArrayList.add(userID.equals(userID1)?userID2:userID1);
 				}
 				for(String X : userIDArrayList) {
-					rs = Main.SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" +X+ "';");
+					rs = SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" +X+ "';");
 					while(rs.next()) {
 						userDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension")));
 					}
@@ -179,7 +226,7 @@ public class HandleClient implements Runnable{
 		ArrayList<Call> callInformation = new ArrayList<>();
 		ArrayList<Pair<String,Integer>> userInformation = new ArrayList<>();
 
-		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT Sender, Receiver, Type FROM messagetable WHERE Type IN (2,3) AND (Sender = '" + userID + "' OR Receiver = '" + userID + "');");
+		ResultSet rs = SQLQUERYEXECUTER.select("SELECT Sender, Receiver, Type FROM messagetable WHERE Type IN (2,3) AND (Sender = '" + userID + "' OR Receiver = '" + userID + "');");
 			try {
 				while (rs.next()) {
 					String fromUserID = rs.getString("Sender");
@@ -204,7 +251,7 @@ public class HandleClient implements Runnable{
 					userInformation.add(new Pair(userIDToFetchTheDataFor, isCallReceivedCalledMissed));
 				}
 				for(Pair<String,Integer> X: userInformation) {
-					rs = Main.SQLQUERYEXECUTER.select("SELECT phoneNumber, name, lastOnline, isOnline, extension FROM user WHERE userID = '" + X.getKey() + "';");
+					rs = SQLQUERYEXECUTER.select("SELECT phoneNumber, name, lastOnline, isOnline, extension FROM user WHERE userID = '" + X.getKey() + "';");
 					while (rs.next()) {
 						callInformation.add(new Call(X.getKey(), rs.getString("name"), rs.getString("phoneNumber"), rs.getString("lastOnline"), rs.getString("isOnline"), X.getValue(), rs.getString("extension")));
 					}
@@ -224,19 +271,19 @@ public class HandleClient implements Runnable{
 		String userID = message.getUserID();
 
 		try {
-			ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT UserID2 from connectiontable WHERE userID1 = '" +userID+ "';");
+			ResultSet rs = SQLQUERYEXECUTER.select("SELECT UserID2 from connectiontable WHERE userID1 = '" +userID+ "';");
 			while (rs.next()) {
 				friendsUserIDs.add(rs.getString("UserID2"));
 			}
 
-			rs = Main.SQLQUERYEXECUTER.select("SELECT UserID1 from connectiontable WHERE userID2 = '" +userID+ "';");
+			rs = SQLQUERYEXECUTER.select("SELECT UserID1 from connectiontable WHERE userID2 = '" +userID+ "';");
 			while (rs.next()) {
 				friendsUserIDs.add(rs.getString("UserID1"));
 			}
 
 			System.out.println(userID);
 			for (String X : friendsUserIDs) {
-				rs = Main.SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" + X + "';");
+				rs = SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" + X + "';");
 				while(rs.next()){
 					friendsDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension")));
 				}
@@ -253,7 +300,7 @@ public class HandleClient implements Runnable{
 
 	private Object _register(RegisterData message) {
 
-		Main.SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
+		SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
 		_login(new Login(message.getUserID(),message.getPassword()));
 		return new Response(0,"");
 
@@ -262,7 +309,7 @@ public class HandleClient implements Runnable{
 	private Object _login(Login login){
 
 		boolean flag = false;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select name,password from user where USERID = '"+login.getUserID()+"' and password = '"+login.getPass()+"'");
+		ResultSet res = SQLQUERYEXECUTER.select("select name,password from user where USERID = '"+login.getUserID()+"' and password = '"+login.getPass()+"'");
 		try{
 
 			flag = false;
@@ -288,7 +335,7 @@ public class HandleClient implements Runnable{
 
 		Client clients = null;
 		boolean flag;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getUserID()+"'; ");
+		ResultSet res = SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getUserID()+"'; ");
 		try{
 			if(res.next()){
 				clients = new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"));
@@ -304,7 +351,7 @@ public class HandleClient implements Runnable{
 	}
 
 	private Object _userID(UserID message) {
-		ResultSet rs = Main.SQLQUERYEXECUTER.select("SELECT userID FROM user WHERE userID = '"+ message.getUserID() + "'");
+		ResultSet rs = SQLQUERYEXECUTER.select("SELECT userID FROM user WHERE userID = '"+ message.getUserID() + "'");
 		try {
 			if(rs.next()){
 				return new Response(1,"User ID already exists");
@@ -321,7 +368,7 @@ public class HandleClient implements Runnable{
 	private Object _online(Online message){
 //		UPDATE user set isonline = 1 where userId = "manas_uni";
 
-		Main.SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserID()+"' ;" );
+		SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserID()+"' ;" );
 
 		return new Response(0,"");
 
@@ -330,7 +377,7 @@ public class HandleClient implements Runnable{
 	private void _online(){
 //		UPDATE user set isonline = 1 where userId = "manas_uni";
 
-		Main.SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserID()+"' ;" );
+		SQLQUERYEXECUTER.update("update user set isonline = 1 where userid = '"+this.user.getUserID()+"' ;" );
 
 	}
 
@@ -341,7 +388,7 @@ public class HandleClient implements Runnable{
 		LocalDateTime now = LocalDateTime.now();
 		String lastOnline = dtf.format(now);
 
-		Main.SQLQUERYEXECUTER.update("update user set isonline = 0 and lastonline = '"+lastOnline+"' where userid = '"+this.user.getUserID()+"' ;" );
+		SQLQUERYEXECUTER.update("update user set isonline = 0 and lastonline = '"+lastOnline+"' where userid = '"+this.user.getUserID()+"' ;" );
 
 	}
 
@@ -355,7 +402,7 @@ public class HandleClient implements Runnable{
 
 	private Object _acceptRequest(AcceptRequest message) {
 
-		Main.SQLQUERYEXECUTER.update("update connectiontable set status = 1 where userid2 = '"+this.user+"' and userid1 = '"+message.getName()+"' ; ");
+		SQLQUERYEXECUTER.update("update connectiontable set status = 1 where userid2 = '"+this.user+"' and userid1 = '"+message.getName()+"' ; ");
 
 		return new Object();
 
@@ -366,7 +413,7 @@ public class HandleClient implements Runnable{
 		/*      Do insert query in connection of this.user and message.getName()                */
 		/*      -- insert into connectiontable values('a','b')      */
 
-		Main.SQLQUERYEXECUTER.update("insert into connectiontable values('"+user+"' , '"+message.getName()+"' , 0 )");
+		SQLQUERYEXECUTER.update("insert into connectiontable values('"+user+"' , '"+message.getName()+"' , 0 )");
 
 		/*          Check if that really exist  and return respective response 0 or 1;*/
 
@@ -379,7 +426,7 @@ public class HandleClient implements Runnable{
 		System.out.println("Hello");
 		ArrayList<Client> clients = new ArrayList<>();
 		boolean flag;
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
+		ResultSet res = SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
 		try {
 			while (res.next()) {
 				clients.add(new Client(res.getString("name"), res.getInt("isOnline"), res.getString("lastOnline"), res.getString("userID"), res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
@@ -397,7 +444,7 @@ public class HandleClient implements Runnable{
 		ArrayList<Client> clients = null;
 		boolean flag;
 //		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getName()+"'; ");
-		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
+		ResultSet res = SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
 				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
@@ -416,7 +463,7 @@ public class HandleClient implements Runnable{
 		ArrayList<Client> clients = new ArrayList<Client>();
 		System.out.println("SENDING MESSAGE");
 //		ResultSet res = Main.SQLQUERYEXECUTER.select("select * from user where userID in (select Reciever from messagetable where Sender = '"+message.getName()+"') or userID in ( select Sender from messagetable where reciever = '"+message.getName()+"' ) ; ");
-		ResultSet res = Main.SQLQUERYEXECUTER.select("SELECT * FROM user");
+		ResultSet res = SQLQUERYEXECUTER.select("SELECT * FROM user");
 		try{
 			while (res.next()){
 				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));

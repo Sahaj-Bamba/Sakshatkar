@@ -14,7 +14,7 @@
       <ImageView fx:id="isOnline" fitHeight="31.0" fitWidth="27.0" layoutX="412.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="lastOnline" layoutX="466.0" layoutY="61.0" prefHeight="40.0" prefWidth="119.0" text="Last Online" />
       <Label fx:id="userID" layoutX="182.0" layoutY="268.0" prefHeight="40.0" prefWidth="216.0" text="User ID" />
-      <Label fx:id="mutualFriends" layoutX="33.0" layoutY="87.0" prefHeight="21.0" prefWidth="167.0" text="Mutual friends" />
+      <Label fx:id="mutualFriendsLabel" layoutX="33.0" layoutY="87.0" prefHeight="21.0" prefWidth="167.0" text="Mutual friends" />
       <Button fx:id="editEmailID" layoutX="417.0" layoutY="338.0" mnemonicParsing="false" onAction="#updateEmailID" text="Button" />
       <Button fx:id="editPhoneNumber" layoutX="417.0" layoutY="390.0" mnemonicParsing="false" onAction="#updatePhoneNumber" text="Button" />
       <TextField fx:id="emailAddress" layoutX="139.0" layoutY="338.0" />

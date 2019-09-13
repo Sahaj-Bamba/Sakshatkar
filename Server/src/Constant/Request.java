@@ -25,7 +25,8 @@ public enum Request {
 	ACCEPTREQUEST("20"),
 	ONLINE("21"),
 	SETUSER("22"),
-	GETCHATS("23");
+	GETCHATS("23"),
+	GETMUTUALFRIENDS("24");
 
 	Request(String s){
 		s.toString();
