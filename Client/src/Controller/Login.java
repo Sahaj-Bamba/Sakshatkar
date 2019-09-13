@@ -1,6 +1,5 @@
 package Controller;
 
-import Main.Main;
 import RequestClasses.Profile;
 import RequestClasses.Response;
 import Utilities.FXMLInitiator;
@@ -42,7 +41,7 @@ public class Login {
 				}
 			}else{
 				System.out.println("Login failed due to following error");
-				System.out.println(res.getErrorMessage());
+				System.out.println(res.getMessage());
 				new AlertBox("Login Error","Invalid username and password combination").start();
 				password.setText("");
 				userName.setText("");

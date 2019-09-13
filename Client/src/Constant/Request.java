@@ -26,7 +26,8 @@ public enum Request {
 	ONLINE("21"),
 	SETUSER("22"),
 	GETCHATS("23"),
-	GETMUTUALFRIENDS("24");
+	GETMUTUALFRIENDS("24"),
+	ISONLINE("25");
 
 	Request(String s){
 		s.toString();

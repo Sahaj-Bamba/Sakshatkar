@@ -113,7 +113,7 @@ public class HandleClientFile extends Thread{
 //                extension = rs.getString("extension");
 //            }
 
-            filePath = "src/ProfilePictures/" + profilePictureWithExtension;
+            filePath = "src/ProfilePictures/"+profilePictureWithExtension;
             File myFile = new File(filePath);
 //            System.out.println(myFile.getAbsolutePath());
             byte[] mybytearray = new byte[(int) myFile.length()];

@@ -43,6 +43,7 @@ public class ChatWindow_new {
     Label mutualFriendsLabel;
 
     private String otherUserDetails;
+    private int mutualFriendsCount;
 
     public void sendButton(ActionEvent event) {
         chatListView.getItems().add(new Chat("asdasd","asddsnjnnkjnknjknkjnjknkjnkjnjknjknkjnkjnjkna",0,"ghhjgjhhgjgjhgjhgjhgjhghjgjhgjhgjhgjhgjhghgjghj",1,0,false));
@@ -70,7 +71,7 @@ public class ChatWindow_new {
             e.printStackTrace();
         }
         ViewProfile viewProfile = fxmlLoader.getController();
-        viewProfile.setProfile(otherUserDetails);
+        viewProfile.setProfile(otherUserDetails, mutualFriendsCount);
         MAINSCREENCONTROLLER.setMainAnchorPane(root);
     }
 
@@ -86,9 +87,9 @@ public class ChatWindow_new {
 //            File file = FILESYSTEM.getProfilePicture(targetUserID+"."+targetUserImageExtension);
 //            Image image = new Image(file.toURI().toURL().toString());
 //            this.imageView.setImage(image);
-//            this.userName.setText(targetUserName);
-//            System.out.println("@UserName "+this.userName.getText());
-//            System.out.println("@USERTEXT "+userName.getText());
+//            this.userNameLabel.setText(targetUserName);
+//            System.out.println("@UserName "+this.userNameLabel.getText());
+//            System.out.println("@USERTEXT "+userNameLabel.getText());
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        } catch (ClassNotFoundException e) {
@@ -112,8 +113,8 @@ public class ChatWindow_new {
 
             GAMER.send_message(new GetMutualFriends(USER.getUserID(), targetUserID));
             GetMutualFriends getMutualFriends = (GetMutualFriends) GAMER.receive_message();
-            int mutualFriendsCount = getMutualFriends.getMutualFriendsCount();
-            mutualFriendsLabel.setText(mutualFriendsCount+" mutual friends");
+            this.mutualFriendsCount = getMutualFriends.getMutualFriendsCount();
+            mutualFriendsLabel.setText(this.mutualFriendsCount+" mutual friends");
 
             GAMER.send_message(new GetChats(USER.getUserID(), targetUserID));
             GetChats response = (GetChats) GAMER.receive_message();

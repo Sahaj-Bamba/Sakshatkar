@@ -7,19 +7,19 @@ import java.io.Serializable;
 public class Response implements Serializable {
 
 	private int status;
-	private String errorMessage;
+	private String message;
 
-	public Response(int status, String errorMessage) {
+	public Response(int status, String message) {
 		this.status = status;
-		this.errorMessage = errorMessage;
+		this.message = message;
 	}
 
 	public int getStatus() {
 		return status;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getMessage() {
+		return message;
 	}
 
 	public String toString(){

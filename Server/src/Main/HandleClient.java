@@ -126,11 +126,35 @@ public class HandleClient implements Runnable{
 			return _getChats((GetChats) message);
 		}else if (req.equals(String.valueOf(Request.GETMUTUALFRIENDS))){
 			return _getMutualFriends((GetMutualFriends) message);
+		}else if(req.equals(String.valueOf(Request.ISONLINE))){
+			return _isOnline((IsOnline) message);
 		}
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
 
 
+	}
+
+	private Object _isOnline(IsOnline message) {
+		String userID = message.getUserID();
+		boolean isOnline = false;
+		String lastOnline = null;
+		try {
+			ResultSet rs = SQLQUERYEXECUTER.select("SELECT isOnline, lastOnline FROM user WHERE userID = '" + userID + "';");
+			while (rs.next()) {
+				isOnline = rs.getBoolean("isOnline");
+				lastOnline = rs.getString("lastOnline");
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(isOnline == true){
+			return new Response(1,"Active Now");
+		}
+		else {
+			return new Response(0,lastOnline);
+		}
 	}
 
 	private Object _getMutualFriends(GetMutualFriends message) {
@@ -209,7 +233,7 @@ public class HandleClient implements Runnable{
 				for(String X : userIDArrayList) {
 					rs = SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" +X+ "';");
 					while(rs.next()) {
-						userDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension")));
+						userDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension"), rs.getString("emailAddress")));
 					}
 				}
 			}
@@ -285,7 +309,7 @@ public class HandleClient implements Runnable{
 			for (String X : friendsUserIDs) {
 				rs = SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" + X + "';");
 				while(rs.next()){
-					friendsDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension")));
+					friendsDetails.add(new Client(rs.getString("name"), rs.getInt("isOnline"), rs.getString("lastOnline"), rs.getString("userID"), rs.getInt("status"), rs.getString("phoneNumber"), rs.getString("extension"), rs.getString("emailAddress")));
 				}
 			}
 		}
@@ -300,7 +324,7 @@ public class HandleClient implements Runnable{
 
 	private Object _register(RegisterData message) {
 
-		SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ");");
+		SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ",'" + message.getEmailID() + ");");
 		_login(new Login(message.getUserID(),message.getPassword()));
 		return new Response(0,"");
 
@@ -338,7 +362,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = SQLQUERYEXECUTER.select("select * from user where userID = '"+message.getUserID()+"'; ");
 		try{
 			if(res.next()){
-				clients = new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"));
+				clients = new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"), res.getString("emailAddress"));
 				return new Profile(clients);
 			}else {
 				return new Response(1,"User not found");
@@ -429,7 +453,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = SQLQUERYEXECUTER.select("select * from user where name like '%"+message.getName()+"%' or  userid like '%"+message.getName()+"%' ; ");
 		try {
 			while (res.next()) {
-				clients.add(new Client(res.getString("name"), res.getInt("isOnline"), res.getString("lastOnline"), res.getString("userID"), res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"), res.getString("lastOnline"), res.getString("userID"), res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"), res.getString("emailAddress")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -447,7 +471,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = SQLQUERYEXECUTER.select("select * from user where userID in (select userid1 from connectiontable where userid2 = '"+message.getName()+"') or userID in ( select userid2 from connectiontable where userid2 = '"+message.getName()+"' ) ; ");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"), res.getString("emailAddress")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {
@@ -466,7 +490,7 @@ public class HandleClient implements Runnable{
 		ResultSet res = SQLQUERYEXECUTER.select("SELECT * FROM user");
 		try{
 			while (res.next()){
-				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension")));
+				clients.add(new Client(res.getString("name"), res.getInt("isOnline"),res.getString("lastOnline"),res.getString("userID"),res.getInt("status"), res.getString("phoneNumber"), res.getString("extension"), res.getString("emailAddress")));
 			}
 			return new GetConnectionChat("",clients);
 		} catch (SQLException e) {

@@ -100,7 +100,7 @@ public class FileSystem {
             line = br.readLine();
             String[] content = line.split("#");
             br.close();
-            return (new Client(content[0], Integer.parseInt(content[1]), content[2], content[3], Integer.parseInt(content[4]), content[5], content[6]));
+            return (new Client(content[1], Integer.parseInt(content[3]), content[6], content[0], Integer.parseInt(content[4]), content[5], content[2], content[7]));
         }
 
     }
@@ -122,7 +122,7 @@ public class FileSystem {
         BufferedWriter bw = new BufferedWriter(new PrintWriter(basePath + "login"));
         bw.write("1");
         bw.newLine();
-        bw.write(" " + client.toString());
+        bw.write(client.toString());
         bw.newLine();
         bw.close();
 
@@ -140,8 +140,8 @@ public class FileSystem {
         Client c;
         while ((line = br.readLine()) != null) {
             String[] content = line.split("#");
-            clients.remove(new Client(content[0], Integer.parseInt(content[1]), content[2], content[3], Integer.parseInt(content[4]), content[5], content[6]));
-            clients.add(new Client(content[0], Integer.parseInt(content[1]), content[2], content[3], Integer.parseInt(content[4]), content[5], content[6]));
+            clients.remove(new Client(content[1], Integer.parseInt(content[3]), content[6], content[0], Integer.parseInt(content[4]), content[5], content[2], content[7]));
+            clients.add(new Client(content[1], Integer.parseInt(content[3]), content[6], content[0], Integer.parseInt(content[4]), content[5], content[2], content[7]));
         }
         br.close();
 
@@ -298,7 +298,7 @@ public class FileSystem {
 
     public File getProfilePicture(String profilePictureWithExtension) throws IOException, ClassNotFoundException {
 
-        String basePath = System.getProperty("user.home")+"/"+base+"/users/"+ Main.USER.getUserID()+"/ProfilePictures";
+        String basePath = System.getProperty("user.home")+"/"+base+"/users/"+Main.USER.getUserID()+"/ProfilePictures";
         System.out.println("Base path - " + basePath);
         File file = new File(basePath + "/"+profilePictureWithExtension);
         if(file.exists() == false) {

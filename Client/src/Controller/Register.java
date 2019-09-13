@@ -104,7 +104,7 @@ public class Register {
             GAMER.send_message(new UserID(userIDText));
             Response res = (Response) GAMER.receive_message();
             if(res.getStatus() == 1){
-                setErrorLabel(res.getErrorMessage());
+                setErrorLabel(res.getMessage());
                 return;
             }
         }

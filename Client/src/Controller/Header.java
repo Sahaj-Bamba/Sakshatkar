@@ -29,7 +29,7 @@ public class Header {
 //    public void logIn() {
 //
 //        try {
-//            GAMER.send_message(new RequestClasses.Login(userName.getText(), password.getText()));
+//            GAMER.send_message(new RequestClasses.Login(userNameLabel.getText(), password.getText()));
 //			System.out.println("1");
 //            Response res = (Response) GAMER.receive_message();
 //            System.out.println("2");
@@ -37,7 +37,7 @@ public class Header {
 //                System.out.println("Login Successful");
 //            } else {
 //                System.out.println("Login failed due to following error");
-//                System.out.println(res.getErrorMessage());
+//                System.out.println(res.getMessage());
 //            }
 //        } catch (IOException e) {
 //            e.printStackTrace();

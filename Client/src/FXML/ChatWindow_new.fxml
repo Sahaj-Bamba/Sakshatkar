@@ -25,5 +25,6 @@
       <Button layoutX="468.0" layoutY="718.0" mnemonicParsing="false" onAction="#addAttachments" prefHeight="31.0" prefWidth="40.0" text="Choose" />
       <Button layoutX="415.0" layoutY="127.0" mnemonicParsing="false" onAction="#viewProfile" prefHeight="31.0" prefWidth="134.0" text="View Profile" />
       <Label fx:id="mutualFriendsLabel" layoutX="22.0" layoutY="132.0" prefHeight="21.0" prefWidth="114.0" text="Label" />
+      <Label fx:id="status" layoutX="22.0" layoutY="64.0" prefHeight="21.0" prefWidth="98.0" text="Status" />
    </children>
 </AnchorPane>
