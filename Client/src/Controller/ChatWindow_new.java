@@ -44,6 +44,7 @@ public class ChatWindow_new {
 
     private String otherUserDetails;
     private int mutualFriendsCount;
+    private String otherUserID;
 
     public void sendButton(ActionEvent event) {
         chatListView.getItems().add(new Chat("asdasd","asddsnjnnkjnknjknkjnjknkjnkjnjknjknkjnkjnjkna",0,"ghhjgjhhgjgjhgjhgjhgjhghjgjhgjhgjhgjhgjhghgjghj",1,0,false));
@@ -56,6 +57,12 @@ public class ChatWindow_new {
     }
 
     public void addFriend(ActionEvent event) {
+        try {
+            GAMER.send_message(new FriendRequest(otherUserID));
+            GAMER.receive_message();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addAttachments(ActionEvent event) {
@@ -102,6 +109,7 @@ public class ChatWindow_new {
         this.otherUserDetails = otherUserDetails;
         String[] userDetails = otherUserDetails.split("#");
         String targetUserID = userDetails[0];
+        this.otherUserID = targetUserID;
         String targetUserName = userDetails[1];
         String targetUserImageExtension = userDetails[2];
 

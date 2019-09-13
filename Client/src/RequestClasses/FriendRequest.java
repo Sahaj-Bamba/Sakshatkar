@@ -2,7 +2,9 @@ package RequestClasses;
 
 import Constant.Request;
 
-public class FriendRequest {
+import java.io.Serializable;
+
+public class FriendRequest implements Serializable {
 
 	String name;
 
