@@ -1,7 +1,9 @@
 package Controller;
 
+import RequestClasses.MessageHi;
 import RequestClasses.Profile;
 import RequestClasses.Response;
+import RequestClasses.SetUser;
 import Utilities.FXMLInitiator;
 import Windows.AlertBox;
 import javafx.event.ActionEvent;
@@ -38,6 +40,9 @@ public class Login {
 					USER = ((Profile) result).getClient();
 					FILESYSTEM.login(USER);
 					FILESYSTEM.newUser(USER);
+					GAMER.send_message(new SetUser(USER));
+					GAMER.receive_message();
+					MESSAGEGAMER.send_message(new MessageHi(USER.getUserID()));
 				}
 			}else{
 				System.out.println("Login failed due to following error");

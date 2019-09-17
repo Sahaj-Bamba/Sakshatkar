@@ -3,7 +3,9 @@ package Main;
 import Controller.ChatWindow_new;
 import Controller.LeftView;
 import Controller.MainScreen;
+import RequestClasses.MessageHi;
 import RequestClasses.SetUser;
+import RequestClasses.UserID;
 import Utilities.FXMLInitiator;
 import Utilities.FileSystem;
 import Windows.AlertBox;
@@ -42,7 +44,7 @@ public class Main extends Application {
 			FILEGAMER = new FileClient("localhost", 6000);
 			Thread.sleep(100);
 			System.out.println("File Gamer created");
-			MESSAGEGAMER = new MessageClient("localhost", 5701);
+			MESSAGEGAMER = new MessageClient("localhost", 5700);
 			Thread.sleep(100);
 			System.out.println("Message GAMER created");
 		} else {
@@ -65,6 +67,8 @@ public class Main extends Application {
 			if ((Main.ISONLINE)) {
 				GAMER.send_message(new SetUser(USER));
 				GAMER.receive_message();
+				System.out.println("@"+ USER.getUserID());
+				MESSAGEGAMER.send_message(new MessageHi(USER.getUserID()));
 			}
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getResource("../FXML/MainScreen.fxml"));

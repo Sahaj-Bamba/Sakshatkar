@@ -177,7 +177,7 @@ public class FileSystem {
 
     /*          type = 0 means normal       type = 1 means delayed          */
 
-    void addChat(Chat chat, int type) throws IOException {
+    public void addChat(Chat chat, int type) throws IOException {
 
         String basePath2;
         String basePath = System.getProperty("user.home");

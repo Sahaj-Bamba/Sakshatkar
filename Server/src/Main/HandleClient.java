@@ -131,12 +131,23 @@ public class HandleClient implements Runnable{
 		}else  if(req.equals(String.valueOf(Request.SETPHONENUMBER))){
 			return _setPhoneNumber((SetPhoneNumber) message);
 		}
+
+
+
+
+
+//		else if(req.equals(String.valueOf(Request.MESSAGE))){
+//			return _message((Message) message);
+//		}
 		//This type of status needs handling
+
+
 		return new Response(404,"Invalid Request");
 
 
 	}
 
+<<<<<<< HEAD
 	private Object _setPhoneNumber(SetPhoneNumber message) {
 
 		String userID = message.getUserID();
@@ -146,6 +157,22 @@ public class HandleClient implements Runnable{
 
 	}
 
+||||||| merged common ancestors
+=======
+//	private Object _message(Message message) {
+//		/*       Update table and add message to db                           */
+//
+//		if (((Response)(_isOnline(new IsOnline(message.getChat().getTo())))).getStatus() == 1)
+//		{
+//			/*      Send to the other user and store in db with status sent     */
+//
+//		}else{
+//			/*          save in delayed state in db and try latter          */
+//		}
+//
+//	}
+
+>>>>>>> bf99ba7968693aa943d6c6c164425f265ffb4f9c
 	private Object _isOnline(IsOnline message) {
 		String userID = message.getUserID();
 		boolean isOnline = false;
@@ -232,14 +259,12 @@ public class HandleClient implements Runnable{
 
 	private Object _notification(Notification message) {
 		String userID = message.getUserID();
-		ResultSet rs = SQLQUERYEXECUTER.select("SELECT userID1, userID2 FROM connectiontable WHERE (Status = 1 AND (UserID1 = '"+userID+"' OR UserID2 = '"+userID+"'));");
+		ResultSet rs = SQLQUERYEXECUTER.select("SELECT UserID1 FROM connectiontable WHERE Status = 1 AND UserID2 ='" + userID +"';");
 		ArrayList<String> userIDArrayList = new ArrayList<>();
 		ArrayList<Client> userDetails = new ArrayList<>();
 			try {
 				while(rs.next()){
-					String userID1 = rs.getString("userID1");
-					String userID2 = rs.getString("userID2");
-					userIDArrayList.add(userID.equals(userID1)?userID2:userID1);
+					userIDArrayList.add(rs.getString("UserID1"));
 				}
 				for(String X : userIDArrayList) {
 					rs = SQLQUERYEXECUTER.select("SELECT * FROM user WHERE userID = '" +X+ "';");
@@ -437,7 +462,7 @@ public class HandleClient implements Runnable{
 
 	private Object _acceptRequest(AcceptRequest message) {
 
-		SQLQUERYEXECUTER.update("update connectiontable set status = 1 where userid2 = '"+this.user+"' and userid1 = '"+message.getName()+"' ; ");
+		SQLQUERYEXECUTER.update("update connectiontable set status = 0 where userid2 = '"+this.user+"' and userid1 = '"+message.getName()+"' ; ");
 
 		return new Object();
 
@@ -448,11 +473,31 @@ public class HandleClient implements Runnable{
 		/*      Do insert query in connection of this.user and message.getName()                */
 		/*      -- insert into connectiontable values('a','b')      */
 
-		SQLQUERYEXECUTER.update("insert into connectiontable values('"+user+"' , '"+message.getName()+"' , 0 )");
+		ResultSet rs = SQLQUERYEXECUTER.select("Select * from connectiontablel where UserID1 = '"+user.getUserID()+"' and UserID2 =  '"+message.getName()+"' ");
+
+		try {
+			if (rs.next()){
+				return new Response(1,"Request already sent ");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		rs = SQLQUERYEXECUTER.select("Select * from connectiontable where UserID2 = '"+user.getUserID()+"' and UserID1 =  '"+message.getName()+"' ");
+
+		try {
+			if (rs.next()){
+				return new Response(2," User already Friend ");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		SQLQUERYEXECUTER.update("insert into connectiontable values('"+user.getUserID()+"' , '"+message.getName()+"' , 1 )");
 
 		/*          Check if that really exist  and return respective response 0 or 1;*/
 
-		return new Object();
+		return new Response(0,"Success");
 
 	}
 

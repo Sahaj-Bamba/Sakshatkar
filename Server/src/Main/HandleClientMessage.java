@@ -55,6 +55,7 @@ public class HandleClientMessage implements Runnable{
 			try {
 				message = (Object) objectInputStream.readObject();
 
+
 				/*      Do processing       */
 
 				Object response = process();
@@ -68,6 +69,7 @@ public class HandleClientMessage implements Runnable{
 
 			} catch (IOException e) {
 				System.out.println("Client Message Disconnected");
+				Main.MESSAGESENDER.removeUser(user);
 				break;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -82,9 +84,16 @@ public class HandleClientMessage implements Runnable{
 
 		boolean flag = false;
 		String req = message.toString();
-
+//		System.out.println("dieeeeeee");
 		if (message instanceof Chat) {
+//			System.out.println(((Chat)(message)).toString());
 			return _chatProcess((Chat) message);
+		}else if (message instanceof MessageHi) {
+//			Main.MESSAGESENDER.addUser(((MessageHi)(message)).getId(),this.objectOutputStream);
+			this.user = ((MessageHi)(message)).getId();
+			System.out.println("@@@@@"+this.user);
+			Main.MESSAGESENDER.addUser(user,this.objectOutputStream);
+			return message;
 		}
 
 		return new Object();
@@ -92,7 +101,19 @@ public class HandleClientMessage implements Runnable{
 
 	private Object _chatProcess(Chat message) {
 
-		Main.MESSAGESENDER.send(message.getTo(),message);
+		int x;
+
+		if(Main.MESSAGESENDER.send(message.getTo(),message)){
+			/*      store in db with status sent     */
+			x=2;
+		}else{
+			/*          save in delayed state in db and try latter          */
+			x=1;
+		}
+
+		Main.SQLQUERYEXECUTER.update("insert into messagetable Values ('"+message.getTo()+"' , '"+message.getFrom()+"' , "+message.getType()+" , '"+message.getContent()+"' , '"+1+"' , "+message.getLevel()+" , "+x+"  )");
+
+		/*       Update table and add message to db                           */
 
 		/*                  Need working for group part                         */
 

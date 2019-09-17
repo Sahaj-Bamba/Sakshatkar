@@ -23,21 +23,19 @@ public class MessageClient {
 			this.socket = new Socket(ip, port);
 			this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 			this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+			new Thread(new MessageListen(objectInputStream)).start();
 			System.out.println("Message Client socket created");
 
 		} catch (IOException e) {
-
+			System.out.println("kdhgssssssss");
 		}
 
 	}
 
 	public void send_message(Object object) throws IOException {
+		System.out.println(objectOutputStream);
 		objectOutputStream.writeObject(object);
 		objectOutputStream.flush();
-	}
-
-	public Object receive_message() throws IOException, ClassNotFoundException {
-		return (Object) objectInputStream.readObject();
 	}
 
 }

@@ -1,0 +1,9 @@
+
+
+        Handel Client _message function adding message to db
+
+        Schedule sending
+
+        on connecting all local delayed messages must be sent to the server and tried to be sent.
+
+        also any delayed messages from the db must also be sent back to the server

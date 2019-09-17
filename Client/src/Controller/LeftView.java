@@ -2,6 +2,7 @@ package Controller;
 
 import Constant.Request;
 import DataClasses.Client;
+import Main.Main;
 import RequestClasses.*;
 import Utilities.GetListView;
 import View.List;
@@ -37,28 +38,40 @@ public class LeftView {
 //	}
 
 	public void chattedUsers() {
-
-		try {
-			GAMER.send_message(new GetConnectionChat(USER.getUserID()));
-			System.out.println("MESSAGE SENT");
-		} catch (IOException e) {
-			e.printStackTrace();
+		ArrayList<Client> clients = null;
+		
+		if (ISONLINE) {
+			try {
+				GAMER.send_message(new GetConnectionChat(USER.getUserID()));
+				System.out.println("MESSAGE SENT");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				anchorPane.getChildren().clear();
+				GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
+				System.out.println("MESSAGE RECEIVED");
+				clients = response.getClients();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				clients = FILESYSTEM.getChattedList();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		try {
-			anchorPane.getChildren().clear();
-			GetConnectionChat response = (GetConnectionChat) GAMER.receive_message();
-			System.out.println("MESSAGE RECEIVED");
-			GetListView getListView = new GetListView(response.getClients());
-			ListView listView = getListView.generateListView(new GetConnectionChat());
-			listView.setPrefHeight(anchorPane.getHeight());
-			listView.setPrefWidth(anchorPane.getWidth());
-			anchorPane.getChildren().add(listView);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+
+		GetListView getListView = new GetListView(clients);
+		ListView listView = getListView.generateListView(new GetConnectionChat());
+		listView.setPrefHeight(anchorPane.getHeight());
+		listView.setPrefWidth(anchorPane.getWidth());
+		anchorPane.getChildren().add(listView);
+
 
 	}
 
