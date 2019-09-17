@@ -128,10 +128,21 @@ public class HandleClient implements Runnable{
 			return _getMutualFriends((GetMutualFriends) message);
 		}else if(req.equals(String.valueOf(Request.ISONLINE))){
 			return _isOnline((IsOnline) message);
+		}else  if(req.equals(String.valueOf(Request.SETPHONENUMBER))){
+			return _setPhoneNumber((SetPhoneNumber) message);
 		}
 		//This type of status needs handling
 		return new Response(404,"Invalid Request");
 
+
+	}
+
+	private Object _setPhoneNumber(SetPhoneNumber message) {
+
+		String userID = message.getUserID();
+		String phoneNumber = message.getPhoneNo();
+		SQLQUERYEXECUTER.select("UPDATE user SET phoneNumber = '"+phoneNumber+"' WHERE userID = '"+userID+"';");
+		return new Response(0,"Phone number updated");
 
 	}
 
