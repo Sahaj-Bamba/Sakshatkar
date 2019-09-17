@@ -129,11 +129,34 @@ public class HandleClient implements Runnable{
 		}else if(req.equals(String.valueOf(Request.ISONLINE))){
 			return _isOnline((IsOnline) message);
 		}
+
+
+
+
+
+//		else if(req.equals(String.valueOf(Request.MESSAGE))){
+//			return _message((Message) message);
+//		}
 		//This type of status needs handling
+
+
 		return new Response(404,"Invalid Request");
 
 
 	}
+
+//	private Object _message(Message message) {
+//		/*       Update table and add message to db                           */
+//
+//		if (((Response)(_isOnline(new IsOnline(message.getChat().getTo())))).getStatus() == 1)
+//		{
+//			/*      Send to the other user and store in db with status sent     */
+//
+//		}else{
+//			/*          save in delayed state in db and try latter          */
+//		}
+//
+//	}
 
 	private Object _isOnline(IsOnline message) {
 		String userID = message.getUserID();
@@ -435,7 +458,7 @@ public class HandleClient implements Runnable{
 		/*      Do insert query in connection of this.user and message.getName()                */
 		/*      -- insert into connectiontable values('a','b')      */
 
-		ResultSet rs = SQLQUERYEXECUTER.select("Select * from connectiontable where UserID1 = '"+user.getUserID()+"' and UserID2 =  '"+message.getName()+"' ");
+		ResultSet rs = SQLQUERYEXECUTER.select("Select * from connectiontablel where UserID1 = '"+user.getUserID()+"' and UserID2 =  '"+message.getName()+"' ");
 
 		try {
 			if (rs.next()){

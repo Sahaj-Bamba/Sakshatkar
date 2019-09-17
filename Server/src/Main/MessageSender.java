@@ -20,7 +20,7 @@ public class MessageSender {
 		return true;
 	}
 
-	public boolean removeUser(String id,ObjectOutputStream oos){
+	public boolean removeUser(String id){
 		if (!(sender.containsKey(id))){
 			return false;
 		}

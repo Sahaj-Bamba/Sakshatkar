@@ -1,6 +1,7 @@
 package Controller;
 
 import DataClasses.Chat;
+import Main.Main;
 import RequestClasses.*;
 import Utilities.GetListView;
 import Utilities.ListViewCell;
@@ -47,7 +48,27 @@ public class ChatWindow_new {
     private String otherUserID;
 
     public void sendButton(ActionEvent event) {
-        chatListView.getItems().add(new Chat("asdasd","asddsnjnnkjnknjknkjnjknkjnkjnjknjknkjnkjnjkna",0,"ghhjgjhhgjgjhgjhgjhgjhghjgjhgjhgjhgjhgjhghgjghj",1,0,false));
+        Chat chat = new Chat(USER.getUserID(),otherUserID,'0',chatInput.getText(),0,0,true);
+        chatListView.getItems().add(chat);
+        try {
+            MESSAGEGAMER.send_message(chat);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        System.out.println(chat.toString());
+        if (ISONLINE) {
+            try {
+                FILESYSTEM.addChat(chat, 0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            try {
+                FILESYSTEM.addChat(chat, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void voiceCall(ActionEvent event) {

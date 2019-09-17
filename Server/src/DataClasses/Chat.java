@@ -82,6 +82,12 @@ public class Chat implements Serializable {
 
 	@Override
 	public String toString() {
-		return ""+this.type+"#"+this.level+"#"+content+"#"+this.status;
+		return ""+this.from+"#"+this.to+"#"+this.type+"#"+this.content+"#"+this.level+"#"+this.status+"#"+this.shouldIntentLeft;
 	}
+
+	public Chat getChat(){
+		String[] s = this.toString().split("#");
+		return new Chat(s[0],s[1],Integer.parseInt(s[2]),s[3],Integer.parseInt(s[4]),Integer.parseInt(s[5]),Boolean.parseBoolean(s[6]));
+	}
+
 }
