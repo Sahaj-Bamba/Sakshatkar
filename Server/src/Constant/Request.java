@@ -27,9 +27,10 @@ public enum Request {
 	SETUSER("22"),
 	GETCHATS("23"),
 	GETMUTUALFRIENDS("24"),
-	ISONLINE("25");
+	ISONLINE("25"),
+	SETPHONENUMBER("26");
 
-	Request(String s){
+    Request(String s){
 		s.toString();
 	}
 

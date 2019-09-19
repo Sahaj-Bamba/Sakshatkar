@@ -128,6 +128,8 @@ public class HandleClient implements Runnable{
 			return _getMutualFriends((GetMutualFriends) message);
 		}else if(req.equals(String.valueOf(Request.ISONLINE))){
 			return _isOnline((IsOnline) message);
+		}else  if(req.equals(String.valueOf(Request.SETPHONENUMBER))){
+			return _setPhoneNumber((SetPhoneNumber) message);
 		}
 
 
@@ -145,6 +147,18 @@ public class HandleClient implements Runnable{
 
 	}
 
+<<<<<<< HEAD
+	private Object _setPhoneNumber(SetPhoneNumber message) {
+
+		String userID = message.getUserID();
+		String phoneNumber = message.getPhoneNo();
+		SQLQUERYEXECUTER.select("UPDATE user SET phoneNumber = '"+phoneNumber+"' WHERE userID = '"+userID+"';");
+		return new Response(0,"Phone number updated");
+
+	}
+
+||||||| merged common ancestors
+=======
 //	private Object _message(Message message) {
 //		/*       Update table and add message to db                           */
 //
@@ -158,6 +172,7 @@ public class HandleClient implements Runnable{
 //
 //	}
 
+>>>>>>> bf99ba7968693aa943d6c6c164425f265ffb4f9c
 	private Object _isOnline(IsOnline message) {
 		String userID = message.getUserID();
 		boolean isOnline = false;

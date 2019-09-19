@@ -1,8 +1,10 @@
 package Controller;
 
+import Constant.RequestFile;
 import Main.Main;
 import RequestClasses.IsOnline;
 import RequestClasses.Response;
+import RequestClasses.SetPhoneNumber;
 import Utilities.FileExtension;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import static Main.Main.FILEGAMER;
+
 public class ViewProfile {
 
     @FXML
@@ -30,7 +34,7 @@ public class ViewProfile {
     Label userIDLabel;
 
     @FXML
-    TextField emailAddressText;
+    Label emailAddressLabel;
 
     @FXML
     TextField phoneNumberText;
@@ -45,60 +49,58 @@ public class ViewProfile {
     ImageView isOnlineImageView;
 
     @FXML
-    Button editEmailIDButton;
-
-    @FXML
     Button editPhoneNumberButton;
 
     @FXML
     Button updateProfilePictureButton;
 
-    private int updateEmailMouseClicks;
+    @FXML
+    Label phoneNumberLabel;
+
     private int updatePhoneNumberMouseClicks;
     private Image profilePicture;
     private File selectedFile;
     private String targetUserImageExtension;
+    private String targetUserID;
 
     public void initialize(){
-        updateEmailMouseClicks = 0;
-        updateEmailMouseClicks = 0;
-        emailAddressText.setEditable(false);
+//        emailAddressText.setEditable(false);
         phoneNumberText.setEditable(false);
         BackgroundImage buttonBackgroundImage;
         try {
             buttonBackgroundImage = new BackgroundImage(new Image(new File("src/Icons/editIcon.png").toURI().toURL().toString()),
                     BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT);
-            editEmailIDButton.setBackground(new Background(buttonBackgroundImage));
+//            editEmailIDButton.setBackground(new Background(buttonBackgroundImage));
             editPhoneNumberButton.setBackground(new Background(buttonBackgroundImage));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateEmailID(ActionEvent event) {
-
-        BackgroundImage buttonBackgroundImage;
-        try {
-            if (updateEmailMouseClicks % 2 == 0) {
-                emailAddressText.setEditable(true);
-                buttonBackgroundImage = new BackgroundImage(new Image(new File("src/Icons/okayIcon.png").toURI().toURL().toString()),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-            } else {
-                emailAddressText.setEditable(false);
-                buttonBackgroundImage = new BackgroundImage(new Image(new File("src/Icons/editIcon.png").toURI().toURL().toString()),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-            }
-            editEmailIDButton.setBackground(new Background(buttonBackgroundImage));
-            updateEmailMouseClicks^=1;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        System.out.println(updateEmailMouseClicks);
-
-    }
+//    public void updateEmailID(ActionEvent event) {
+//
+//        BackgroundImage buttonBackgroundImage;
+//        try {
+//            if (updateEmailMouseClicks % 2 == 0) {
+//                emailAddressText.setEditable(true);
+//                buttonBackgroundImage = new BackgroundImage(new Image(new File("src/Icons/okayIcon.png").toURI().toURL().toString()),
+//                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+//                        BackgroundSize.DEFAULT);
+//            } else {
+//                emailAddressText.setEditable(false);
+//                buttonBackgroundImage = new BackgroundImage(new Image(new File("src/Icons/editIcon.png").toURI().toURL().toString()),
+//                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+//                        BackgroundSize.DEFAULT);
+//            }
+//            editEmailIDButton.setBackground(new Background(buttonBackgroundImage));
+//            updateEmailMouseClicks^=1;
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(updateEmailMouseClicks);
+//
+//    }
 
     public void updatePhoneNumber(ActionEvent event) {
 
@@ -114,10 +116,14 @@ public class ViewProfile {
                 buttonBackgroundImage = new BackgroundImage(new Image(new File("src/Icons/editIcon.png").toURI().toURL().toString()),
                         BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                         BackgroundSize.DEFAULT);
+                Main.GAMER.send_message(new SetPhoneNumber(targetUserID, phoneNumberText.getText()));
+                Response response = (Response) Main.GAMER.receive_message();
             }
             editPhoneNumberButton.setBackground(new Background(buttonBackgroundImage));
             updatePhoneNumberMouseClicks^=1;
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -130,7 +136,7 @@ public class ViewProfile {
         System.out.println("Details");
         for(String X: profileDetail)
             System.out.println(X);
-        String targetUserID = profileDetail[0];
+        targetUserID = profileDetail[0];
         String targetUserName = profileDetail[1];
         targetUserImageExtension = profileDetail[2];
         int status = Integer.parseInt(profileDetail[4]);
@@ -138,11 +144,24 @@ public class ViewProfile {
         String lastOnline = profileDetail[6];
         String emailAddress = profileDetail[7];
 
+        if(Main.USER.getUserID().compareTo(targetUserID) == 0){
+            phoneNumberLabel.setVisible(false);
+            phoneNumberText.setVisible(true);
+            editPhoneNumberButton.setVisible(true);
+            phoneNumberText.setText(phoneNumber);
+        }
+        else{
+            phoneNumberLabel.setVisible(true);
+            phoneNumberText.setVisible(false);
+            editPhoneNumberButton.setVisible(false);
+            phoneNumberLabel.setText(phoneNumber);
+        }
+
         mutualFriendsLabel.setText(String.valueOf(mutualFriendsCount)+" mutual friends");
         System.out.println(Main.USER.getUserID());
         System.out.println(targetUserID);
         if(targetUserID.compareTo(Main.USER.getUserID()) != 0){
-            editEmailIDButton.setVisible(false);
+//            editEmailIDButton.setVisible(false);
             editPhoneNumberButton.setVisible(false);
             updateProfilePictureButton.setVisible(false);
         }
@@ -171,12 +190,13 @@ public class ViewProfile {
         }
         userNameLabel.setText(targetUserName);
         userIDLabel.setText(targetUserID);
-        emailAddressText.setText(emailAddress);
+//        emailAddressText.setText(emailAddress);
+        emailAddressLabel.setText(emailAddress);
         phoneNumberText.setText(phoneNumber);
     }
 
 
-    public void updateProfilePressed(ActionEvent event) {
+    public void updateProfilePicturePressed(ActionEvent event) {
 
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png, *jpg, *jpeg, *img)", "*.png", "*.jpeg", "*.img", "*jpg");
@@ -193,8 +213,15 @@ public class ViewProfile {
                 FileExtension fileExtension = new FileExtension(selectedFile);
                 targetUserImageExtension = fileExtension.getFileExtension();
 //                System.out.println(extension);
+
+                FILEGAMER.sendFile(selectedFile.getAbsolutePath(), RequestFile.SETPROFILEPICTURE.ordinal(), targetUserID + "." + targetUserImageExtension);
+                System.out.println("Output sent");
+
+                int fileResponse = FILEGAMER.receiveFileResponse();
+                System.out.println("Input received");
+
             }
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
