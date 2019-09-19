@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Main.Main;
 import RequestClasses.*;
 import Utilities.FXMLInitiator;
 import javafx.event.ActionEvent;
@@ -48,6 +49,8 @@ public class Header {
 
     public void logOut(ActionEvent event) {
         try {
+            Main.GAMER.send_message(new LogOut(USER.getUserID()));
+            Response response = (Response) GAMER.receive_message();
             FILESYSTEM.logout();
             new FXMLInitiator("../FXML/Login.fxml").start(PRIMARYSTAGE);
         } catch (Exception e) {

@@ -1,5 +1,7 @@
 package Constant;
 
+import RequestClasses.LogOut;
+
 public enum Request {
 
 	LOGIN("0"),
@@ -28,9 +30,10 @@ public enum Request {
 	GETCHATS("23"),
 	GETMUTUALFRIENDS("24"),
 	ISONLINE("25"),
-	SETPHONENUMBER("26");
+	SETPHONENUMBER("26"),
+	LOGOUT("27");
 
-    Request(String s){
+	Request(String s){
 		s.toString();
 	}
 
