@@ -37,14 +37,14 @@ public class Main extends Application {
 
 		FILESYSTEM = new FileSystem("Sakshatkar");
 		System.out.println("Started");
-		GAMER = new Client("localhost",5555);
+		GAMER = new Client("172.29.37.207",5555);
 		Thread.sleep(100);
 		if (Main.ISONLINE) {
 			System.out.println("GAMER created");
-			FILEGAMER = new FileClient("localhost", 6000);
+			FILEGAMER = new FileClient("172.29.37.207", 6000);
 			Thread.sleep(100);
 			System.out.println("File Gamer created");
-			MESSAGEGAMER = new MessageClient("localhost", 5700);
+			MESSAGEGAMER = new MessageClient("172.29.37.207", 5700);
 			Thread.sleep(100);
 			System.out.println("Message GAMER created");
 		} else {

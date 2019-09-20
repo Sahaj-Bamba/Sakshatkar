@@ -130,6 +130,8 @@ public class HandleClient implements Runnable{
 			return _isOnline((IsOnline) message);
 		}else  if(req.equals(String.valueOf(Request.SETPHONENUMBER))){
 			return _setPhoneNumber((SetPhoneNumber) message);
+		}else if(req.equals(String.valueOf(Request.LOGOUT))){
+			return _logOut((LogOut) message);
 		}
 
 
@@ -145,6 +147,12 @@ public class HandleClient implements Runnable{
 		return new Response(404,"Invalid Request");
 
 
+	}
+
+	private Response _logOut(LogOut logOut) {
+		String userID = logOut.getUserID();
+		SQLQUERYEXECUTER.update("UPDATE user SET isOnline = 0 WHERE userID = '"+userID+"';");
+		return new Response (0,"Logged out");
 	}
 
 	private Object _setPhoneNumber(SetPhoneNumber message) {
@@ -170,20 +178,20 @@ public class HandleClient implements Runnable{
 //	}
 
 	private Object _isOnline(IsOnline message) {
-		String userID = message.getUserID();
-		boolean isOnline = false;
+		String userID = message.getUserID();				//1 to denote that the user is online
+		int isOnline = -1;
 		String lastOnline = null;
 		try {
 			ResultSet rs = SQLQUERYEXECUTER.select("SELECT isOnline, lastOnline FROM user WHERE userID = '" + userID + "';");
 			while (rs.next()) {
-				isOnline = rs.getBoolean("isOnline");
+				isOnline = rs.getInt("isOnline");
 				lastOnline = rs.getString("lastOnline");
 			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if(isOnline == true){
+		if(isOnline == 1){
 			return new Response(1,"Active Now");
 		}
 		else {
