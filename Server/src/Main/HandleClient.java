@@ -147,7 +147,6 @@ public class HandleClient implements Runnable{
 
 	}
 
-<<<<<<< HEAD
 	private Object _setPhoneNumber(SetPhoneNumber message) {
 
 		String userID = message.getUserID();
@@ -157,8 +156,6 @@ public class HandleClient implements Runnable{
 
 	}
 
-||||||| merged common ancestors
-=======
 //	private Object _message(Message message) {
 //		/*       Update table and add message to db                           */
 //
@@ -172,7 +169,6 @@ public class HandleClient implements Runnable{
 //
 //	}
 
->>>>>>> bf99ba7968693aa943d6c6c164425f265ffb4f9c
 	private Object _isOnline(IsOnline message) {
 		String userID = message.getUserID();
 		boolean isOnline = false;
@@ -360,7 +356,7 @@ public class HandleClient implements Runnable{
 
 	private Object _register(RegisterData message) {
 
-		SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ",'" + message.getEmailID() + ");");
+		SQLQUERYEXECUTER.update("INSERT INTO user VALUES ( '" + message.getLastOnline()+ "','" + message.getUserID()+ "','" +message.getPhone()+ "','" +message.getUserName()+ "','" + message.getPassword()+ "'," + "NULL" + "," + 0 + "," + 0 + ",'" + message.getEmailID() + "');");
 		_login(new Login(message.getUserID(),message.getPassword()));
 		return new Response(0,"");
 

@@ -56,11 +56,12 @@ public class HandleClientFile extends Thread{
     }
 
     private void process(int type) throws IOException {
-
+        System.out.println("get pic");
         if (type == RequestFile.SETPROFILEPICTURE.ordinal()) {
             _saveProfilePicture();
         }
         else if(type == RequestFile.GETPROFILEPICTURE.ordinal()) {
+            System.out.println("get pic");
             _getProfilePicture();
        }
 
